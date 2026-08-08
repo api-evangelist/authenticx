@@ -1,0 +1,102 @@
+generated: '2026-08-06'
+method: searched
+source: openapi/authenticx-acxapi-openapi.yml
+docs: https://authenticx.readme.io/reference/retrieving-an-access-token
+additional_docs:
+- https://authenticx.readme.io/reference/authorizing-requests
+- https://api.beauthenticx.com/.well-known/openid-configuration
+summary:
+  types:
+  - oauth2
+  - openIdConnect
+  oauth2_flows:
+  - clientCredentials
+  api_key_in: []
+  bearer_token: true
+  token_lifetime_seconds: 3600
+  credential_issuance: onboarding
+  self_serve_signup: false
+schemes:
+- name: OAuth2
+  type: oauth2
+  description: >-
+    The only security scheme declared in the AcxAPI OpenAPI. Client credentials are issued by Authenticx during
+    customer onboarding — there is no self-serve developer signup. The resulting bearer token is sent on every
+    request as `Authorization: Bearer <access_token>`.
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.beauthenticx.com/connect/token
+    scopes:
+    - acxapi
+  sources:
+  - openapi/authenticx-acxapi-openapi.yml
+  client_authentication:
+  - method: client_secret_post
+    note: >-
+      `client_id` and `client_secret` in an application/x-www-form-urlencoded body alongside
+      `grant_type=client_credentials&scope=acxapi` (the form shown in the docs).
+  - method: client_secret_basic
+    note: >-
+      Base64 `client-id:client-secret` in an `Authorization: Basic` header; grant type and scope still go in the
+      form body. Documented as an accepted alternative.
+environments:
+- name: production
+  token_url: https://api.beauthenticx.com/connect/token
+  base_url: https://api.beauthenticx.com
+- name: experimental
+  token_url: https://api.authcx.com/connect/token
+  base_url: https://api.authcx.com
+openid_connect:
+  discovery: https://api.beauthenticx.com/.well-known/openid-configuration
+  status: 200
+  issuer: https://acxapi-net8d-prod1.azurewebsites.net
+  implementation: Duende IdentityServer (inferred from the /connect/* endpoint set)
+  endpoints:
+    authorization: https://acxapi-net8d-prod1.azurewebsites.net/connect/authorize
+    token: https://acxapi-net8d-prod1.azurewebsites.net/connect/token
+    userinfo: https://acxapi-net8d-prod1.azurewebsites.net/connect/userinfo
+    jwks: https://acxapi-net8d-prod1.azurewebsites.net/.well-known/openid-configuration/jwks
+    introspection: https://acxapi-net8d-prod1.azurewebsites.net/connect/introspect
+    revocation: https://acxapi-net8d-prod1.azurewebsites.net/connect/revocation
+    end_session: https://acxapi-net8d-prod1.azurewebsites.net/connect/endsession
+    device_authorization: https://acxapi-net8d-prod1.azurewebsites.net/connect/deviceauthorization
+    pushed_authorization_request: https://acxapi-net8d-prod1.azurewebsites.net/connect/par
+    backchannel_authentication: https://acxapi-net8d-prod1.azurewebsites.net/connect/ciba
+  grant_types_supported:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - implicit
+  - urn:ietf:params:oauth:grant-type:device_code
+  - urn:openid:params:grant-type:ciba
+  token_endpoint_auth_methods_supported:
+  - client_secret_basic
+  - client_secret_post
+  id_token_signing_alg_values_supported:
+  - RS256
+  require_pushed_authorization_requests: false
+observations:
+- >-
+  The discovery document's `issuer` and every advertised endpoint point at the underlying Azure App Service
+  hostname (acxapi-net8d-prod1.azurewebsites.net), not at the public api.beauthenticx.com host that serves the
+  document. A strict OIDC client that follows discovery will therefore be redirected off the branded host, and
+  the token endpoint the docs tell integrators to call (api.beauthenticx.com/connect/token) is NOT the one the
+  discovery document advertises. Worth raising with the provider.
+- >-
+  The OpenAPI declares only the `clientCredentials` flow and only the `acxapi` scope, while the OIDC provider
+  advertises authorization_code, implicit, device_code and CIBA plus openid/profile/email/address/roles/
+  offline_access. The extra grants and scopes serve the AcxPlatform web application and the documented
+  "Authenticx as an Auth Provider" Salesforce OIDC integration, not AcxAPI machine-to-machine access.
+- >-
+  Access tokens expire after 3600 seconds (documented); the client-credentials flow has no refresh token, so
+  integrators re-request a token.
+x-evidence:
+- url: https://api.beauthenticx.com/swagger/v1/swagger.json
+  http_status: 200
+  fetched: '2026-08-06'
+- url: https://api.beauthenticx.com/.well-known/openid-configuration
+  http_status: 200
+  fetched: '2026-08-06'
+- url: https://authenticx.readme.io/reference/retrieving-an-access-token
+  http_status: 200
+  fetched: '2026-08-06'

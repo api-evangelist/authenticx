@@ -1,0 +1,170 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Authenticx AcxAPI
+  version: 1.0.0
+extends: openapi/authenticx-acxapi-openapi.yml
+x-generated: '2026-08-06'
+x-method: generated
+x-source: >-
+  Derived from openapi/authenticx-acxapi-openapi.yml (harvested verbatim from
+  https://api.beauthenticx.com/swagger/v1/swagger.json) plus the ReadMe docs hub. Every action below adds
+  information to our copy of the spec; the harvested original in openapi/_original/ is never mutated.
+actions:
+
+# --- Contact + licence + description the published spec omits entirely -------------------------------------
+- target: $.info
+  update:
+    description: >-
+      Authenticx AcxAPI — REST API for uploading contact-center interactions (audio, chat, text), retrieving
+      conversation insights, classifier and model results, transcriptions, QA evaluations, metadata, workflows
+      and pharmacovigilance export receipts, plus agent/user/hierarchy/role administration and SCIM 2.0
+      provisioning. OAuth 2.0 client credentials, scope `acxapi`.
+    contact:
+      name: Authenticx
+      url: https://authenticx.readme.io/
+    x-apievangelist-profile: https://apievangelist.com/
+    x-apievangelist-harvested: '2026-08-06'
+    x-apievangelist-source: https://api.beauthenticx.com/swagger/v1/swagger.json
+
+# --- Both published environments, not just production ------------------------------------------------------
+- target: $.servers
+  update:
+  - url: https://api.beauthenticx.com
+    description: AcxApi Production Server
+  - url: https://api.authcx.com
+    description: AcxApi Experimental (staging) Server
+
+# --- Declare the tag set the operations already use ---------------------------------------------------------
+- target: $
+  update:
+    tags:
+    - name: Conversations
+      description: Conversation insights, classifier results and transcriptions.
+    - name: Metadata
+      description: The conversation record — the canonical carrier of conversation identity.
+    - name: ModelResults
+      description: ML predictions and human-review results, with export receipts and prior-result history.
+    - name: Receipts
+      description: Pharmacovigilance (PV) data reconciliation — receipts for exports to a downstream safety system.
+    - name: Evaluations
+      description: Quality-assurance evaluations and their scored modules.
+    - name: Workflows
+      description: Review workflow status per interaction and evaluation.
+    - name: Media
+      description: Audio and chat archive upload.
+    - name: TextMedia
+      description: Text and chat JSON upload.
+    - name: Agent
+      description: Contact-center agent administration.
+    - name: User
+      description: Platform user administration.
+    - name: UserHierarchy
+      description: Per-hierarchy permission grants for a user.
+    - name: Hierarchy
+      description: The organization tree that scopes conversations, agents and permissions.
+    - name: Roles
+      description: Read-only role and permission catalog.
+    - name: Interactions
+      description: DEPRECATED. Superseded by Conversations/Insights.
+    - name: (Scim) Users
+      description: SCIM 2.0 user provisioning (RFC 7643 / RFC 7644).
+    - name: (Scim) Schemas
+      description: SCIM 2.0 schema discovery.
+    - name: (Scim) ResourceTypes
+      description: SCIM 2.0 resource-type discovery.
+    - name: (Scim) ServiceProviderConfig
+      description: SCIM 2.0 service-provider capability discovery.
+
+# --- Cross-cutting semantics captured in conventions/ -------------------------------------------------------
+- target: $.info
+  update:
+    x-apievangelist-conventions:
+      pagination:
+        style: cursor
+        params: [PageSize, LastId]
+        casing_warning: GET /ModelResults uses lastId/pageSize; all other paged operations use LastId/PageSize.
+        scim: startIndex + count (RFC 7644 3.4.2.4)
+      idempotency:
+        supported: false
+        note: >-
+          No idempotency key. POST /Media/Upload rejects duplicates on file-name uniqueness only, which is a
+          constraint rather than an idempotency contract.
+      errors:
+        format: none
+        note: No RFC 9457. 45 of 47 declared non-2xx responses carry no schema. SCIM errors use scim+json.
+      rate_limits:
+        published: false
+        signal: 429 on POST /Media/Upload only; no Retry-After, no X-RateLimit-* headers.
+      events:
+        webhooks: false
+        asyncapi: false
+        note: Asynchronous processing completion is discovered by polling.
+      conversation_identity:
+        note: One conversation id travels the API under five field names.
+        aliases:
+          Metadata: Id
+          Evaluations: Metadata.Id
+          Insights: ConversationId
+          Receipts: ConversationId
+          Transcriptions: ConversationId (response) / conversationId (request)
+
+# --- The largest single gap in the published spec: no operationId on any of 46 operations -------------------
+- target: $.info
+  update:
+    x-apievangelist-findings:
+    - id: no-operation-ids
+      severity: high
+      detail: >-
+        All 46 operations lack operationId. Generated clients, MCP tools, Arazzo workflows and agent skills
+        have no stable handle and must bind by METHOD + path.
+    - id: no-error-schemas
+      severity: high
+      detail: >-
+        Outside the SCIM subtree, no 4xx/5xx response declares a schema or media type — only a description
+        string. Clients cannot branch programmatically on failure.
+    - id: oidc-issuer-mismatch
+      severity: medium
+      detail: >-
+        /.well-known/openid-configuration on api.beauthenticx.com advertises an issuer and endpoints on
+        acxapi-net8d-prod1.azurewebsites.net, not on the branded host the docs tell integrators to call.
+    - id: no-security-txt
+      severity: medium
+      detail: No /.well-known/security.txt on any Authenticx host; no published vulnerability disclosure policy.
+    - id: undocumented-rate-limits
+      severity: medium
+      detail: 429 is declared but no quota, Retry-After, or rate-limit documentation exists.
+    - id: no-sdks
+      severity: medium
+      detail: >-
+        A 46-operation OpenAPI with no published client library in any registry; only copy-paste recipes.
+    - id: no-deprecation-policy
+      severity: low
+      detail: >-
+        Three operations and one field are flagged deprecated in-spec with named replacements, but there is no
+        deprecation policy page, no sunset dates, and no RFC 8594 headers.
+
+# --- Mark the deprecated surface with its replacement, machine-readably --------------------------------------
+- target: $.paths['/Interactions'].get
+  update:
+    x-apievangelist-superseded-by: 'GET /Conversations/Insights'
+- target: $.paths['/Interactions'].post
+  update:
+    x-apievangelist-superseded-by: 'POST /Conversations/Insights'
+- target: $.paths['/Interactions/{AmdID}'].get
+  update:
+    x-apievangelist-superseded-by: 'GET /Conversations/Insights'
+
+# --- Document the entitlement-gated and throttled operations --------------------------------------------------
+- target: $.paths['/ModelResults/Conversation'].get
+  update:
+    x-apievangelist-entitlement: >-
+      Returns 501 when the endpoint is not enabled for the calling organization. Treat 501 as a licensing
+      signal, not a server fault.
+- target: $.paths['/Media/Upload'].post
+  update:
+    x-apievangelist-throttled: >-
+      The only operation in the API that declares 429. No Retry-After and no published quota; back off
+      exponentially.
+    x-apievangelist-duplicate-guard: >-
+      A 400 'An interaction with this file name already exists.' on retry indicates the prior attempt
+      succeeded. Treat that specific message as success, not failure.

@@ -1,0 +1,85 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/authenticx-acxapi-openapi.yml
+searched:
+- https://authenticx.readme.io/llms.txt
+- https://authenticx.readme.io/changelog
+- https://authenticx.com/
+versioning:
+  scheme: none
+  current: v1
+  note: >-
+    info.version is "v1" but no version appears in any path, header, or query parameter outside the SCIM
+    subtree. There is no documented versioning policy and no way for a client to pin a version. The SCIM
+    surface is the sole exception, versioned at /scim/v2/ per RFC 7644.
+  scim_version: '2.0'
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  practice: in-spec-flag-plus-description
+  note: >-
+    Authenticx does deprecate in the open — three operations carry OpenAPI `deprecated: true` and their
+    descriptions name the replacement ("Deprecated. Please use /Conversations/Insights instead."), and the
+    ExtendedMetadata upload field is marked deprecated in favour of ExtendedMetadataValues. What is missing is
+    the policy around it: no published deprecation or sunset policy page, no removal dates, no RFC 8594
+    Deprecation/Sunset response headers, and no changelog entry a client could watch. A consumer learns an
+    operation is going away only by re-reading the spec.
+deprecated_operations:
+- operation: 'GET /Interactions'
+  source: openapi/authenticx-acxapi-openapi.yml
+  replacement: 'GET /Conversations/Insights'
+  sunset_date: null
+- operation: 'POST /Interactions'
+  source: openapi/authenticx-acxapi-openapi.yml
+  replacement: 'POST /Conversations/Insights'
+  sunset_date: null
+- operation: 'GET /Interactions/{AmdID}'
+  source: openapi/authenticx-acxapi-openapi.yml
+  replacement: 'GET /Conversations/Insights'
+  sunset_date: null
+deprecated_fields:
+- field: ExtendedMetadata
+  where: POST /Media/Upload metadata part
+  replacement: ExtendedMetadataValues
+  sunset_date: null
+changelog:
+  url: null
+  found: false
+  probes:
+  - url: https://authenticx.readme.io/changelog
+    status: 404
+  note: >-
+    The ReadMe hub exposes Guides, API Reference and Recipes but no changelog section, and llms.txt lists no
+    changelog, release-notes or versioning page. Individual doc pages carry an `updatedAt` timestamp in their
+    markdown frontmatter (most recently 2026-03-18), which is the only dated change signal available.
+status_page: null
+status_page_probes:
+- url: https://status.authenticx.com/
+  status: 000
+  note: does not resolve
+- url: https://status.beauthenticx.com/
+  status: 200
+  note: >-
+    Resolves only because *.beauthenticx.com is a wildcard Azure Front Door record; it serves the same
+    AcxPlatform SPA as every other subdomain, not a status page. Not counted.
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment found; contracts are enterprise and not published.
+environments:
+- name: production
+  base_url: https://api.beauthenticx.com
+  spec_title: AcxApi Production
+  openapi_version: 3.0.1
+- name: experimental
+  base_url: https://api.authcx.com
+  spec_title: AcxApi Experimental
+  openapi_version: 3.0.4
+  note: >-
+    Path- and operation-identical to production at harvest (35 paths / 46 operations, zero path difference),
+    but published from a newer OpenAPI patch version — the experimental host is where spec tooling moves first.
+support:
+  channel: Authenticx Help Desk (named in the 501 response text on GET /ModelResults/Conversation)
+  public_url: null
+  note: No public support portal, community forum, or support email was found on authenticx.com or the docs hub.

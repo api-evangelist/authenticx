@@ -1,0 +1,91 @@
+generated: '2026-08-06'
+method: generated
+source: openapi/authenticx-acxapi-openapi.yml + https://authenticx.readme.io/llms.txt
+provider_published_skills:
+  found: false
+  probes:
+  - url: https://authenticx.readme.io/llms.txt
+    status: 200
+    note: >-
+      Complete 82KB page index for the docs hub. Zero occurrences of AGENTS.md, agent skill, MCP, or tool —
+      Authenticx publishes no agent-facing operating instructions of its own.
+  - url: https://github.com/beacx
+    status: 200
+    note: Two public repos, neither containing AGENTS.md or a skills directory.
+grounding_note: >-
+  The AcxAPI OpenAPI declares NO operationId on any of its 46 operations, so every skill below binds its steps
+  to METHOD + path (each verified verbatim against openapi/authenticx-acxapi-openapi.yml) rather than to an
+  operationId. Adding operationIds to the spec is the single change that would make these skills, and any
+  generated client or MCP tool, stably addressable.
+skills:
+- file: authenticx-upload-and-retrieve-insights.md
+  name: Upload a conversation to Authenticx and retrieve its insights
+  api: openapi/authenticx-acxapi-openapi.yml
+  operations:
+  - POST /connect/token
+  - POST /Media/Upload
+  - POST /TextMedia/Upload
+  - GET /Metadata
+  - GET /Conversations/Insights
+  - GET /Conversations/Transcriptions/{conversationId}
+  - POST /Conversations/Transcriptions
+  - GET /Conversations/Classifiers
+  - GET /Hierarchy/All
+- file: authenticx-provision-users-and-hierarchy.md
+  name: Provision Authenticx users, agents, roles and hierarchy
+  api: openapi/authenticx-acxapi-openapi.yml
+  operations:
+  - GET /Hierarchy/All
+  - POST /Hierarchy
+  - PUT /Hierarchy/{HierarchyId}
+  - GET /Roles/All
+  - POST /User
+  - GET /User
+  - GET /User/All
+  - GET /User/{UserId}
+  - PUT /User/{UserId}
+  - POST /Agent
+  - GET /Agent/All
+  - GET /Agent/{AgentId}
+  - PUT /Agent/{AgentId}
+  - GET /UserHierarchy/{UserId}/All
+  - GET /UserHierarchy/{UserId}/{HierarchyId}
+  - PUT /UserHierarchy/{UserId}/{HierarchyId}
+  - GET /scim/v2/ServiceProviderConfig
+  - GET /scim/v2/Schemas
+  - GET /scim/v2/ResourceTypes
+  - GET /scim/v2/Users
+  - POST /scim/v2/Users
+  - PATCH /scim/v2/Users/{UserId}
+  - DELETE /scim/v2/Users/{UserId}
+- file: authenticx-pharmacovigilance-reconciliation.md
+  name: Reconcile Authenticx pharmacovigilance and model results with a downstream safety system
+  api: openapi/authenticx-acxapi-openapi.yml
+  operations:
+  - GET /Conversations/Classifiers
+  - GET /Hierarchy/All
+  - GET /ModelResults
+  - GET /ModelResults/Conversation
+  - GET /Receipts
+  - GET /Metadata
+  - GET /Evaluations
+  - GET /Evaluations/Modules
+  - GET /Workflows
+coverage:
+  skills: 3
+  operations_referenced: 38
+  operations_total: 46
+  operations_not_covered:
+  - GET /Interactions
+  - POST /Interactions
+  - GET /Interactions/{AmdID}
+  - POST /Metadata
+  - PATCH /Metadata/{id}
+  - POST /Conversations/Insights
+  - GET /scim/v2/Schemas/{SchemaUri}
+  - GET /scim/v2/ResourceTypes/{ResourceTypeId}
+  - GET /scim/v2/Users/{UserId}
+  - PUT /scim/v2/Users/{UserId}
+  not_covered_note: >-
+    The three /Interactions operations are deprecated in the spec and are deliberately excluded. The rest are
+    variants (POST twins, single-resource SCIM reads) already described in prose inside the skills.

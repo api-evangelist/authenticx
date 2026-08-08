@@ -1,0 +1,119 @@
+generated: '2026-08-06'
+method: searched
+source: openapi/authenticx-acxapi-openapi.yml
+docs:
+- https://authenticx.com/privacy-security
+- https://api.beauthenticx.com/.well-known/openid-configuration
+- https://authenticx.readme.io/docs/how-authenticx-works
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    Live OpenAPI 3.0.1 published at https://api.beauthenticx.com/swagger/v1/swagger.json (35 paths, 46
+    operations, 78 component schemas); the experimental host publishes 3.0.4.
+- id: oauth2
+  conforms: true
+  evidence: >-
+    components.securitySchemes.OAuth2 type oauth2, clientCredentials flow, tokenUrl
+    https://api.beauthenticx.com/connect/token, scope acxapi (RFC 6749 §4.4).
+- id: oauth2-client-secret-basic
+  conforms: true
+  evidence: >-
+    Docs document Basic-auth client authentication with the form-encoded grant/scope body; the discovery
+    document lists client_secret_basic and client_secret_post in token_endpoint_auth_methods_supported.
+- id: oidc-discovery
+  conforms: true
+  evidence: >-
+    /.well-known/openid-configuration returns 200 with issuer, jwks_uri, authorization/token/userinfo/
+    end_session/revocation/introspection endpoints, scopes_supported, claims_supported, RS256.
+  deviation: >-
+    Every advertised endpoint and the issuer point at acxapi-net8d-prod1.azurewebsites.net rather than the
+    api.beauthenticx.com host that serves the document and that the docs tell integrators to call.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server returns 403 on api.beauthenticx.com.
+- id: scim-2.0
+  conforms: true
+  evidence: >-
+    Full SCIM 2.0 subtree at /scim/v2/ — Users (GET/POST/PUT/PATCH/DELETE, filter/sortBy/sortOrder/startIndex/
+    count/attributes/excludedAttributes), ResourceTypes, Schemas and ServiceProviderConfig, all responding
+    application/scim+json (RFC 7643 / RFC 7644). GET /scim/v2/ServiceProviderConfig returns 401 unauthenticated,
+    i.e. present and gated, not absent.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No application/problem+json anywhere. 45 of 47 declared non-2xx responses carry no schema; documented error
+    bodies are plain strings.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: Operations carry OpenAPI deprecated:true but no Sunset/Deprecation headers and no removal dates.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt absent on authenticx.com (404), api.beauthenticx.com (403),
+    authenticx.readme.io (404), www./app.beauthenticx.com (404).
+- id: cursor-pagination
+  conforms: true
+  evidence: >-
+    LastId + PageSize cursor pagination on 9 collection endpoints, documented on GET /ModelResults; SCIM uses
+    startIndex + count per RFC 7644 §3.4.2.4.
+  deviation: Parameter casing differs between operations (LastId/PageSize vs lastId/pageSize).
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key, header, or replay window is documented. Duplicate uploads are rejected on file-name
+    uniqueness, which is a constraint rather than an idempotency contract.
+- id: rate-limit-headers
+  conforms: false
+  evidence: 429 declared on POST /Media/Upload with no Retry-After, no X-RateLimit-* headers, no published quota.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, webhook, streaming, or callback surface is published — completion of asynchronous processing is
+    discovered by polling. N/A rather than a failure.
+- id: tls-1.2-plus
+  conforms: true
+  evidence: >-
+    TLSv1.3 negotiated on authenticx.com, api.beauthenticx.com and authenticx.readme.io; docs state TLS 1.2+
+    in transit and AES-256 at rest.
+compliance:
+  published: true
+  page: https://authenticx.com/privacy-security
+  certifications:
+  - name: SOC 2 Type I
+    authority: AICPA
+  - name: SOC 2 Type II
+    authority: AICPA
+  regulatory_alignment:
+  - HIPAA
+  - GDPR (EU & UK)
+  - CCPA
+  claims:
+  - 'Encryption at rest: AES-256, stated as aligned with FIPS 140-2 controls.'
+  - 'Encryption in transit: TLS 1.2+.'
+  - Sensitive healthcare data is never sold or used to train Authenticx models.
+  trust_center: false
+  trust_center_note: >-
+    No trust.authenticx.com, no /trust or /security page, and no third-party trust portal (Vanta/Drata/
+    SafeBase). The certifications are asserted in prose on the marketing privacy-and-security page; no
+    attestation report request flow, sub-processor list, or evidence portal was found.
+  audit_reports_public: false
+domain_relevant_regimes:
+- id: hipaa
+  applicable: true
+  reason: Processes protected health information from patient and member contact-center conversations.
+  published_claim: true
+- id: gdpr
+  applicable: true
+  published_claim: true
+- id: pharmacovigilance-reporting
+  applicable: true
+  reason: >-
+    The Receipts / PV Data Reconciliation surface exists specifically to reconcile adverse-event, safety-event
+    and product-quality-complaint classifications exported to a downstream safety system — a regulated
+    life-sciences workflow (ICH E2B-adjacent). Fields observed: SafetyEvent, AdverseEvent,
+    ProductQualityComplaint, ReceiptId, DateTimeTransmitted, uid.
+  published_claim: false
+  note: >-
+    No published conformance statement to any pharmacovigilance data standard (E2B(R3), IDMP) was found; the
+    API models receipts generically and leaves the standard to the downstream system.

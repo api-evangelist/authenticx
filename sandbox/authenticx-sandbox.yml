@@ -1,0 +1,91 @@
+generated: '2026-08-06'
+method: searched
+source: https://authenticx.readme.io/docs/acxapi
+additional_sources:
+- https://authenticx.readme.io/reference/retrieving-an-access-token
+- https://api.authcx.com/swagger/v1/swagger.json
+kind: separate-environment
+self_serve: false
+self_serve_note: >-
+  There is no self-serve sandbox and no test-mode key you can mint yourself. Client credentials for BOTH
+  environments are issued by Authenticx during customer onboarding ("your client id as well as your client
+  secret which should have been provided to you during on-boarding"). An unaffiliated developer cannot obtain
+  a token, so the environment separation below is real but reachable only by contracted customers.
+environments:
+- name: production
+  label: AcxApi Production
+  base_url: https://api.beauthenticx.com
+  token_url: https://api.beauthenticx.com/connect/token
+  openapi: https://api.beauthenticx.com/swagger/v1/swagger.json
+  openapi_version: 3.0.1
+  swagger_ui: https://api.beauthenticx.com/swagger/index.html
+- name: experimental
+  label: AcxApi Experimental
+  aliases: [staging]
+  base_url: https://api.authcx.com
+  token_url: https://api.authcx.com/connect/token
+  openapi: https://api.authcx.com/swagger/v1/swagger.json
+  openapi_version: 3.0.4
+  swagger_ui: https://api.authcx.com/swagger/index.html
+  purpose: >-
+    Documented as the non-production target — the docs give the staging token URL alongside the production one
+    in the quick-start and in the access-token recipe, so integration work is expected to happen here first.
+separation:
+  mechanism: distinct-hostname
+  key_prefixes: none
+  mode_flag: none
+  note: >-
+    Environment is selected purely by hostname (api.authcx.com vs api.beauthenticx.com) and by which credential
+    pair you were issued. There is no test/live key prefix, no mode header, and no way to tell from a token
+    alone which environment it belongs to. A misconfigured base URL fails as an auth error rather than as an
+    explicit wrong-environment error.
+parity:
+  paths_production: 35
+  paths_experimental: 35
+  operations_production: 46
+  operations_experimental: 46
+  path_diff: []
+  verified: '2026-08-06'
+  note: >-
+    Byte-compared path sets on the two published specs — zero divergence at harvest. The experimental host
+    publishes a newer OpenAPI patch version (3.0.4 vs 3.0.1), i.e. tooling rolls forward there first.
+console:
+  swagger_ui: true
+  urls:
+  - https://api.beauthenticx.com/swagger/index.html
+  - https://api.authcx.com/swagger/index.html
+  note: >-
+    A live Swagger UI is served from both API hosts and is publicly reachable. It renders the real spec and is
+    the only interactive console; "Try it" requires credentials. The ReadMe hub also renders an API Explorer.
+  config_observed:
+    deepLinking: false
+    persistAuthorization: false
+    displayOperationId: false
+test_values:
+  published: false
+  note: >-
+    No magic test identifiers, seeded fixtures, sample conversation ids, test media files, or trigger tooling
+    are published. Testing means uploading your own audio or chat file to the experimental host. The docs'
+    quick-start uses a placeholder file name (example-call.wav) and an explicitly "illustrative only" metadata
+    body, not a working fixture.
+  supported_locales_for_test: [1033, 2058]
+  file_constraints:
+    max_size: 2.5GB
+    audio_extensions: [.wav, .mp3, .mp4, .ogg, .opus, .m4a]
+    chat_archive_extensions: [.tar, .zip]
+    text_extensions: [.json, .json_chat]
+time_simulation:
+  supported: false
+  note: >-
+    No test clock. GET /ModelResults clamps any requested start date earlier than 2025-10-01, so historical
+    replay against the model-results surface is bounded regardless of environment.
+fixtures_and_samples:
+  code_examples: https://github.com/beacx/AcxApiClientExamples
+  recipes: https://authenticx.readme.io/recipes
+  recipe_languages: ['.NET', 'NodeJS', 'Python', 'Maven + Java']
+  recipe_flows: [access-token-generation, upload-file, user-management]
+gaps:
+- No self-serve sandbox credential issuance.
+- No published test data or fixtures of any kind.
+- No environment indicator in the credential or token.
+- No test clock / time travel.

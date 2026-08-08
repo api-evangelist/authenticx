@@ -1,0 +1,170 @@
+generated: '2026-08-06'
+method: searched
+source: openapi/authenticx-acxapi-openapi.yml
+docs:
+- https://authenticx.readme.io/reference/acxapi-traversal
+- https://authenticx.readme.io/reference/authorizing-requests
+- https://authenticx.readme.io/docs/acxapi
+authentication:
+  style: oauth2-client-credentials
+  header: 'Authorization: Bearer <access_token>'
+  token_url: https://api.beauthenticx.com/connect/token
+  scope: acxapi
+  token_lifetime_seconds: 3600
+  see: authentication/authenticx-authentication.yml
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    AcxAPI documents no idempotency key of any kind — no Idempotency-Key header, no client-supplied request id,
+    no replay window. The nearest thing is a uniqueness constraint on upload file names: POST /Media/Upload
+    returns 400 "An interaction with this file name already exists.", which makes `metadata.FileName` a de-facto
+    (but unsupported, non-contractual) duplicate guard. POST /TextMedia/Upload recommends supplying your own
+    `Id` "so you can correlate with your system", which is correlation, not idempotency. A retried upload after a
+    timeout is therefore not safe by contract.
+  evidence:
+  - openapi/authenticx-acxapi-openapi.yml
+  - https://authenticx.readme.io/docs/media-upload-error-handling-and-response-codes
+pagination:
+  primary:
+    style: cursor
+    params:
+    - PageSize
+    - LastId
+    cursor_field: LastId
+    how: >-
+      Pass the `lastId` value from the final item of a page to retrieve the next page. Documented explicitly on
+      GET /ModelResults; the same LastId + PageSize pair appears on Conversations/Classifiers,
+      Conversations/Insights, Evaluations, Evaluations/Modules, Interactions, Metadata, ModelResults, Receipts
+      and Workflows.
+    operations: 9
+    casing_inconsistency: >-
+      Most operations use PascalCase (`LastId`, `PageSize`); GET /ModelResults uses camelCase (`lastId`,
+      `pageSize`). Clients must match the casing per operation.
+  scim:
+    style: index-offset
+    params:
+    - startIndex
+    - count
+    spec: RFC 7644 §3.4.2.4
+    operations:
+    - GET /scim/v2/Users
+  unpaginated:
+    note: >-
+      Collection endpoints /Agent/All, /Hierarchy/All, /User/All, /Roles/All and /UserHierarchy/{UserId}/All
+      take only an IsActive filter and return the whole set — no paging controls.
+filtering:
+  date_windows:
+    params:
+    - DateReference
+    - StartDate
+    - EndDate
+    note: >-
+      DateReference selects which date field the Start/End window applies to. Window ceilings are enforced and
+      documented per endpoint rather than globally.
+  documented_limits:
+  - operation: GET /Conversations/Insights
+    limit: >-
+      Requests with no classifier or hierarchy filter may span at most 7 days; supplying at least one of
+      ClassifierIds, HierarchyIds, HierarchyCodes, ClassifierCategoryNames or ClassifierTypes extends the
+      maximum range to 31 days.
+  - operation: GET /ModelResults
+    limit: Requests earlier than 2025-10-01 are silently clamped to 2025-10-01.
+  - operation: GET /ModelResults/Conversation
+    limit: Maximum 100 ids per parameter (conversationIds, clientCallIds).
+  - operation: POST /Conversations/Transcriptions
+    limit: Up to 100 conversation ids per request; duplicate ids are ignored.
+  batch_post_mirror: >-
+    Several GET filter endpoints have a POST twin that takes the same criteria in a JSON body, for callers whose
+    filter lists exceed practical query-string length — GET/POST /Conversations/Insights, GET/POST /Interactions,
+    GET/POST /Metadata, and POST /Conversations/Transcriptions as the batch form of the single-id GET.
+identifiers:
+  conversation_id:
+    note: >-
+      One conversation identifier travels the whole API under different field names. This is the single most
+      important traversal rule for an integrator or an agent.
+    aliases:
+    - section: Metadata
+      field: Id
+    - section: Evaluations
+      field: Metadata.Id
+    - section: PV Data Reconciliation (Receipts)
+      field: ConversationId
+    - section: Insights
+      field: ConversationId
+    - section: Transcriptions
+      field: ConversationId (response) / conversationId (request)
+    docs: https://authenticx.readme.io/reference/acxapi-traversal
+  client_call_id: >-
+    ClientCallId is the caller's own external telephony reference, accepted on upload and usable as a lookup key
+    on GET /ModelResults/Conversation — the supported way to join Authenticx records back to a source system.
+  format: GUID / UUID for platform-issued identifiers
+metadata:
+  extended_metadata:
+    current: ExtendedMetadataValues (dictionary of key/value)
+    deprecated: ExtendedMetadata (array of dictionaries)
+    note: Deprecation is stated in the upload metadata description, with no removal date.
+  hierarchy: >-
+    HierarchyId or HierarchyCode scopes an interaction to a place in the organization tree; ApplyHierarchyToAgent
+    also applies it to the agent. Invalid values are rejected at upload with a 400.
+  locale: 'LocaleId, defaults to 1033 (en-US); 2058 (es-MX) also supported.'
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation header is documented on requests or responses.
+versioning:
+  scheme: none-in-path
+  note: >-
+    The OpenAPI declares info.version "v1" but no path, header, or query version selector — /Agent, /Metadata,
+    /Conversations/... are unversioned. Only the SCIM surface is versioned in the path (/scim/v2/). New
+    capability arrives as new endpoints and old ones are flagged `deprecated: true` in place.
+  see: lifecycle/authenticx-lifecycle.yml
+error_envelope:
+  format: none
+  note: >-
+    No RFC 9457. Non-2xx responses outside SCIM declare no schema; documented error bodies are plain English
+    strings. SCIM errors use application/scim+json.
+  see: errors/authenticx-problem-types.yml
+rate_limiting:
+  documented: false
+  signal: HTTP 429 declared on POST /Media/Upload only
+  headers: none documented
+  retry_after: not documented
+  note: >-
+    No published quota, no rate-limit reference page, no Retry-After or X-RateLimit-* headers in the spec. A
+    client can only discover the limit by hitting it.
+uploads:
+  content_type: multipart/form-data
+  parts:
+  - name: file
+    note: The media file. Optional on /Media/Upload when `signedUrl` is supplied instead.
+  - name: metadata
+    note: A JSON string (not a JSON part) carrying the interaction metadata.
+  - name: signedUrl
+    note: >-
+      Optional pre-signed download URL (AWS S3, Azure Blob) — the server fetches the file itself instead of a
+      multipart body. The practical path for large files.
+  max_file_size: 2.5GB
+  audio_extensions: [.wav, .mp3, .mp4, .ogg, .opus, .m4a]
+  chat_archive_extensions: [.tar, .zip]
+  text_extensions: [.json, .json_chat]
+  hard_rule: metadata.FileName must match the uploaded file name exactly, including extension and case.
+  docs: https://authenticx.readme.io/docs/media-upload-format-limitations
+async_processing:
+  note: >-
+    Upload is accepted synchronously (200 with Id, FileName, FileSizeKb) but analysis is asynchronous. There is
+    no webhook or event callback — completion is discovered by polling. GET /Conversations/Transcriptions/{id}
+    returns 200-with-a-message while still processing and 400 when processing failed, so a poller must inspect
+    the body, not just the status. GET /ModelResults exposes mediaStatus values Processed / NotProcessed /
+    FailedToProcess when includeUnprocessedMedia=true.
+  polling_targets:
+  - GET /Metadata
+  - GET /Conversations/Insights
+  - GET /ModelResults
+  - GET /Conversations/Transcriptions/{conversationId}
+cross_links:
+  authentication: authentication/authenticx-authentication.yml
+  scopes: scopes/authenticx-scopes.yml
+  errors: errors/authenticx-problem-types.yml
+  lifecycle: lifecycle/authenticx-lifecycle.yml
+  data_model: data-model/authenticx-data-model.yml
+  sandbox: sandbox/authenticx-sandbox.yml

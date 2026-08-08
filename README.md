@@ -42,5 +42,22 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Authenticx is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Authenticx is a healthcare conversation intelligence platform that ingests contact-center interactions — call
+audio, chat transcripts and email — and applies speech analytics and machine-learning classifiers to surface
+patient and member experience signals, quality-assurance scoring, and pharmacovigilance / adverse-event
+detection.
+
+**AcxAPI** is its REST API, described by a live OpenAPI 3.0.1 definition (35 paths, 46 operations, 78 schemas)
+covering conversation insights, transcriptions, model results, evaluations, metadata, workflows, media and text
+upload, agent/user/hierarchy/role administration, and SCIM 2.0 user provisioning. Authentication is OAuth 2.0
+client credentials (scope `acxapi`) against an OpenID Connect provider, with separate production and
+experimental hosts.
+
+- Website — https://authenticx.com/
+- Developer hub — https://authenticx.readme.io/
+- API reference — https://authenticx.readme.io/reference/acxapi
+- OpenAPI (production) — https://api.beauthenticx.com/swagger/v1/swagger.json
+- OpenAPI (experimental) — https://api.authcx.com/swagger/v1/swagger.json
+- OpenID Connect discovery — https://api.beauthenticx.com/.well-known/openid-configuration
+- llms.txt — https://authenticx.readme.io/llms.txt
+- GitHub — https://github.com/beacx

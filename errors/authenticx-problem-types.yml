@@ -1,0 +1,153 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/authenticx-acxapi-openapi.yml
+enriched_from: https://authenticx.readme.io/docs/media-upload-error-handling-and-response-codes
+format: none
+format_note: >-
+  AcxAPI does NOT use RFC 9457 problem+json. The only response media types in the spec are application/json and
+  application/scim+json. Non-2xx responses are declared with a description but, outside SCIM, carry no response
+  schema at all — 28 of 28 declared 400s, all 15 404s, the 429 and the 500 have `content` absent. The documented
+  error bodies for /Media/Upload are bare English strings. SCIM errors are the exception: they are typed
+  application/scim+json per RFC 7644.
+envelope:
+  general: >-
+    Undeclared. The docs show plain-string messages ("You must upload a file with one of the specified allowed
+    extensions.") rather than a structured envelope. Agents cannot machine-branch on an error code.
+  scim: application/scim+json (RFC 7644 §3.12 Error response)
+status_codes_declared:
+  '200': 44
+  '201': 1
+  '204': 1
+  '400': 28
+  '404': 15
+  '409': 1
+  '429': 1
+  '500': 1
+  '501': 1
+problems:
+- status: 400
+  title: Bad Request
+  scope: general
+  description: >-
+    Declared on 28 operations. Meaning is per-operation and carried only in the response description text; there
+    is no error code, type URI, or response schema.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Agent
+  remediation: Read the operation's 400 description in the spec; there is no programmatic discriminator.
+- status: 400
+  title: Invalid upload — file extension not allowed
+  scope: media-upload
+  message: You must upload a file with one of the specified allowed extensions.
+  remediation: 'Use one of .wav, .mp3, .mp4, .ogg, .opus, .m4a (audio) or .tar, .zip (chat).'
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+  docs: https://authenticx.readme.io/docs/media-upload-error-handling-and-response-codes
+- status: 400
+  title: Missing metadata part
+  scope: media-upload
+  message: You must upload metadata in the request form.
+  remediation: Send multipart/form-data with both a `file` part and a `metadata` JSON-string part.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Metadata could not be parsed
+  scope: media-upload
+  message: Unable to properly parse metadata to chat or audio.
+  remediation: Validate the metadata JSON against the audio or chat metadata schema before sending.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Invalid metadata payload
+  scope: media-upload
+  message: You must upload valid data in your metadata request form payload.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Invalid file name or extension in metadata
+  scope: media-upload
+  message: You must upload a valid file name with a valid file extension.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: File extension mismatch
+  scope: media-upload
+  message: File extension in metadata file name and upload file must match!
+  remediation: '`metadata.FileName` must match the uploaded file name exactly, including extension and case.'
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Duplicate interaction file name
+  scope: media-upload
+  message: An interaction with this file name already exists.
+  remediation: >-
+    Supply a unique file name. This is the closest thing AcxAPI has to a duplicate-suppression control — there is
+    no Idempotency-Key header, so file-name uniqueness is the de-facto idempotency key for uploads.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Unsupported locale
+  scope: media-upload
+  message: 'Unsupported locale id provided. Supported locale ids include: 1033, 2058.'
+  remediation: 'Use LocaleId 1033 (en-US) or 2058 (es-MX); omit for the 1033 default.'
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Invalid hierarchy id or code
+  scope: media-upload
+  message: >-
+    Invalid Hierarchy Id/Code! You must either specify a valid hierarchy id/code from your organization or omit a
+    hierarchy id/code entirely.
+  remediation: Discover valid values with GET /Hierarchy/All, or omit the field.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Unexpected metadata form object
+  scope: media-upload
+  message: Invalid metadata form object. Please upload metadata in the expected form.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+- status: 400
+  title: Unknown or missing modelIds
+  scope: model-results
+  description: >-
+    If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the
+    organization. Other 400 responses cover invalid conversation IDs or too many identifiers (max 100 per param).
+  remediation: Discover valid model ids with GET /Conversations/Classifiers.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#GET /ModelResults/Conversation
+- status: 400
+  title: Conversation failed to process
+  scope: transcriptions
+  description: >-
+    Returned when the conversation exists but failed processing. Note the inverted convention: a conversation
+    that has NOT finished processing returns 200 with a message, not 202 or 404.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#GET /Conversations/Transcriptions/{conversationId}
+- status: 404
+  title: Not Found
+  scope: general
+  description: >-
+    Declared on 15 operations. No response schema. On collection endpoints (GET /Agent/All, GET /Hierarchy/All)
+    a 404 is used where an empty 200 collection would be more conventional.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#GET /Agent/{AgentId}
+- status: 409
+  title: Conflict — user already exists
+  scope: scim
+  description: One or more required fields belonged to an existing user.
+  media_type: application/scim+json
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /scim/v2/Users
+- status: 429
+  title: Too Many Requests
+  scope: media-upload
+  description: >-
+    The only rate-limit signal anywhere in the AcxAPI surface. Declared on POST /Media/Upload only. No
+    Retry-After, X-RateLimit-* headers, published quota, or rate-limit documentation page was found — so a
+    client can observe throttling but cannot anticipate or back off against a published budget.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
+  remediation: Back off and retry; no published limit or Retry-After to key on.
+- status: 500
+  title: Internal Server Error
+  scope: metadata
+  description: An unexpected server error occurred while processing the request. A detailed error response is provided.
+  source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Metadata
+- status: 501
+  title: Not Implemented — endpoint not enabled for your organization
+  scope: model-results
+  description: >-
+    'This endpoint is not available for your organization. Please contact Authenticx Help Desk support.' A
+    per-tenant feature gate expressed as a status code — clients must handle 501 as an entitlement signal, not
+    as a server fault.
+  media_type: application/json
+  source_operation: openapi/authenticx-acxapi-openapi.yml#GET /ModelResults/Conversation
+gaps:
+- No RFC 9457 / problem+json.
+- No error code registry, no type URIs, no stable machine-readable discriminators outside SCIM.
+- 45 of 47 declared non-2xx responses carry no schema.
+- Rate limiting is signalled (429) but never documented or bounded.

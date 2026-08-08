@@ -1,0 +1,261 @@
+generated: '2026-08-06'
+method: derived
+source: openapi/authenticx-acxapi-openapi.yml
+enriched_from: https://authenticx.readme.io/reference/acxapi-traversal
+summary:
+  entities: 14
+  schemas_in_spec: 78
+  identifier_format: GUID/UUID
+  identifier_prefixes: none
+  identifier_note: >-
+    Authenticx does not use typed/prefixed object ids. Every id is a bare GUID, so an id is only interpretable
+    in the context of the endpoint that returned it. The one conversation identity travels the API under five
+    different field names (see conventions/authenticx-conventions.yml#identifiers).
+core_axis:
+  entity: Conversation
+  note: >-
+    The API has no `/Conversations/{id}` resource — the conversation is the implicit hub that Metadata,
+    Insights, Transcriptions, Evaluations, ModelResults and Receipts all key on. Metadata.id IS the conversation
+    id; every other section refers to the same value as conversationId (or Metadata.Id nested inside an
+    Evaluation).
+entities:
+- name: Metadata
+  schema: AcxApi.Models.Metadata.Metadata
+  role: The conversation record. Canonical carrier of the conversation identity.
+  identity: id
+  alternate_key: clientCallId
+  key_fields: [id, acxIdentifier, organizationId, organizationStructureMemberId, fileName, mediaType, status,
+    timestamp, arrivedOn, agentId, agentName, clientCallId, callDirection, callDurationMillis, chatMessageCount,
+    localeId, extendedMetadataValues, processFailures]
+  operations: ['GET /Metadata', 'POST /Metadata', 'PATCH /Metadata/{id}']
+- name: Classifier
+  schema: AcxApi.Models.Classifiers.ClassifierModel
+  identity: id
+  key_fields: [id, name, classifierType, description, categoryName, reportable, groupable]
+  role: The discovery endpoint for valid classifier and model ids used to filter Insights and ModelResults.
+  operations: ['GET /Conversations/Classifiers']
+- name: ConversationInsight
+  schema: AcxApi.Models.Conversations.ConversationInsightsResponse
+  identity: conversationId
+  key_fields: [conversationId, clientCallId, arrivedOn, interactionDate, status, classifierResults]
+  operations: ['GET /Conversations/Insights', 'POST /Conversations/Insights']
+- name: ClassifierResult
+  schema: AcxApi.Models.Conversations.ClassifierResultResponse
+  role: Embedded result rows on a ConversationInsight.
+- name: Transcription
+  schema: AcxApi.Models.Transcription.ConversationTranscriptionResponse
+  identity: conversationId
+  operations: ['GET /Conversations/Transcriptions/{conversationId}', 'POST /Conversations/Transcriptions']
+- name: Evaluation
+  schema: AcxApi.Models.Evaluations.Evaluation
+  identity: id
+  key_fields: [id, evaluationNumber, evaluationName, submittedDate, assignedDate, modifiedOn, questions, agent,
+    analyst, metadata, callSummary, customerType]
+  operations: ['GET /Evaluations', 'GET /Evaluations/Modules']
+- name: Module
+  schema: AcxApi.Models.Evaluations.Module
+  role: Scored section of an evaluation; questions, answers and answer tags hang beneath it.
+- name: ModelResults
+  schema: AcxApi.Models.ModelResults.ModelResults
+  identity: conversationId
+  key_fields: [conversationId, clientCallId, eventType, eventTime, mediaStatus, modelResults, emissionReceipt,
+    priorResults]
+  operations: ['GET /ModelResults', 'GET /ModelResults/Conversation']
+- name: EmissionReceipt
+  schema: AcxApi.Models.ModelResults.EmissionReceipt
+  key_fields: [eventTime, authenticxReceiptId, customerReceiptId]
+  role: >-
+    The join back to the customer's downstream safety system — the pharmacovigilance reconciliation record,
+    also surfaced standalone via GET /Receipts.
+- name: Agent
+  schema: AcxApi.Models.Agent.AgentResponseModel
+  identity: id
+  key_fields: [id, userId, firstName, lastName, agentEmail, agentCode, isActive, managerId, startDate]
+  operations: ['GET /Agent/All', 'GET /Agent/{AgentId}', 'POST /Agent', 'PUT /Agent/{AgentId}']
+- name: User
+  schema: AcxApi.Models.User.UserResponseModel
+  identity: id
+  key_fields: [id, organizationId, userName, email, roleName, disabled, samlProviderUserCode, lastLogin, agentId]
+  operations: ['GET /User', 'GET /User/All', 'GET /User/{UserId}', 'POST /User', 'PUT /User/{UserId}']
+- name: Hierarchy
+  schema: AcxApi.Models.Hierarchies.HierarchyResponseModel
+  identity: id
+  alternate_key: code
+  key_fields: [id, name, code, structureLevelName, category, subCategory, isActive, administrativeContacts,
+    escalationContacts, managerContacts, hierarchyCodes, children]
+  role: Self-referencing organization tree; scopes conversations, agents and user permissions.
+  operations: ['GET /Hierarchy/All', 'POST /Hierarchy', 'PUT /Hierarchy/{HierarchyId}']
+- name: Role
+  schema: AcxApi.Models.Roles.RoleResponseModel
+  identity: name
+  key_fields: [name, permissions]
+  operations: ['GET /Roles/All']
+- name: Workflow
+  schema: AcxApi.Models.Workflows.WorkflowModel
+  identity: workflowId
+  key_fields: [interactionId, evaluationNumber, workflowId, workflowType, workflowName, workflowStatus, levels,
+    bossModule]
+  operations: ['GET /Workflows']
+- name: ScimUser
+  schema: AcxApi.Scim.Resources.User
+  identity: id
+  standard: SCIM 2.0 (RFC 7643)
+  role: >-
+    A parallel projection of User for identity-provider provisioning. Not the same schema as
+    AcxApi.Models.User.UserResponseModel — two user representations coexist.
+  operations: ['GET /scim/v2/Users', 'POST /scim/v2/Users', 'GET /scim/v2/Users/{UserId}',
+    'PUT /scim/v2/Users/{UserId}', 'PATCH /scim/v2/Users/{UserId}', 'DELETE /scim/v2/Users/{UserId}']
+relationships:
+- from: Metadata
+  to: Agent
+  type: belongs_to
+  via: agentId
+- from: Metadata
+  to: Hierarchy
+  type: belongs_to
+  via: organizationStructureMemberId
+- from: Metadata
+  to: ProcessFailure
+  type: has_many
+  via: processFailures
+- from: ConversationInsight
+  to: Metadata
+  type: has_one
+  via: conversationId -> Metadata.id
+  note: Cross-section identity alias, not a $ref in the spec.
+- from: ConversationInsight
+  to: ClassifierResult
+  type: has_many
+  via: classifierResults
+- from: ClassifierResult
+  to: Classifier
+  type: belongs_to
+  via: classifier id (discover with GET /Conversations/Classifiers)
+- from: Transcription
+  to: Metadata
+  type: has_one
+  via: conversationId -> Metadata.id
+- from: Evaluation
+  to: Metadata
+  type: has_one
+  via: metadata ($ref AcxApi.Models.Metadata.Metadata)
+- from: Evaluation
+  to: Agent
+  type: has_one
+  via: agent ($ref AcxApi.Models.Evaluations.Agent)
+- from: Evaluation
+  to: Analyst
+  type: has_one
+  via: analyst
+- from: Evaluation
+  to: Question
+  type: has_many
+  via: questions
+- from: Evaluation
+  to: CustomerType
+  type: has_one
+  via: customerType
+- from: ModuleEvaluation
+  to: Module
+  type: has_many
+  via: modules
+- from: Module
+  to: ModuleQuestion
+  type: has_many
+  via: questions
+- from: ModuleQuestion
+  to: ModuleAnswer
+  type: has_many
+  via: answers
+- from: ModuleAnswer
+  to: ModuleAnswerTag
+  type: has_many
+  via: tags
+- from: ModelResults
+  to: Metadata
+  type: has_one
+  via: conversationId -> Metadata.id
+- from: ModelResults
+  to: ModelResult
+  type: has_many
+  via: modelResults
+- from: ModelResults
+  to: PriorResult
+  type: has_many
+  via: priorResults
+- from: ModelResults
+  to: EmissionReceipt
+  type: has_one
+  via: emissionReceipt
+- from: ModelResults
+  to: MediaStatus
+  type: has_one
+  via: mediaStatus
+- from: Agent
+  to: User
+  type: belongs_to
+  via: userId
+- from: Agent
+  to: Agent
+  type: belongs_to
+  via: managerId
+  note: Self-referencing manager chain.
+- from: User
+  to: Agent
+  type: has_one
+  via: agentId
+  note: Inverse of Agent.userId — the two entities point at each other.
+- from: User
+  to: Role
+  type: belongs_to
+  via: roleName
+- from: Hierarchy
+  to: Hierarchy
+  type: has_many
+  via: children
+  note: Self-referencing organization tree.
+- from: Hierarchy
+  to: HierarchyContact
+  type: has_many
+  via: administrativeContacts, escalationContacts, managerContacts
+- from: UserHierarchy
+  to: User
+  type: belongs_to
+  via: UserId (path)
+- from: UserHierarchy
+  to: Hierarchy
+  type: belongs_to
+  via: hierarchyId
+- from: Role
+  to: RolePermission
+  type: has_many
+  via: permissions
+- from: Workflow
+  to: Metadata
+  type: belongs_to
+  via: interactionId
+- from: Workflow
+  to: Evaluation
+  type: belongs_to
+  via: evaluationNumber
+- from: Workflow
+  to: WorkflowLevel
+  type: has_many
+  via: levels
+- from: Workflow
+  to: BossModule
+  type: has_one
+  via: bossModule
+- from: ScimUser
+  to: User
+  type: has_one
+  via: same underlying user, separate representation
+observations:
+- >-
+  The Interactions entity (AcxApi.Controllers.Interactions.InteractionResponseModel) is the deprecated
+  predecessor of ConversationInsight and is intentionally omitted from the live entity list; its schemas are
+  still in the spec.
+- >-
+  Two independent user models ship side by side — AcxApi.Models.User.* for platform administration and
+  AcxApi.Scim.* for IdP provisioning — with no documented reconciliation between them.
+render: null

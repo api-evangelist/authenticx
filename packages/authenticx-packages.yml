@@ -1,0 +1,75 @@
+generated: '2026-08-06'
+method: searched
+source: registry searches + https://github.com/beacx + https://authenticx.readme.io/recipes
+packages: []
+result: none
+summary: >-
+  Authenticx publishes no client libraries. Eight public registries and the company's GitHub organization were
+  searched and none carries a first-party (or third-party) AcxAPI SDK. What exists instead is copy-paste
+  material: four language recipes on the ReadMe hub and one C# console example repository.
+registries_searched:
+- registry: npm
+  query: authenticx
+  url: https://registry.npmjs.org/-/v1/search?text=authenticx
+  status: 200
+  results: 0
+- registry: pypi
+  query: authenticx
+  url: https://pypi.org/pypi/authenticx/json
+  status: 404
+  results: 0
+- registry: nuget
+  query: authenticx
+  url: https://api.nuget.org/v3/registration5-semver1/authenticx/index.json
+  status: 404
+  results: 0
+- registry: maven-central
+  query: authenticx
+  results: 0
+- registry: rubygems
+  query: authenticx
+  results: 0
+- registry: packagist
+  query: authenticx
+  results: 0
+- registry: crates.io
+  query: authenticx
+  results: 0
+- registry: pkg.go.dev
+  query: authenticx
+  results: 0
+github:
+  org: https://github.com/beacx
+  org_display_name: Authenticx
+  public_repos: 2
+  repos:
+  - name: AcxApiClientExamples
+    url: https://github.com/beacx/AcxApiClientExamples
+    language: C#
+    kind: code-samples
+    official: true
+    note: >-
+      Referenced from the docs as "Customer Automation Samples". A single ConsoleApp1 project — example code,
+      not a packaged, versioned, installable SDK. Not counted as a client library.
+  - name: Acx-VirtualizedList-Exercise
+    url: https://github.com/beacx/Acx-VirtualizedList-Exercise
+    language: TypeScript
+    kind: hiring-exercise
+    official: true
+    note: A UI candidate exercise. Unrelated to the API.
+code_recipes:
+  url: https://authenticx.readme.io/recipes
+  note: >-
+    ReadMe-hosted runnable recipes — the closest thing to SDK coverage Authenticx offers. Three flows across
+    four languages.
+  flows:
+  - flow: Access Token Generation
+    languages: ['.NET', 'NodeJS', 'Python', 'Maven + Java']
+  - flow: Upload File
+    languages: ['.NET', 'NodeJS', 'Python', 'Maven + Java']
+  - flow: User Management
+    languages: ['.NET', 'NodeJS', 'Python', 'Maven + Java']
+gap: >-
+  A published OpenAPI 3.0.1 with 46 operations and no generated client in any language. Authenticx already has
+  the input a generator needs — shipping even one generated SDK per recipe language would close the highest-
+  value ergonomics gap on this profile.

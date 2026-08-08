@@ -1,0 +1,56 @@
+generated: '2026-08-06'
+method: searched
+source: openapi/authenticx-acxapi-openapi.yml
+docs: https://authenticx.readme.io/reference/retrieving-an-access-token
+discovery: https://api.beauthenticx.com/.well-known/openid-configuration
+schemes:
+- name: OAuth2
+  source: openapi/authenticx-acxapi-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://api.beauthenticx.com/connect/token
+    staging_tokenUrl: https://api.authcx.com/connect/token
+scopes:
+- scope: acxapi
+  description: Access to Acx API
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/authenticx-acxapi-openapi.yml
+  - https://authenticx.readme.io/reference/retrieving-an-access-token
+  - https://api.beauthenticx.com/.well-known/openid-configuration
+  note: >-
+    The one scope AcxAPI integrators request. It is coarse-grained — a single scope grants the whole API
+    surface, including SCIM 2.0 user provisioning and role/hierarchy administration. Per-resource authorization
+    is enforced by the organization's hierarchy and role model (GET /Roles/All, GET /UserHierarchy/...), not by
+    OAuth scope.
+scopes_advertised_by_provider_not_used_by_acxapi:
+- scope: openid
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: profile
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: email
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: address
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: roles
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: offline_access
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+- scope: MyClientId_api
+  source: https://api.beauthenticx.com/.well-known/openid-configuration
+  note: >-
+    Advertised verbatim in scopes_supported. Reads as a template/placeholder identifier left in an
+    IdentityServer configuration rather than a real product scope. Recorded as observed, not interpreted.
+coverage:
+  scopes_in_spec: 1
+  scopes_advertised_by_idp: 8
+  operations_covered_by_scope: 46
+  granularity: coarse
+x-evidence:
+- url: https://api.beauthenticx.com/swagger/v1/swagger.json
+  http_status: 200
+  fetched: '2026-08-06'
+- url: https://api.beauthenticx.com/.well-known/openid-configuration
+  http_status: 200
+  fetched: '2026-08-06'

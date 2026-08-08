@@ -1,0 +1,93 @@
+generated: '2026-08-06'
+method: probed
+source: live GET of /.well-known/* on every apis.yml and OpenAPI servers[] host
+notes: >-
+  api.beauthenticx.com returns HTTP 403 (default deny) rather than 404 for unrecognized paths, so a 403 on this
+  host means "not served", not "blocked to us" — /.well-known/openid-configuration on the same host returns 200,
+  confirming the probe path itself is reachable. beauthenticx.com does not resolve; www./app./mcp./trust./status.
+  beauthenticx.com all resolve to the same Azure Front Door SPA and answer 404 for every /.well-known/* path.
+hosts:
+- host: https://api.beauthenticx.com
+  role: production API host (OpenAPI servers[0])
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: authenticx-openid-configuration.json
+    note: OpenID Connect Discovery 1.0 / RFC 8414 metadata (Duende/IdentityServer)
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: https://api.authcx.com
+  role: experimental / staging API host
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: >-
+      Staging OIDC metadata; issuer is the underlying Azure host
+      (acxapi-net10-stage-*.centralus...). Not saved verbatim — production is the
+      canonical copy and the staging issuer is an infrastructure hostname.
+- host: https://authenticx.com
+  role: corporate website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://authenticx.readme.io
+  role: developer hub (ReadMe)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    note: not a /.well-known document; harvested to llms/authenticx-llms.txt
+- host: https://www.beauthenticx.com
+  role: application host (Azure Front Door SPA, wildcard)
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://app.beauthenticx.com
+  role: AcxPlatform web application
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+summary:
+  documents_found: 1
+  security_txt: false
+  openid_configuration: true
+  oauth_authorization_server: false
+  api_catalog: false
+  agent_card: false

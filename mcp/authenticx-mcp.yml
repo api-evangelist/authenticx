@@ -1,0 +1,302 @@
+generated: '2026-08-06'
+method: derived
+status: candidate
+source: openapi/authenticx-acxapi-openapi.yml
+search_result:
+  official_hosted_server: none
+  note: >-
+    No Authenticx MCP server exists. The docs hub (llms.txt, 82KB, complete page index) contains zero
+    occurrences of "MCP", "Model Context Protocol", "agent", or "tool". No entry in the public MCP registries
+    and no third-party community server was found.
+  probes:
+  - url: https://api.beauthenticx.com/mcp
+    method: POST tools/list
+    status: 403
+    note: >-
+      api.beauthenticx.com default-denies every unrecognized path with 403 (a known-good path on the same host
+      returns 200), so this is "not served", not "blocked".
+  - url: https://api.beauthenticx.com/sse
+    method: POST tools/list
+    status: 403
+  - url: https://mcp.authenticx.com/
+    method: POST tools/list
+    status: '000'
+    note: host does not resolve
+  - url: https://mcp.beauthenticx.com/
+    method: GET
+    status: 200
+    note: >-
+      Wildcard *.beauthenticx.com Azure Front Door record serving the same AcxPlatform SPA as every other
+      subdomain. Not an MCP endpoint — byte-identical to the app host. Explicitly NOT counted as a hit.
+  registries_checked:
+  - modelcontextprotocol servers registry
+  - npm (@modelcontextprotocol scope, "authenticx")
+tools_note: >-
+  The tools below are a CANDIDATE surface derived one-to-one from the published OpenAPI operations. Authenticx
+  does not ship them. Note that the AcxAPI spec declares NO operationId on any of its 46 operations, so each
+  tool is bound to its backing operation by METHOD + path rather than by operationId — an integrator or
+  generator has nothing more stable to key on until Authenticx adds operationIds.
+tools:
+  - name: create_agent
+    description: "Create Agent"
+    tags: ["Agent"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Agent"
+    method: POST
+    path: "/Agent"
+  - name: get_all_agents
+    description: "Get All Agents"
+    tags: ["Agent"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Agent/All"
+    method: GET
+    path: "/Agent/All"
+  - name: get_agent
+    description: "Get Agent"
+    tags: ["Agent"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Agent/{AgentId}"
+    method: GET
+    path: "/Agent/{AgentId}"
+  - name: update_agent
+    description: "Update Agent"
+    tags: ["Agent"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PUT /Agent/{AgentId}"
+    method: PUT
+    path: "/Agent/{AgentId}"
+  - name: gets_a_list_of_classifiers
+    description: "Gets a list of classifiers"
+    tags: ["Conversations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Conversations/Classifiers"
+    method: GET
+    path: "/Conversations/Classifiers"
+  - name: get_classifier_results_for_conversations_based_on_filter_cri
+    description: "Get classifier results for conversations based on filter criteria"
+    tags: ["Conversations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Conversations/Insights"
+    method: GET
+    path: "/Conversations/Insights"
+  - name: post_hierarchyids_hierarchycodes_or_classifierids_to_filter_
+    description: "Post hierarchyIds, hierarchyCodes, or classifierIds to filter on classifier results."
+    tags: ["Conversations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Conversations/Insights"
+    method: POST
+    path: "/Conversations/Insights"
+  - name: get_batched_conversation_transcriptions
+    description: "Get Batched Conversation Transcriptions"
+    tags: ["Conversations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Conversations/Transcriptions"
+    method: POST
+    path: "/Conversations/Transcriptions"
+  - name: get_single_conversation_transcriptions
+    description: "Get Single Conversation Transcriptions"
+    tags: ["Conversations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Conversations/Transcriptions/{conversationId}"
+    method: GET
+    path: "/Conversations/Transcriptions/{conversationId}"
+  - name: get_evaluations
+    description: "Get Evaluations"
+    tags: ["Evaluations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Evaluations"
+    method: GET
+    path: "/Evaluations"
+  - name: get_evaluations_with_their_modules
+    description: "Get Evaluations with their modules"
+    tags: ["Evaluations"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Evaluations/Modules"
+    method: GET
+    path: "/Evaluations/Modules"
+  - name: create_hierarchy
+    description: "Create Hierarchy"
+    tags: ["Hierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Hierarchy"
+    method: POST
+    path: "/Hierarchy"
+  - name: get_all_hierarchies
+    description: "Get All Hierarchies"
+    tags: ["Hierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Hierarchy/All"
+    method: GET
+    path: "/Hierarchy/All"
+  - name: update_hierarchy
+    description: "Update Hierarchy"
+    tags: ["Hierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PUT /Hierarchy/{HierarchyId}"
+    method: PUT
+    path: "/Hierarchy/{HierarchyId}"
+  - name: upload_media
+    description: "Upload Media"
+    tags: ["Media"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload"
+    method: POST
+    path: "/Media/Upload"
+  - name: get_metadata
+    description: "Get Metadata"
+    tags: ["Metadata"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Metadata"
+    method: GET
+    path: "/Metadata"
+  - name: post_metadata
+    description: "Post Metadata"
+    tags: ["Metadata"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /Metadata"
+    method: POST
+    path: "/Metadata"
+  - name: patch_metadata
+    description: "Patch Metadata"
+    tags: ["Metadata"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PATCH /Metadata/{id}"
+    method: PATCH
+    path: "/Metadata/{id}"
+  - name: get_model_results_based_on_filter_criteria
+    description: "Get Model Results based on filter criteria"
+    tags: ["ModelResults"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /ModelResults"
+    method: GET
+    path: "/ModelResults"
+  - name: get_model_results_for_one_or_more_specific_conversations
+    description: "Get Model Results for one or more specific conversations"
+    tags: ["ModelResults"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /ModelResults/Conversation"
+    method: GET
+    path: "/ModelResults/Conversation"
+  - name: get_receipts_based_on_filter_criteria
+    description: "Get Receipts based on filter criteria"
+    tags: ["Receipts"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Receipts"
+    method: GET
+    path: "/Receipts"
+  - name: get_all_roles
+    description: "Get All Roles"
+    tags: ["Roles"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Roles/All"
+    method: GET
+    path: "/Roles/All"
+  - name: upload_text_media
+    description: "Upload Text Media"
+    tags: ["TextMedia"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /TextMedia/Upload"
+    method: POST
+    path: "/TextMedia/Upload"
+  - name: get_user_by_username
+    description: "Get User By UserName"
+    tags: ["User"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /User"
+    method: GET
+    path: "/User"
+  - name: create_user
+    description: "Create User"
+    tags: ["User"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /User"
+    method: POST
+    path: "/User"
+  - name: get_all_users
+    description: "Get All Users"
+    tags: ["User"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /User/All"
+    method: GET
+    path: "/User/All"
+  - name: get_user
+    description: "Get User"
+    tags: ["User"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /User/{UserId}"
+    method: GET
+    path: "/User/{UserId}"
+  - name: update_user
+    description: "Update User"
+    tags: ["User"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PUT /User/{UserId}"
+    method: PUT
+    path: "/User/{UserId}"
+  - name: get_all_hierarchy_permissions_for_user
+    description: "Get All Hierarchy Permissions For User"
+    tags: ["UserHierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /UserHierarchy/{UserId}/All"
+    method: GET
+    path: "/UserHierarchy/{UserId}/All"
+  - name: get_hierarchy_permissions_for_user
+    description: "Get Hierarchy Permissions For User"
+    tags: ["UserHierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /UserHierarchy/{UserId}/{HierarchyId}"
+    method: GET
+    path: "/UserHierarchy/{UserId}/{HierarchyId}"
+  - name: update_hierarchy_permissions_for_user
+    description: "Update Hierarchy Permissions For User"
+    tags: ["UserHierarchy"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PUT /UserHierarchy/{UserId}/{HierarchyId}"
+    method: PUT
+    path: "/UserHierarchy/{UserId}/{HierarchyId}"
+  - name: get_workflows
+    description: "Get Workflows"
+    tags: ["Workflows"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /Workflows"
+    method: GET
+    path: "/Workflows"
+  - name: get_all_resource_types
+    description: "Get All Resource Types"
+    tags: ["(Scim) ResourceTypes"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/ResourceTypes"
+    method: GET
+    path: "/scim/v2/ResourceTypes"
+  - name: get_resource_type
+    description: "Get Resource Type"
+    tags: ["(Scim) ResourceTypes"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/ResourceTypes/{ResourceTypeId}"
+    method: GET
+    path: "/scim/v2/ResourceTypes/{ResourceTypeId}"
+  - name: get_all_schemas
+    description: "Get All Schemas"
+    tags: ["(Scim) Schemas"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/Schemas"
+    method: GET
+    path: "/scim/v2/Schemas"
+  - name: get_schema
+    description: "Get Schema"
+    tags: ["(Scim) Schemas"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/Schemas/{SchemaUri}"
+    method: GET
+    path: "/scim/v2/Schemas/{SchemaUri}"
+  - name: get_service_provider_config
+    description: "Get Service Provider Config"
+    tags: ["(Scim) ServiceProviderConfig"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/ServiceProviderConfig"
+    method: GET
+    path: "/scim/v2/ServiceProviderConfig"
+  - name: get_users
+    description: "Get Users"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/Users"
+    method: GET
+    path: "/scim/v2/Users"
+  - name: create_user_2
+    description: "Create User"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#POST /scim/v2/Users"
+    method: POST
+    path: "/scim/v2/Users"
+  - name: delete_user
+    description: "Delete User"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#DELETE /scim/v2/Users/{UserId}"
+    method: DELETE
+    path: "/scim/v2/Users/{UserId}"
+  - name: get_user_2
+    description: "Get User"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#GET /scim/v2/Users/{UserId}"
+    method: GET
+    path: "/scim/v2/Users/{UserId}"
+  - name: patch_user
+    description: "Patch User"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PATCH /scim/v2/Users/{UserId}"
+    method: PATCH
+    path: "/scim/v2/Users/{UserId}"
+  - name: update_user_2
+    description: "Update User"
+    tags: ["(Scim) Users"]
+    source_operation: "openapi/authenticx-acxapi-openapi.yml#PUT /scim/v2/Users/{UserId}"
+    method: PUT
+    path: "/scim/v2/Users/{UserId}"
+coverage:
+  rest_operations_total: 46
+  deprecated_excluded: 3
+  candidate_tools: 43
+  operationids_in_spec: 0
