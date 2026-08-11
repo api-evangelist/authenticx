@@ -33,28 +33,16 @@ tags:
 - scim
 - oauth2
 apis:
-- name: AcxAPI
-  description: >-
-    Authenticx's production REST API for uploading interactions (audio, chat and text media), retrieving
-    conversation insights, classifier and model results, transcriptions, evaluations, metadata, receipts for
-    pharmacovigilance data reconciliation, and workflows — plus agent, user, hierarchy, role and SCIM 2.0
-    provisioning administration. OAuth 2.0 client-credentials, scope `acxapi`, bearer token on every request.
+- aid: authenticx:authenticx-agent-api
+  name: Authenticx Agent API
+  description: The Agent API from Authenticx — 3 operation(s) for agent.
   humanURL: https://authenticx.readme.io/reference/acxapi
   baseURL: https://api.beauthenticx.com
   tags:
-  - conversation-intelligence
-  - healthcare
-  - speech-analytics
-  - contact-center
-  - transcription
-  - pharmacovigilance
-  - scim
-  - oauth2
+  - Agent
   properties:
   - type: OpenAPI
-    url: openapi/authenticx-acxapi-openapi.yml
-  - type: OpenAPI
-    url: openapi/_original/authenticx-acxapi-openapi.json
+    url: openapi/authenticx-agent-api-openapi.yml
   - type: Documentation
     url: https://authenticx.readme.io/docs/acxapi
   - type: APIReference
@@ -73,33 +61,591 @@ apis:
     url: data-model/authenticx-data-model.yml
   - type: Lifecycle
     url: lifecycle/authenticx-lifecycle.yml
-  - type: Overlay
-    url: overlays/authenticx-acxapi-overlay.yaml
   - type: Sandbox
     url: sandbox/authenticx-sandbox.yml
   - type: Examples
     url: https://authenticx.readme.io/recipes
   - type: SourceCode
     url: https://github.com/beacx/AcxApiClientExamples
-- name: AcxAPI Experimental
-  description: >-
-    The Authenticx staging / experimental environment for AcxAPI, published with its own OpenAPI 3.0.4 definition
-    and its own OAuth 2.0 token endpoint. Path- and operation-identical to production at the time of harvest, and
-    documented as the non-production target for integration testing before cutting over to api.beauthenticx.com.
-  humanURL: https://authenticx.readme.io/docs/acxapi
-  baseURL: https://api.authcx.com
+- aid: authenticx:authenticx-conversations-api
+  name: Authenticx Conversations API
+  description: The Conversations API from Authenticx — 4 operation(s) for conversations.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
   tags:
-  - conversation-intelligence
-  - sandbox
-  - staging
-  - oauth2
+  - Conversations
   properties:
   - type: OpenAPI
-    url: openapi/_original/authenticx-acxapi-experimental-openapi.json
-  - type: Sandbox
-    url: sandbox/authenticx-sandbox.yml
+    url: openapi/authenticx-conversations-api-openapi.yml
   - type: Documentation
     url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-evaluations-api
+  name: Authenticx Evaluations API
+  description: The Evaluations API from Authenticx — 2 operation(s) for evaluations.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Evaluations
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-evaluations-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-hierarchy-api
+  name: Authenticx Hierarchy API
+  description: The Hierarchy API from Authenticx — 3 operation(s) for hierarchy.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Hierarchy
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-hierarchy-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-interactions-api
+  name: Authenticx Interactions API
+  description: The Interactions API from Authenticx — 2 operation(s) for interactions.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Interactions
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-interactions-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-media-api
+  name: Authenticx Media API
+  description: The Media API from Authenticx — 1 operation(s) for media.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-media-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-metadata-api
+  name: Authenticx Metadata API
+  description: The Metadata API from Authenticx — 2 operation(s) for metadata.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-modelresults-api
+  name: Authenticx Model Results API
+  description: The ModelResults API from Authenticx — 2 operation(s) for modelresults.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - ModelResults
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-modelresults-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-receipts-api
+  name: Authenticx Receipts API
+  description: The Receipts API from Authenticx — 1 operation(s) for receipts.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Receipts
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-receipts-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-roles-api
+  name: Authenticx Roles API
+  description: The Roles API from Authenticx — 1 operation(s) for roles.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-roles-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-scim-resourcetypes-api
+  name: Authenticx (Scim) ResourceTypes API
+  description: The (Scim) ResourceTypes API from Authenticx — 2 operation(s) for (scim) resourcetypes.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - (Scim) ResourceTypes
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-scim-resourcetypes-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-scim-schemas-api
+  name: Authenticx (Scim) Schemas API
+  description: The (Scim) Schemas API from Authenticx — 2 operation(s) for (scim) schemas.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - (Scim) Schemas
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-scim-schemas-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-scim-serviceproviderconfig-api
+  name: Authenticx (Scim) ServiceProviderConfig API
+  description: >-
+    The (Scim) ServiceProviderConfig API from Authenticx — 1 operation(s) for (scim) serviceproviderconfig.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - (Scim) ServiceProviderConfig
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-scim-serviceproviderconfig-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-scim-users-api
+  name: Authenticx (Scim) Users API
+  description: The (Scim) Users API from Authenticx — 2 operation(s) for (scim) users.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - (Scim) Users
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-scim-users-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-textmedia-api
+  name: Authenticx Text Media API
+  description: The TextMedia API from Authenticx — 1 operation(s) for textmedia.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - TextMedia
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-textmedia-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-user-api
+  name: Authenticx User API
+  description: The User API from Authenticx — 3 operation(s) for user.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-user-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-userhierarchy-api
+  name: Authenticx User Hierarchy API
+  description: The UserHierarchy API from Authenticx — 2 operation(s) for userhierarchy.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - UserHierarchy
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-userhierarchy-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-workflows-api
+  name: Authenticx Workflows API
+  description: The Workflows API from Authenticx — 1 operation(s) for workflows.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - Workflows
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-workflows-api-openapi.yml
+  - type: Documentation
+    url: https://authenticx.readme.io/docs/acxapi
+  - type: APIReference
+    url: https://authenticx.readme.io/reference/acxapi
+  - type: GettingStarted
+    url: https://authenticx.readme.io/docs/getting-started
+  - type: Authentication
+    url: authentication/authenticx-authentication.yml
+  - type: OAuthScopes
+    url: scopes/authenticx-scopes.yml
+  - type: Conventions
+    url: conventions/authenticx-conventions.yml
+  - type: ErrorCatalog
+    url: errors/authenticx-problem-types.yml
+  - type: DataModel
+    url: data-model/authenticx-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/authenticx-lifecycle.yml
+  - type: Sandbox
+    url: sandbox/authenticx-sandbox.yml
+  - type: Examples
+    url: https://authenticx.readme.io/recipes
+  - type: SourceCode
+    url: https://github.com/beacx/AcxApiClientExamples
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
