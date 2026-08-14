@@ -18,7 +18,7 @@ x-tier: enriched
 x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-06'
-modified: '2026-08-06'
+modified: '2026-08-14'
 tags:
 - conversation-intelligence
 - healthcare
@@ -708,8 +708,16 @@ common:
   url: agentic-access/authenticx-agentic-access.yml
 - type: DomainSecurity
   url: security/authenticx-domain-security.yml
+- type: TrustCenter
+  url: https://authenticx.com/privacy-security
+- type: Plans
+  url: plans/authenticx-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/authenticx-rate-limits.yml
+- type: Webhooks
+  url: asyncapi/authenticx-emissions-webhooks.yml
 x-enrichment:
-  date: '2026-08-06'
+  date: '2026-08-14'
   status: enriched
-  artifacts_added: 23
+  artifacts_added: 4
   pass: local-v1
