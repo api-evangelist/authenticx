@@ -1,0 +1,11 @@
+{
+  "repo": "authenticx",
+  "feeds": [
+    {
+      "source": "https://authenticx.readme.io/docs/getting-started",
+      "error": "HTTPError"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-08-15T12:22:01Z"
+}
