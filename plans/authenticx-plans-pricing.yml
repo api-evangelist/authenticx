@@ -1,0 +1,44 @@
+generated: '2026-08-14'
+method: searched
+source: https://authenticx.com/
+plan_count: 0
+model: enterprise-contract
+currency: null
+public_pricing: false
+summary: >-
+  Authenticx publishes no plans, no tiers, and no prices. There is no /pricing page on authenticx.com — the
+  path returns 404 — and no pricing, packaging, quota or metering page exists anywhere on the corporate site
+  or the ReadMe developer hub. Every commercial path on the site funnels to a human: "Contact Sales" and
+  "Schedule A Demo" are the only conversion actions in the navigation. AcxAPI is not sold as a standalone
+  product with its own price; it is an access surface bundled into an enterprise conversation-intelligence
+  contract negotiated per healthcare client, which is also why there is no self-service sign-up and no free
+  tier. A developer cannot learn what the API costs, what volume of interaction uploads or transcription
+  minutes a contract includes, or what happens on overage, without a sales conversation.
+plans: []
+conversion_paths:
+- name: Contact Sales
+  url: https://authenticx.com/contact-sales
+  status: 200
+  kind: sales-form
+- name: Schedule A Demo
+  url: https://authenticx.com/schedule-a-demo
+  status: 200
+  kind: demo-request
+probes:
+- url: https://authenticx.com/pricing
+  status: 404
+- url: https://authenticx.com/plans
+  status: 404
+- url: https://authenticx.com/contact-sales
+  status: 200
+- url: https://authenticx.com/schedule-a-demo
+  status: 200
+- url: https://authenticx.readme.io/llms.txt
+  status: 200
+  note: >-
+    Complete 258-line docs page index for the developer hub. Contains no pricing, plans, billing, quota,
+    usage, metering or credits page — the hub is entirely guides plus API reference.
+notes: >-
+  plan_count is a real, measured zero, not an unchecked field. Recorded so the absence is legible: the API is
+  gated behind an enterprise sales motion, which is a fact about how Authenticx sells, not a gap in this
+  profile.

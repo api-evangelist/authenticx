@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production Model Results API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ModelResults",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Model Results based on filter criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/ModelResults",
+            "params": [
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Must be equal to or later than startDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "modelIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of active model GUIDs for your organization. At least one required. Retrieve valid IDs from GET /Conversations/Classifiers."
+              },
+              {
+                "name": "hierarchyCodes",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of hierarchy codes to filter by. Retrieve valid codes from GET /Hierarchy/All."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Results per page. Default 100, max 1000"
+              },
+              {
+                "name": "lastId",
+                "value": "",
+                "type": "query",
+                "description": "Identifier of the last result from the previous page. Used for cursor-based pagination. Omit on the first request."
+              },
+              {
+                "name": "includeUnprocessedMedia",
+                "value": "",
+                "type": "query",
+                "description": "Boolean. Include conversations that have not yet completed processing. Default false. When true, mediaStatus is included for every item."
+              }
+            ]
+          },
+          "docs": "Returns a list of model results for the specified criteria including ML predictions and human review results.\n            \nmodelIds must contain active model IDs for your organization.\nUse GET /Conversations/Classifiers to discover valid modelIds for your organization.\nUse GET /Hierarchy/All to discover valid hierarchyCodes for your organization.\n            \nThis endpoint uses cursor-based pagination. Pass the lastId from the final item in a page to retrieve the next page.\nWhen includeUnprocess"
+        },
+        {
+          "info": {
+            "name": "Get Model Results for one or more specific conversations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/ModelResults/Conversation",
+            "params": [
+              {
+                "name": "conversationIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of Authenticx conversation GUIDs as returned by GET /Metadata.\nMaximum 100 values per request."
+              },
+              {
+                "name": "clientCallIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of source system unique identifiers for conversations.\nMaximum 100 values per request."
+              },
+              {
+                "name": "modelIds",
+                "value": "",
+                "type": "query",
+                "description": "Required comma-separated list of active model GUIDs for your organization.\nOnly results for those models are returned. Retrieve valid IDs from GET /Conversations/Classifiers."
+              },
+              {
+                "name": "includeUnprocessedMedia",
+                "value": "",
+                "type": "query",
+                "description": "Include conversations that failed or have not yet completed processing.\nWhen true, returned items may contain mediaStatus with modelResults set to null.\nDefault true."
+              }
+            ]
+          },
+          "docs": "Returns all model results for conversations matching the provided Conversation Ids or Client Call Ids.\nmodelIds is required and must contain active model IDs for your organization.\nAt least one of conversationIds or clientCallIds must also be supplied.\nWhen both conversationIds and clientCallIds are provided, results for any conversation matching\neither set of identifiers are returned. Maximum 100 IDs per parameter.\n            \nUse this endpoint when you already know the Authenticx Conversation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

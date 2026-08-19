@@ -1,0 +1,641 @@
+{
+  "item": [
+    {
+      "id": "f2ff13c8-768b-42f7-8646-f05232c6818c",
+      "name": "UserHierarchy",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bb44b722-d698-4ea0-87a2-8b3526f09144",
+          "name": "Get Hierarchy Permissions For User",
+          "request": {
+            "name": "Get Hierarchy Permissions For User",
+            "description": {
+              "content": "Returns a list of all permissions within a hierarchy for the specified user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "UserHierarchy",
+                ":UserId",
+                ":HierarchyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "HierarchyId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "777cedb2-f09c-4a4c-9483-3cd98252a3cf",
+              "name": "Returns the specified hierarchy and all of the specified user's permissions within it.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"hierarchyId\": \"2140c913-e4ab-4b93-811e-b0b1d3031702\",\n    \"hierarchyName\": \"Authenticx Director\",\n    \"hierarchyIsActive\": true,\n    \"accessLevel\": \"Manage\",\n    \"permissions\": [\n      \"Audio\",\n      \"ProcessedChat\"\n    ],\n    \"structureLevelName\": \"LVL6_Director\"\n  },\n  {\n    \"hierarchyId\": \"2140c913-e4ab-4b93-811e-b0b1d3031702\",\n    \"hierarchyName\": \"Authenticx Director\",\n    \"hierarchyIsActive\": true,\n    \"accessLevel\": \"Manage\",\n    \"permissions\": [\n      \"Audio\",\n      \"ProcessedChat\"\n    ],\n    \"structureLevelName\": \"LVL6_Director\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c47674e2-c015-43d2-8daa-f980dc96ab6b",
+              "name": "The UserId or HierarchyId provided did not match an existing user/hierarchy in your organization.\nOr, the specified user has no permissions in the specified hierarchy.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ff8cd48-3d6a-4841-8b48-a3654612aaf1",
+          "name": "Update Hierarchy Permissions For User",
+          "request": {
+            "name": "Update Hierarchy Permissions For User",
+            "description": {
+              "content": "Updates a user's permissions within a specified hierarchy.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "UserHierarchy",
+                ":UserId",
+                ":HierarchyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "HierarchyId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permissions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"accessLevel\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b457451c-67de-4347-bd3e-8e3acb3ec20e",
+              "name": "Returns the Hierarchy, and the newly updated user permissions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"permissions\": [\n    \"Audio\",\n    \"Email\",\n    \"Chat\",\n    \"Video\",\n    \"Live\"\n  ],\n  \"accessLevel\": \"Manage\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"hierarchyId\": \"2140c913-e4ab-4b93-811e-b0b1d3031702\",\n  \"hierarchyName\": \"Authenticx Director\",\n  \"hierarchyIsActive\": true,\n  \"accessLevel\": \"Manage\",\n  \"permissions\": [\n    \"Audio\",\n    \"ProcessedChat\"\n  ],\n  \"structureLevelName\": \"LVL6_Director\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "685901a3-4dac-496b-8de3-0f79d79b2c2c",
+              "name": "One of the following errors occurred:\nan accessLevel was provided that was not `View`, `Edit`, or `Manage`.\nthere was an invalid permission name in your permissions list.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"permissions\": [\n    \"Audio\",\n    \"Email\",\n    \"Chat\",\n    \"Video\",\n    \"Live\"\n  ],\n  \"accessLevel\": \"Manage\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dd78be2d-a311-4458-8ee9-2eef82090002",
+              "name": "If your organization has no hierarchy or user with that specific id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"permissions\": [\n    \"Audio\",\n    \"Email\",\n    \"Chat\",\n    \"Video\",\n    \"Live\"\n  ],\n  \"accessLevel\": \"Manage\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "be456948-5c58-4150-a94a-371ff86ab948",
+          "name": "Get All Hierarchy Permissions For User",
+          "request": {
+            "name": "Get All Hierarchy Permissions For User",
+            "description": {
+              "content": "Returns a list of all active hierarchies along with the specified user's permissions for each hierarchy",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "UserHierarchy",
+                ":UserId",
+                "All"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "IsActive",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3eba1d3a-78e3-4f2c-a2c8-b6dbe9bacad7",
+              "name": "Returns the list of all active hierarchies along with the specified user's permissions for each hierarchy.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"hierarchyId\": \"2140c913-e4ab-4b93-811e-b0b1d3031702\",\n    \"hierarchyName\": \"Authenticx Director\",\n    \"hierarchyIsActive\": true,\n    \"accessLevel\": \"Manage\",\n    \"permissions\": [\n      \"Audio\",\n      \"ProcessedChat\"\n    ],\n    \"structureLevelName\": \"LVL6_Director\"\n  },\n  {\n    \"hierarchyId\": \"2140c913-e4ab-4b93-811e-b0b1d3031702\",\n    \"hierarchyName\": \"Authenticx Director\",\n    \"hierarchyIsActive\": true,\n    \"accessLevel\": \"Manage\",\n    \"permissions\": [\n      \"Audio\",\n      \"ProcessedChat\"\n    ],\n    \"structureLevelName\": \"LVL6_Director\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d759cf5c-0348-487d-b050-d6fa5441a647",
+              "name": "The UserId provided did not match an existing user in your organization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "UserHierarchy",
+                    ":UserId",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "672e55cd-f3db-46cf-86e5-71a77fd013b5",
+    "name": "AcxApi Production User Hierarchy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

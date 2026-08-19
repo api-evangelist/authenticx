@@ -1,0 +1,574 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Conversations API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Conversations
+paths:
+  /Conversations/Classifiers:
+    get:
+      tags:
+      - Conversations
+      summary: Gets a list of classifiers
+      parameters:
+      - name: PageSize
+        in: query
+        description: Maximum number of records returned per request (1-1000, default 100)
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      - name: LastId
+        in: query
+        description: Id of the last Classifier object in previously returned collection
+        schema:
+          type: string
+          format: uuid
+      - name: CategoryNames
+        in: query
+        description: Optional comma-delimited list of category names to filter by
+        schema:
+          type: string
+      - name: ClassifierTypes
+        in: query
+        description: 'Optional comma-delimited classifier type filter. Valid values are static aliases: Classifier, Core AI Model, LLM Model, Metadata.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Classifiers.ClassifierModel'
+  /Conversations/Insights:
+    get:
+      tags:
+      - Conversations
+      summary: Get classifier results for conversations based on filter criteria
+      description: "Returns a list of classifier results for conversations \nwith Status of \"Sampled\" or \"ReadyToSample\" that match the specified criteria.\n            \nRequests without any classifier or hierarchy filters may span up to 7 days.\nSupplying at least one of ClassifierIds, HierarchyIds, HierarchyCodes,\nClassifierCategoryNames, or ClassifierTypes extends the maximum date range to 31 days.\n            \nUse GET /Conversations/Classifiers to discover valid classifier IDs.\nUse GET /Hierarchy/All to discover valid hierarchy IDs and hierarchy codes."
+      parameters:
+      - name: DateReference
+        in: query
+        description: 'Which date to filter on. Valid values: ArrivalDate (default), InteractionDate.'
+        schema:
+          type: string
+          example: ArrivalDate
+        example: ArrivalDate
+      - name: StartDate
+        in: query
+        description: 'ISO 8601 datetime. Required. Requests may span at most 7 days unless at least one of
+
+          ClassifierIds, HierarchyIds, HierarchyCodes, ClassifierCategoryNames, or ClassifierTypes
+
+          is supplied, in which case up to 31 days is allowed.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T08:30:00'
+        example: '2024-11-15T08:30:00'
+      - name: EndDate
+        in: query
+        description: 'ISO 8601 datetime. Must be equal to or later than StartDate. Required. The total requested
+
+          range may be at most 7 days unless at least one of ClassifierIds, HierarchyIds,
+
+          HierarchyCodes, ClassifierCategoryNames, or ClassifierTypes is supplied, in which case up
+
+          to 31 days is allowed.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T17:30:00'
+        example: '2024-11-15T17:30:00'
+      - name: ClassifierIds
+        in: query
+        description: 'Comma-separated list of classifier GUIDs. Use GET /Conversations/Classifiers to discover available IDs.
+
+          Providing this filter qualifies the request for the 31-day maximum date range.'
+        schema:
+          type: string
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+        example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      - name: HierarchyIds
+        in: query
+        description: 'Comma-separated list of hierarchy GUIDs. Providing this filter qualifies the request for the
+
+          31-day maximum date range.'
+        schema:
+          type: string
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+        example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      - name: HierarchyCodes
+        in: query
+        description: 'Comma-separated list of hierarchy codes. Resolved to hierarchy IDs automatically. Providing
+
+          this filter qualifies the request for the 31-day maximum date range.'
+        schema:
+          type: string
+          example: CODE1,CODE2,CODE3
+        example: CODE1,CODE2,CODE3
+      - name: ClassifierCategoryNames
+        in: query
+        description: 'Comma-separated category name filter. Valid values: Skills, Topics, Process, SE Suite.
+
+          Providing this filter qualifies the request for the 31-day maximum date range.'
+        schema:
+          type: string
+          example: Skills,Topics
+        example: Skills,Topics
+      - name: ClassifierTypes
+        in: query
+        description: 'Comma-delimited classifier type filter. Valid values: Classifier, Core AI Model, LLM Model, Metadata.
+
+          Providing this filter qualifies the request for the 31-day maximum date range.'
+        schema:
+          type: string
+          example: Core AI Model,LLM Model
+        example: Core AI Model,LLM Model
+      - name: LastId
+        in: query
+        description: GUID of the last conversation from the previous page. Used for cursor-based pagination.
+        schema:
+          type: string
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+      - name: PageSize
+        in: query
+        description: Results per page. Default 100, max 1000.
+        schema:
+          type: integer
+          format: int32
+          example: 100
+        example: 100
+      responses:
+        '200':
+          description: Returns the conversations with classifier results that match the specified criteria
+          headers:
+            X-Has-More:
+              description: Whether additional records exist beyond the current page.
+              schema:
+                type: boolean
+            X-Next-LastId:
+              description: Cursor value to pass as LastId to retrieve the next page.
+              schema:
+                type: string
+            X-Total-Records:
+              description: Total number of matching records. Only available on the first page of results (when LastId is null or empty).
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Conversations.ConversationInsightsResponse'
+        '400':
+          description: If the request parameters are invalid
+        '404':
+          description: If no conversations meet the criteria
+    post:
+      tags:
+      - Conversations
+      summary: Post hierarchyIds, hierarchyCodes, or classifierIds to filter on classifier results.
+      description: "Returns a list of classifier results for conversations \nwith Status of \"Sampled\" or \"ReadyToSample\" that match the specified criteria."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Conversations.ConversationInsightsPostRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Conversations.ConversationInsightsPostRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Conversations.ConversationInsightsPostRequest'
+      responses:
+        '200':
+          description: Returns the conversations with classifier results that match the specified criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Conversations.ConversationInsightsResponse'
+        '400':
+          description: If the request parameters are invalid
+        '404':
+          description: If no conversations meet the criteria
+  /Conversations/Transcriptions:
+    post:
+      tags:
+      - Conversations
+      summary: Get Batched Conversation Transcriptions
+      description: "Returns the transcriptions for multiple conversations identified by their unique IDs.\nUp to 100 conversation IDs are accepted per request. Duplicate IDs are ignored.\n            \nResponse includes:\n- transcriptions: successful items\n- errors: failed items, each with a statusCode indicating why it failed\n  * 404 = conversation not found\n  * 400 = failed to process\n  * 200 = not processed or still processing (message included)\n            \nExample request:\n{\n  \"conversationIds\": [\n    \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n    \"ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f\"\n  ]\n}\n            \nExample response:\n{\n  \"transcriptions\": [\n    {\n      \"conversationId\": \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n      \"transcriptions\": [\n        {\n          \"languageCode\": \"en\",\n          \"transcription\": [\n            \"00:00 Agent: Hello\",\n            \"00:03 Customer: Hi\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"errors\": [\n    {\n      \"conversationId\": \"ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f\",\n      \"statusCode\": 404,\n      \"error\": \"Conversation not found\"\n    }\n  ]\n}"
+      requestBody:
+        description: Request containing conversation IDs. Maximum 100 conversation IDs per request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Transcription.BatchTranscriptionRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Transcription.BatchTranscriptionRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Transcription.BatchTranscriptionRequest'
+      responses:
+        '200':
+          description: Returns the transcriptions for the specified conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Transcription.BatchTranscriptionResponse'
+        '400':
+          description: Bad Request - invalid input or exceeds maximum batch size
+  /Conversations/Transcriptions/{conversationId}:
+    get:
+      tags:
+      - Conversations
+      summary: Get Single Conversation Transcriptions
+      description: 'Returns the transcriptions for a conversation identified by its unique ID.
+
+        If the conversation has not finished processing, returns 200 with a message.
+
+        If the conversation failed to process, returns 400 with a message.'
+      parameters:
+      - name: conversationId
+        in: path
+        description: GUID of the conversation. Transcriptions are only available once processing is complete. Returns 200 with a message if still processing, 400 if processing failed
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Returns the transcriptions for the specified conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Transcription.ConversationTranscriptionResponse'
+        '404':
+          description: If no conversation with that specific id was found
+        '400':
+          description: Bad Request
+components:
+  schemas:
+    AcxApi.Models.Conversations.ClassifierResultResponse:
+      type: object
+      properties:
+        classifierId:
+          type: string
+          description: The unique identifier of the classifier.
+          format: uuid
+        classifierName:
+          type:
+          - string
+          - 'null'
+          description: The name of the classifier.
+        classifierType:
+          type:
+          - string
+          - 'null'
+          description: 'The friendly type label for this classifier. Valid values are: Classifier, Core AI Model, LLM Model, Metadata.'
+          example: Core AI Model
+        classifierCategoryName:
+          type:
+          - string
+          - 'null'
+          description: The classifier category name for this classifier.
+        result:
+          type:
+          - string
+          - 'null'
+          description: The classifier result value
+        reasoning:
+          type:
+          - string
+          - 'null'
+          description: An explanation of why LLM Models have a particular result, if available
+      additionalProperties: false
+      description: Response model for a classifier result associated with a conversation
+    AcxApi.Models.Transcription.BatchTranscriptionError:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: The conversation ID that failed.
+          format: uuid
+          example: ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+        statusCode:
+          type: integer
+          description: HTTP status code representing the failure.
+          format: int32
+          example: 404
+        error:
+          type:
+          - string
+          - 'null'
+          description: Error message explaining the failure.
+          example: Conversation not found
+      additionalProperties: false
+    AcxApi.Models.Transcription.BatchTranscriptionResponse:
+      type: object
+      properties:
+        transcriptions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Transcription.ConversationTranscriptionResponse'
+          description: Successfully retrieved transcriptions. Each item has the same shape as the GET /Conversations/Transcriptions/{conversationId} response.
+          example:
+          - conversationId: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+            transcriptions:
+            - languageCode: en
+              transcription:
+              - '00:00 Agent: Hello'
+              - '00:03 Customer: Hi'
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Transcription.BatchTranscriptionError'
+          description: Items that could not be retrieved. Each error includes ConversationId, StatusCode (404=not found, 400=failed to process, 200=still processing), and an Error message. Null if all items succeeded.
+          example:
+          - conversationId: ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+            statusCode: 404
+            error: Conversation not found
+      additionalProperties: false
+    AcxApi.Models.Classifiers.ClassifierModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the classifier.
+          format: uuid
+          example: 1a356274-97b2-4536-aa2c-82e6213cd49b
+        name:
+          type:
+          - string
+          - 'null'
+          description: Name of the classifier.
+          example: First Impression
+        classifierType:
+          type:
+          - string
+          - 'null'
+          description: 'Friendly classifier type label. Valid values are: Classifier, Core AI Model, LLM Model, Metadata.'
+          example: Core AI Model
+        description:
+          type:
+          - string
+          - 'null'
+          description: Description of the classifier.
+          example: Agent appropriately greets the caller and clearly identifies self/company with a warm tone. Agent follows guidelines for greeting.
+        categoryName:
+          type:
+          - string
+          - 'null'
+          description: Category name of the classifier.
+          example: Skills
+        reportable:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the classifier result is available for reporting.
+          example: false
+        groupable:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the classifier result can be used for grouping.
+          example: false
+      additionalProperties: false
+    AcxApi.Models.Conversations.ConversationInsightsPostRequest:
+      required:
+      - endDate
+      - startDate
+      type: object
+      properties:
+        dateReference:
+          type:
+          - string
+          - 'null'
+          description: 'Which date to filter on. Valid values: ArrivalDate (default), InteractionDate.'
+          example: ArrivalDate
+        startDate:
+          minLength: 1
+          type: string
+          description: ISO 8601 datetime. Required.
+          example: '2024-11-15T08:30:00'
+        endDate:
+          minLength: 1
+          type: string
+          description: ISO 8601 datetime. Must be equal to or later than StartDate. Required.
+          example: '2024-11-15T17:30:00'
+        classifierCategoryNames:
+          type:
+          - string
+          - 'null'
+          description: 'Comma-separated category name filter. Valid values: Skills, Topics, Process, SE Suite.'
+          example: Skills,Topics
+        classifierTypes:
+          type:
+          - string
+          - 'null'
+          description: 'Comma-delimited classifier type filter. Valid values: Classifier, Core AI Model, LLM Model, Metadata.'
+          example: Core AI Model,LLM Model
+        lastId:
+          type:
+          - string
+          - 'null'
+          description: GUID of the last conversation from the previous page. Used for cursor-based pagination.
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: Results per page. Default 100, max 1000.
+          format: int32
+          example: 100
+        classifierIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: List of classifier GUIDs. Use GET /Conversations/Classifiers to discover available IDs.
+          example:
+          - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+          - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+        hierarchyIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: List of hierarchy GUIDs.
+          example:
+          - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+          - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+        hierarchyCodes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of hierarchy codes. Resolved to hierarchy IDs automatically.
+          example:
+          - CODE1
+          - CODE2
+          - CODE3
+      additionalProperties: false
+    AcxApi.Models.Transcription.BatchTranscriptionRequest:
+      required:
+      - conversationIds
+      type: object
+      properties:
+        conversationIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: List of conversation IDs to retrieve transcriptions for. Maximum 100 IDs per request. Duplicate IDs are ignored.
+          example:
+          - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+          - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      additionalProperties: false
+    AcxApi.Models.Transcription.Transcriptions:
+      type: object
+      properties:
+        languageCode:
+          type:
+          - string
+          - 'null'
+          description: Two Letter ISO Language Code.
+          example: en
+        transcription:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'Array of formatted transcription lines in the format HH:MM:SS Speaker: text.'
+          example:
+          - '00:00 Agent: Hello'
+          - '00:03 Customer: Hi'
+      additionalProperties: false
+    AcxApi.Models.Conversations.ConversationInsightsResponse:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: Unique identifier for the conversation. This is the same identifier returned as Id from GET /Metadata. Use this with the Transcriptions and Metadata endpoints.
+          format: uuid
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your external telephony reference ID for this conversation.
+        arrivedOn:
+          type: string
+          description: When the conversation arrived in the system.
+          format: date-time
+        interactionDate:
+          type:
+          - string
+          - 'null'
+          description: The date/time of the actual interaction (may be null).
+          format: date-time
+        status:
+          type:
+          - string
+          - 'null'
+          description: Processing status of the conversation.
+        classifierResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Conversations.ClassifierResultResponse'
+          description: List of classifier results for this conversation.
+      additionalProperties: false
+      description: Response model for conversation with classifier results.
+    AcxApi.Models.Transcription.ConversationTranscriptionResponse:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: The unique identifier of the conversation.
+          format: uuid
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        transcriptions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Transcription.Transcriptions'
+          description: 'List of transcription objects, each with a LanguageCode (ISO language code, e.g. en) and a Transcription array of formatted strings in the format HH:MM:SS Speaker: text.'
+          example:
+          - languageCode: en
+            transcription:
+            - '00:00 Agent: Hello'
+            - '00:03 Customer: Hi'
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

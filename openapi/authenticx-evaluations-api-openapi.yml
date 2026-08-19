@@ -1,0 +1,820 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Evaluations API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Evaluations
+paths:
+  /Evaluations:
+    get:
+      tags:
+      - Evaluations
+      summary: Get Evaluations
+      description: Gets a list of evaluations
+      parameters:
+      - name: StartDate
+        in: query
+        description: 'Filters by the evaluation''s last modified date.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: EndDate
+        in: query
+        description: 'Filters by the evaluation''s last modified date. Must be equal to or later than StartDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: Status
+        in: query
+        description: "Valid values: \n\nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+        schema:
+          type: string
+      - name: LastId
+        in: query
+        description: The EvaluationNumber (integer) of the last evaluation from the previous page. Used for cursor-based pagination
+        schema:
+          type: integer
+          format: int32
+      - name: PageSize
+        in: query
+        description: Results per page. Default 10
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Returns the list of all evaluations that meet the provided criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Evaluations.Evaluation'
+  /Evaluations/Modules:
+    get:
+      tags:
+      - Evaluations
+      summary: Get Evaluations with their modules
+      description: Gets a list of evaluations with their associated modules
+      parameters:
+      - name: StartDate
+        in: query
+        description: 'Filters by the evaluation''s last modified date.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: EndDate
+        in: query
+        description: 'Filters by the evaluation''s last modified date. Must be equal to or later than StartDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: Status
+        in: query
+        description: "Valid values: \nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+        schema:
+          type: string
+      - name: LastId
+        in: query
+        description: The EvaluationNumber of the last evaluation from the previous page. Used for cursor-based pagination
+        schema:
+          type: integer
+          format: int32
+      - name: PageSize
+        in: query
+        description: Results per page. Default 10
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: HierarchyId
+        in: query
+        description: Single hierarchy GUID to filter by
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Returns the list of all evaluations that meet the provided criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleEvaluation'
+components:
+  schemas:
+    AcxApi.Models.Evaluations.Agent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this agent
+          example: 374c372a-1212-45e6-a2f6-7bafef6d7c5c
+        agentCode:
+          type:
+          - string
+          - 'null'
+          description: Unique internal code used for the agent
+          example: AF86700
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: Agents first name
+          example: JOHN
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: Agents last name
+          example: DOE
+        agentEmail:
+          type:
+          - string
+          - 'null'
+          description: Agents email address
+          example: john.doe@organization.com
+      additionalProperties: false
+    AcxApi.Models.Evaluations.ModuleAnswer:
+      type: object
+      properties:
+        answerId:
+          type: string
+          description: The unique identifier for this answer.
+          format: uuid
+        fillInAnswer:
+          type:
+          - string
+          - 'null'
+          description: For questions that require a fill in answer, this will be the answer.
+        note:
+          type:
+          - string
+          - 'null'
+          description: Any notes associated with the answer.
+        answerTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleAnswerTag'
+          description: A list of tags that represent the answers to the question.
+      additionalProperties: false
+    AcxApi.Models.Metadata.Metadata:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: 'Unique identifier for this conversation. This is the conversation ID used across other endpoints —
+
+            pass this value to PATCH /Metadata/{id}, GET /Conversations/Transcriptions/{conversationId},
+
+            and GET /Conversations/Insights to retrieve or update data for this conversation.'
+          example: 000f78b0-4720-467e-854a-d245549f928e
+        acxIdentifier:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: b1707d53-5369-4d61-b9b7-21ac19318d70
+        organizationId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: f90db5b4-1b3c-4b41-bff4-cfc2524c41d8
+        organizationStructureMemberId:
+          type:
+          - string
+          - 'null'
+          description: ID of the hierarchy node this conversation belongs to.
+          example: 6365f3bf-0be1-46f2-9894-7305f0aad53c
+        fileName:
+          type:
+          - string
+          - 'null'
+          description: The name of the file as is in your organizations storage account.
+          example: 491028027895064.wav.acxMedia
+        origFileName:
+          type:
+          - string
+          - 'null'
+          description: The name of the file as it was uploaded, before processing.
+          example: 491028027895064.wav
+        uploadedFileName:
+          type:
+          - string
+          - 'null'
+          description: Name of parent file.
+        fileSizeKiloBytes:
+          type: integer
+          description: Size of the audio file.
+          format: int64
+          example: 2500
+        mediaType:
+          type:
+          - string
+          - 'null'
+          description: 'Type of interaction. Values include: Audio, Email, Chat, Video, Live, Metadata, ProcessedChat, MetadataExtended.'
+          example: Audio
+        status:
+          type:
+          - string
+          - 'null'
+          description: 'Current processing status. Values include: Sampled, ReadyToSample, FailedToProcess.'
+          example: Sampled
+        timestamp:
+          type:
+          - string
+          - 'null'
+          description: The date/time of the actual interaction.
+          format: date-time
+          example: '2021-06-08T19:39:08.561'
+        arrivedOn:
+          type: string
+          description: When the interaction arrived in the system.
+          format: date-time
+        agentId:
+          type:
+          - string
+          - 'null'
+          description: 'Unique identifier of the agent associated with this conversation.
+
+            Null when no agent is assigned to the conversation.'
+          example: f4d9440f-a090-4ddf-88f5-f957711f8028
+        agentName:
+          type:
+          - string
+          - 'null'
+          description: Agent's name.
+          example: JOHN DOE
+        phone:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: '8444025347'
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your system's call identifier for this conversation.
+          example: 491028027895064.wav.acxMedia.mp3
+        callDirection:
+          type:
+          - string
+          - 'null'
+          description: Direction of the call from the agents perspective.
+          example: Outbound
+        callDurationMillis:
+          type: integer
+          description: Length of audio conversation in milliseconds. 0 when not an audio conversation.
+          format: int64
+          example: 18840
+        chatMessageCount:
+          type:
+          - integer
+          - 'null'
+          description: Number of messages in a chat conversation. 0 when not a chat conversation.
+          format: int32
+          example: 13
+        localeId:
+          type: integer
+          description: Locale Id of the source calls language.
+          format: int32
+          example: 1033
+        extendedMetadataValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          description: A list of extended metadata key value pairs.
+          example:
+            data: extra data
+            data2: extra data2
+        extendedMetadata:
+          type:
+          - array
+          - 'null'
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: ''
+          example:
+          - data: extra data
+          deprecated: true
+        meta1:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: '0'
+          deprecated: true
+        meta2:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: null
+          deprecated: true
+        meta3:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: vq_KEHP_Member_Voice
+          deprecated: true
+        meta4:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: 'true'
+          deprecated: true
+        meta5:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+          deprecated: true
+        processFailures:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Metadata.ProcessFailure'
+          description: ''
+      additionalProperties: false
+    AcxApi.Models.Metadata.ProcessFailure:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this process failure
+          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
+        message:
+          type:
+          - string
+          - 'null'
+          description: Message related to the cause of failure
+          example: ''
+        createdOn:
+          type: string
+          description: Date the failure occurred
+          format: date-time
+      additionalProperties: false
+    AcxApi.Models.Evaluations.AnswerTag:
+      type: object
+      properties:
+        tagId:
+          type: string
+          description: Unique Id for this answer tag
+          format: uuid
+          example: 620a396c-5fa1-4e78-997c-22b2844b1533
+        tag:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
+      additionalProperties: false
+    AcxApi.Models.Evaluations.CustomerType:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Answer:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id for this Answer
+          example: ff666edb-e563-4a35-9d96-4f1607881706
+        note:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        answerAlert:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        weightedScore:
+          type:
+          - number
+          - 'null'
+          description: ''
+          format: double
+          example: 1
+        answerTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.AnswerTag'
+          description: ''
+        fillInAnswerValue:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
+    AcxApi.Models.Evaluations.ModuleAnswerTag:
+      type: object
+      properties:
+        answerTagId:
+          type: string
+          description: The unique identifier for this answer tag.
+          format: uuid
+        tagValue:
+          type:
+          - string
+          - 'null'
+          description: The value of the tag.
+      additionalProperties: false
+    AcxApi.Models.Evaluations.ModuleEvaluation:
+      type: object
+      properties:
+        evaluationNumber:
+          type: integer
+          description: Auto-incrementing identifier. Use as LastId for cursor-based pagination.
+          format: int32
+          example: 51174176
+        submittedDate:
+          type:
+          - string
+          - 'null'
+          description: When the evaluation was completed and submitted.
+          format: date-time
+        assignedDate:
+          type:
+          - string
+          - 'null'
+          description: The date this evaluation was assigned.
+          format: date-time
+        modifiedOn:
+          type: string
+          description: When the evaluation was last modified.
+          format: date-time
+        modules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Module'
+          description: List of modules, each with a Name, Description, Score (percentage 0-100), and a Questions list. Each question contains Answers, which contain AnswerTags with the selected tag values and a SmartPredict boolean indicating whether the tag was AI-generated.
+        agent:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Agent'
+        analyst:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Analyst'
+        metadata:
+          $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+        callSummary:
+          type:
+          - string
+          - 'null'
+          description: Summary of the call, if available.
+        customerType:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.CustomerType'
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Evaluation:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier for this evaluation.
+          example: 89183d9b-dc8f-436d-a244-1daaee0ba98c
+        evaluationNumber:
+          type:
+          - integer
+          - 'null'
+          description: Auto-incrementing integer identifier. Use this as LastId for cursor-based pagination.
+          format: int32
+          example: 391
+        evaluationName:
+          type:
+          - integer
+          - 'null'
+          description: Name of this evaluation.
+          format: int32
+          example: null
+        submittedDate:
+          type:
+          - string
+          - 'null'
+          description: When the evaluation was completed and submitted.
+          format: date-time
+        assignedDate:
+          type:
+          - string
+          - 'null'
+          description: When the evaluation was assigned.
+          format: date-time
+        modifiedOn:
+          type: string
+          description: When the evaluation was last modified.
+          format: date-time
+        questions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Question'
+          description: List of evaluation questions, each with Answers and AnswerTags.
+        agent:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Agent'
+        analyst:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Analyst'
+        metadata:
+          $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+        callSummary:
+          type:
+          - string
+          - 'null'
+        customerType:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.CustomerType'
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Tag:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id for this tag
+          example: 620a396c-5fa1-4e78-997c-22b2844b1533
+        tagType:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Name
+        value:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Moderately Satisfied
+        sentiment:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Positive
+        scoredValue:
+          type:
+          - number
+          - 'null'
+          description: ''
+          format: double
+          example: 4
+        order:
+          type: integer
+          description: ''
+          format: int32
+          example: 4
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Question:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this question
+        questionText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Ending Sentiment
+        shortQuestionText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Ending Sentiment
+        answers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Answer'
+          description: The list of possible answers to this question
+        order:
+          type: integer
+          description: ''
+          format: int32
+          example: 1
+        helperText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Rate your initial caller sentiment on a scale of 1 - 5.  1 being negative and 5 being positive
+        required:
+          type: boolean
+          description: ''
+          example: true
+        weight:
+          type: number
+          description: ''
+          format: double
+          example: 1
+        type:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Question
+        category:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Starting Sentiment
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
+          description: Tags this question has
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Module:
+      type: object
+      properties:
+        moduleId:
+          type: string
+          description: The unique identifier for this module.
+          format: uuid
+          example: 89183d9b-dc8f-436d-a244-1daaee0ba98c
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the module.
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the module.
+        score:
+          type: number
+          description: A score for the module usually between 0 and 100 as a percentage.
+          format: double
+        questions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleQuestion'
+          description: The questions associated with this module.
+      additionalProperties: false
+    AcxApi.Models.Evaluations.ModuleQuestion:
+      type: object
+      properties:
+        questionId:
+          type: string
+          description: The unique identifier for this question.
+          format: uuid
+          example: 89183d9b-dc8f-436d-a244-1daaee0ba98c
+        question:
+          type:
+          - string
+          - 'null'
+          description: The question text.
+        category:
+          type:
+          - string
+          - 'null'
+          description: The category of the question.
+          example: PV Safety Events
+        answers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleAnswer'
+          description: The answers to this question. These are always a 'FillInAnswer' or a list of 'AnswerTags'.
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Analyst:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id for this analyst
+          example: 78a4e165-0b3a-4f62-8520-99607383d60f
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        userName:
+          type:
+          - string
+          - 'null'
+          description: Analysts user name
+          example: john.doe@authenticx.com
+        email:
+          type:
+          - string
+          - 'null'
+          description: Analysts email
+          example: john.doe@authenticx.com
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: Analysts first name
+          example: John
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: Analysts last name
+          example: Doe
+        role:
+          type:
+          - string
+          - 'null'
+          description: Analysts role
+          example: ''
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

@@ -1,0 +1,96 @@
+generated: '2026-08-14'
+method: searched
+source: https://authenticx.readme.io/docs/how-authenticx-works
+spec_type: none
+asyncapi_published: false
+event_surface: true
+direction: outbound-push-to-client
+summary: >-
+  Authenticx has a real event surface and publishes no schema for it. The architecture guide carries a
+  dedicated section — "6) Emission (outbound integrations)" — stating "Authenticx can send or support
+  retrieval of outbound events/data", with one documented mechanism: "Authenticx can emit data to a client
+  API when a configured signal occurs (e.g., identification of a safety event)". This is a reverse webhook —
+  Authenticx calls an endpoint the CLIENT operates, rather than the client subscribing to an Authenticx one.
+  The AcxAPI OpenAPI confirms the mechanism exists in production from the other end: GET /Receipts returns
+  the transmission record of those exports, including DateTimeTransmitted, the ReceiptId "returned from the
+  downstream system", the uid "returned from the export endpoint", and the three classification outcomes
+  carried in the payload (SafetyEvent, AdverseEvent, ProductQualityComplaint). What is missing is every
+  machine-readable detail: no AsyncAPI, no event-name catalog, no payload schema, no callback authentication
+  contract, no retry/backoff or delivery-guarantee statement, no signature verification, and no subscription
+  or endpoint-registration API. Emission is configured during implementation with the Authenticx team, so a
+  developer cannot discover, register or test it from the public surface.
+grade: advertised-unspecified
+events:
+- name: safety-event-emission
+  trigger: 'a configured signal occurs (e.g., identification of a safety event)'
+  transport: HTTPS POST to a client-operated API endpoint
+  payload_schema: null
+  documented_fields:
+    note: >-
+      Not published for the emission itself. The fields below are the ones GET /Receipts reports back about a
+      completed export, which is the only public evidence of what an emission carries.
+    from_receipts:
+    - ConversationId
+    - DateTimeReceived
+    - ClientCallId
+    - DateTimeTransmitted
+    - ReceiptId
+    - SafetyEvent
+    - AdverseEvent
+    - ProductQualityComplaint
+    - uid
+  configuration: implementation-time, via the Authenticx team; no self-service endpoint registration
+  source: https://authenticx.readme.io/docs/how-authenticx-works
+  quote: >-
+    Event-based emission: Authenticx can emit data to a client API when a configured signal occurs (e.g.,
+    identification of a safety event)
+pull_alternative:
+  description: >-
+    The documented alternative to push is polling. Nine operations expose cursor pagination on LastId, and
+    GET /Receipts is explicitly the export audit trail — a client that does not want an emission endpoint
+    reconciles by polling /Receipts over a StartDate/EndDate window with Status=Sampled.
+  operations:
+  - 'GET /Receipts'
+  - 'GET /Conversations/Insights'
+  - 'GET /ModelResults'
+  see: skills/authenticx-pharmacovigilance-reconciliation.md
+missing:
+- asyncapi-document
+- event-catalog
+- payload-schema
+- callback-authentication
+- signature-verification
+- retry-and-delivery-guarantees
+- subscription-management-api
+- test-or-replay-tooling
+searched:
+- url: https://authenticx.readme.io/docs/how-authenticx-works
+  status: 200
+  finding: 'section "6) Emission (outbound integrations)" — event-based emission to a client API'
+- url: https://authenticx.readme.io/docs/bidirectional-connector-setup-guide
+  status: 200
+  finding: >-
+    Salesforce connector — inbound only. Authenticx authenticates to Salesforce via OAuth client credentials,
+    looks up an object by ClientCallId and patches a call summary into a field. Server-to-server write into a
+    partner CRM, not a customer-configurable webhook.
+- url: https://authenticx.readme.io/llms.txt
+  status: 200
+  finding: >-
+    Complete docs page index contains no webhook, event, callback, subscription or AsyncAPI page. "Emission"
+    appears only in the how-it-works architecture overview.
+- url: https://api.beauthenticx.com/asyncapi.yaml
+  status: 403
+  note: api.beauthenticx.com default-denies unrecognized paths with 403; not served.
+- url: https://authenticx.readme.io/asyncapi.yaml
+  status: 404
+spec_evidence:
+  webhooks_block_in_openapi: false
+  callbacks_in_openapi: false
+  operations_total: 46
+  source: openapi/
+notes: >-
+  Recorded as a Webhooks surface, not an AsyncAPI one — the provider advertises the outbound event capability
+  in its own documentation, which is the thing the pointer asserts, but publishes nothing an agent or
+  integrator could bind to without a sales/implementation conversation. Nothing here is derived from the
+  spec's shape or invented; every claim is quoted from Authenticx's own docs or from published operation
+  descriptions. NEVER upgrade this to type AsyncAPI unless Authenticx actually publishes a document.

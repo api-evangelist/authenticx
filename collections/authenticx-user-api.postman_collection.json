@@ -1,0 +1,732 @@
+{
+  "item": [
+    {
+      "id": "20fe77d6-a0e7-403c-a186-11df58e2ab8a",
+      "name": "User",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1d0a541d-ad57-4a8e-bd4c-e2bdc3fdba28",
+          "name": "Get User By UserName",
+          "request": {
+            "name": "Get User By UserName",
+            "description": {
+              "content": "Returns the user with the username specified in the query string.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "User"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "UserName",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d3fcb4e4-c8e1-4e5d-8ab4-e3025ff9dd42",
+              "name": "Returns the user with the specified username",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "UserName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"3171119067\",\n  \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"email\": \"john.doe@organization.com\",\n  \"emailConfirmed\": true,\n  \"disabled\": false,\n  \"roleName\": \"Company Agent\",\n  \"createdOn\": null,\n  \"samlProviderUserCode\": \"AG66539\",\n  \"lastLogin\": null,\n  \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67a24cce-8fff-403b-b1ca-7f25248c6280",
+              "name": "The UserName query parameter was not supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "UserName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eaf14d4e-e816-4d4b-93db-0cc5d8fe0ee1",
+              "name": "No user in your organization matches the specified username",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "UserName",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ed9b9e4a-13ad-4395-95bc-524d5f319b12",
+          "name": "Create User",
+          "request": {
+            "name": "Create User",
+            "description": {
+              "content": "Adds a user to your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "User"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"userName\": \"<string>\",\n  \"phoneNumber\": \"<string,null>\",\n  \"roleName\": \"<string,null>\",\n  \"samlProviderUserCode\": \"<string,null>\",\n  \"emailConfirmed\": \"<boolean,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6cf9254c-f000-4a3c-b0e6-ed83a340b63f",
+              "name": "Returns the newly created user",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"john.doe@organization.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"888-888-8888\",\n  \"roleName\": \"Analyst\",\n  \"samlProviderUserCode\": \"00000\",\n  \"emailConfirmed\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"3171119067\",\n  \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"email\": \"john.doe@organization.com\",\n  \"emailConfirmed\": true,\n  \"disabled\": false,\n  \"roleName\": \"Company Agent\",\n  \"createdOn\": null,\n  \"samlProviderUserCode\": \"AG66539\",\n  \"lastLogin\": null,\n  \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b78bbfca-79c4-4f59-a437-6d9105b71573",
+              "name": "One or more of the required fields were incorrect or belonged to a user that already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"john.doe@organization.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"888-888-8888\",\n  \"roleName\": \"Analyst\",\n  \"samlProviderUserCode\": \"00000\",\n  \"emailConfirmed\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "851ede90-542d-4b55-b80e-8d517b4283a6",
+          "name": "Get User",
+          "request": {
+            "name": "Get User",
+            "description": {
+              "content": "Returns the user with the id specified in the url.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "User",
+                ":UserId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2235cd5c-3803-4160-8f26-a506681d974a",
+              "name": "Returns the user with the specified id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User",
+                    ":UserId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"3171119067\",\n  \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"email\": \"john.doe@organization.com\",\n  \"emailConfirmed\": true,\n  \"disabled\": false,\n  \"roleName\": \"Company Agent\",\n  \"createdOn\": null,\n  \"samlProviderUserCode\": \"AG66539\",\n  \"lastLogin\": null,\n  \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81593229-0bd3-404e-865c-a757c9f3b517",
+          "name": "Update User",
+          "request": {
+            "name": "Update User",
+            "description": {
+              "content": "Updates information about an existing user in your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "User",
+                ":UserId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "UserId",
+                  "description": "(Required) The string ID of the user to update"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string,null>\",\n  \"lastName\": \"<string,null>\",\n  \"userName\": \"<string,null>\",\n  \"email\": \"<string,null>\",\n  \"phoneNumber\": \"<string,null>\",\n  \"roleName\": \"<string,null>\",\n  \"disabled\": \"<boolean,null>\",\n  \"samlProviderUserCode\": \"<string,null>\",\n  \"emailConfirmed\": \"<boolean,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e5fb9d88-100c-4f27-ac9b-b266657dfa76",
+              "name": "Returns the newly updated user",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User",
+                    ":UserId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) The string ID of the user to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"alice.doe@organization.com\",\n  \"email\": \"alice.doe@organization.com\",\n  \"phoneNumber\": \"888-888-8888\",\n  \"roleName\": \"Analyst\",\n  \"disabled\": false,\n  \"samlProviderUserCode\": \"00000\",\n  \"emailConfirmed\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"john.doe@organization.com\",\n  \"phoneNumber\": \"3171119067\",\n  \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"email\": \"john.doe@organization.com\",\n  \"emailConfirmed\": true,\n  \"disabled\": false,\n  \"roleName\": \"Company Agent\",\n  \"createdOn\": null,\n  \"samlProviderUserCode\": \"AG66539\",\n  \"lastLogin\": null,\n  \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3794ef9f-96f5-484a-927b-3bf8125f66c9",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User",
+                    ":UserId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "UserId",
+                      "description": "(Required) The string ID of the user to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"alice.doe@organization.com\",\n  \"email\": \"alice.doe@organization.com\",\n  \"phoneNumber\": \"888-888-8888\",\n  \"roleName\": \"Analyst\",\n  \"disabled\": false,\n  \"samlProviderUserCode\": \"00000\",\n  \"emailConfirmed\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18dc6d9d-e566-4223-a04a-96a6ccf83586",
+          "name": "Get All Users",
+          "request": {
+            "name": "Get All Users",
+            "description": {
+              "content": "Returns a list of all users in your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "User",
+                "All"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "IsActive",
+                  "value": "<boolean>",
+                  "description": "Filter by active (true) or disabled (false) users. Omit to return all"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e9dfeeb1-bc2f-45fd-b9e1-abb106cf4661",
+              "name": "Returns the list of all users",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "User",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"userName\": \"john.doe@organization.com\",\n    \"phoneNumber\": \"3171119067\",\n    \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n    \"email\": \"john.doe@organization.com\",\n    \"emailConfirmed\": true,\n    \"disabled\": false,\n    \"roleName\": \"Company Agent\",\n    \"createdOn\": null,\n    \"samlProviderUserCode\": \"AG66539\",\n    \"lastLogin\": \"2008-06-15T22:23:50.584Z\",\n    \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n  },\n  {\n    \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"userName\": \"john.doe@organization.com\",\n    \"phoneNumber\": \"3171119067\",\n    \"id\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n    \"email\": \"john.doe@organization.com\",\n    \"emailConfirmed\": true,\n    \"disabled\": false,\n    \"roleName\": \"Company Agent\",\n    \"createdOn\": null,\n    \"samlProviderUserCode\": \"AG66539\",\n    \"lastLogin\": \"1976-09-23T09:31:36.084Z\",\n    \"agentId\": \"d1a539ee-675d-443d-9dab-6d0d3be8e0c1\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6165dd48-fb15-4b64-9cdb-5cd64883babf",
+    "name": "AcxApi Production User API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

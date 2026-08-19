@@ -1,0 +1,561 @@
+{
+  "item": [
+    {
+      "id": "96cfc718-3fcb-451d-81fe-812a457e906c",
+      "name": "Hierarchy",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ba54fce3-80d6-4454-aa84-8560e7973ea5",
+          "name": "Create Hierarchy",
+          "request": {
+            "name": "Create Hierarchy",
+            "description": {
+              "content": "Adds a hierarchy to your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Hierarchy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"category\": \"<string,null>\",\n  \"subCategory\": \"<string,null>\",\n  \"code\": \"<string,null>\",\n  \"administrativeContactsUserIds\": \"<array,null>\",\n  \"escalationContactsUserIds\": \"<array,null>\",\n  \"managerContactsUserIds\": \"<array,null>\",\n  \"hierarchyCodes\": \"<array,null>\",\n  \"parentId\": \"<string,null-uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e10c89bf-6ec6-4333-967c-6a293629a95a",
+              "name": "Returns the newly created Hierarchy, and the name of its parent if applicable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Child Hierarchy\",\n  \"category\": \"Category\",\n  \"subCategory\": \"SubCategory\",\n  \"code\": \"007\",\n  \"administrativeContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"escalationContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000002\",\n    \"00000000-0000-0000-0000-000000000003\"\n  ],\n  \"managerContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000004\",\n    \"00000000-0000-0000-0000-000000000005\"\n  ],\n  \"hierarchyCodes\": [\n    \"Code1\",\n    \"CodeABC\"\n  ],\n  \"parentId\": \"00000000-0000-0000-0000-000000000009\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"10b2fb81-ba0a-413a-89ee-4d1bef20e86e\",\n  \"isActive\": true,\n  \"name\": \"AUT-1907\",\n  \"structureLevelName\": \"LVL4_VP\",\n  \"category\": \"\",\n  \"subCategory\": \"\",\n  \"code\": \"AD32053\",\n  \"modifiedOn\": \"1946-11-24T05:47:48.383Z\",\n  \"administrativeContacts\": null,\n  \"escalationContacts\": [\n    \"\",\n    \"\"\n  ],\n  \"managerContacts\": [\n    \"\",\n    \"\"\n  ],\n  \"hierarchyCodes\": null,\n  \"children\": [\n    \"\",\n    \"\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3b55180-2154-4a86-a3d7-cc487d068803",
+              "name": "One of the following errors occurred: No hierarchy name was provided in the request body, a ParentId was provided but no hierarchy exists with that id\nwithin your organization, a valid `ParentId` was provided but you don't have enough structure levels for the new hierarchy,\nyour organization has no structure levels, a user id in the provided contact lists is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Child Hierarchy\",\n  \"category\": \"Category\",\n  \"subCategory\": \"SubCategory\",\n  \"code\": \"007\",\n  \"administrativeContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"escalationContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000002\",\n    \"00000000-0000-0000-0000-000000000003\"\n  ],\n  \"managerContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000004\",\n    \"00000000-0000-0000-0000-000000000005\"\n  ],\n  \"hierarchyCodes\": [\n    \"Code1\",\n    \"CodeABC\"\n  ],\n  \"parentId\": \"00000000-0000-0000-0000-000000000009\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb6d549e-ef14-4963-9e20-bda6339e392c",
+          "name": "Update Hierarchy",
+          "request": {
+            "name": "Update Hierarchy",
+            "description": {
+              "content": "Updates information about an existing hierarchy in your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Hierarchy",
+                ":HierarchyId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "HierarchyId",
+                  "description": "(Required) UUID of the hierarchy to update"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string,null>\",\n  \"category\": \"<string,null>\",\n  \"subCategory\": \"<string,null>\",\n  \"code\": \"<string,null>\",\n  \"administrativeContactsUserIds\": \"<array,null>\",\n  \"escalationContactsUserIds\": \"<array,null>\",\n  \"managerContactsUserIds\": \"<array,null>\",\n  \"newParentId\": \"<string,null>\",\n  \"isActive\": \"<boolean,null>\",\n  \"hierarchyCodes\": \"<array,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "623a67f2-8428-48da-81f3-c6f237ffd446",
+              "name": "Returns the newly updated Hierarchy, and the name of its parent if applicable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) UUID of the hierarchy to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Child Hierarchy\",\n  \"category\": \"Category\",\n  \"subCategory\": \"SubCategory\",\n  \"code\": \"007\",\n  \"administrativeContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"escalationContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000002\",\n    \"00000000-0000-0000-0000-000000000003\"\n  ],\n  \"managerContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000004\",\n    \"00000000-0000-0000-0000-000000000005\"\n  ],\n  \"newParentId\": \"00000000-0000-0000-0000-000000000009\",\n  \"isActive\": true,\n  \"hierarchyCodes\": [\n    \"Code1\",\n    \"CodeABC\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"10b2fb81-ba0a-413a-89ee-4d1bef20e86e\",\n  \"isActive\": true,\n  \"name\": \"AUT-1907\",\n  \"structureLevelName\": \"LVL4_VP\",\n  \"category\": \"\",\n  \"subCategory\": \"\",\n  \"code\": \"AD32053\",\n  \"modifiedOn\": \"1946-11-24T05:47:48.383Z\",\n  \"administrativeContacts\": null,\n  \"escalationContacts\": [\n    \"\",\n    \"\"\n  ],\n  \"managerContacts\": [\n    \"\",\n    \"\"\n  ],\n  \"hierarchyCodes\": null,\n  \"children\": [\n    \"\",\n    \"\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac9f87a2-01ab-48a1-aa32-018b1d5fdd74",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) UUID of the hierarchy to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Child Hierarchy\",\n  \"category\": \"Category\",\n  \"subCategory\": \"SubCategory\",\n  \"code\": \"007\",\n  \"administrativeContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"escalationContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000002\",\n    \"00000000-0000-0000-0000-000000000003\"\n  ],\n  \"managerContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000004\",\n    \"00000000-0000-0000-0000-000000000005\"\n  ],\n  \"newParentId\": \"00000000-0000-0000-0000-000000000009\",\n  \"isActive\": true,\n  \"hierarchyCodes\": [\n    \"Code1\",\n    \"CodeABC\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0974376f-5af7-4a9b-abc9-ac86afb0773c",
+              "name": "If your organization has no hierarchy with that specific id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy",
+                    ":HierarchyId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "HierarchyId",
+                      "description": "(Required) UUID of the hierarchy to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"New Child Hierarchy\",\n  \"category\": \"Category\",\n  \"subCategory\": \"SubCategory\",\n  \"code\": \"007\",\n  \"administrativeContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"escalationContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000002\",\n    \"00000000-0000-0000-0000-000000000003\"\n  ],\n  \"managerContactsUserIds\": [\n    \"00000000-0000-0000-0000-000000000004\",\n    \"00000000-0000-0000-0000-000000000005\"\n  ],\n  \"newParentId\": \"00000000-0000-0000-0000-000000000009\",\n  \"isActive\": true,\n  \"hierarchyCodes\": [\n    \"Code1\",\n    \"CodeABC\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2a7c74d9-9660-41e6-b9f5-a85af84ccdbc",
+          "name": "Get All Hierarchies",
+          "request": {
+            "name": "Get All Hierarchies",
+            "description": {
+              "content": "Returns a list of all active hierarchies in your organization along with their contacts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Hierarchy",
+                "All"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "IsActive",
+                  "value": "<boolean>",
+                  "description": "Filter by active (true) or inactive (false) hierarchies. Omit to return all"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cb5818db-d916-4d18-bf13-1bb8c4429fc2",
+              "name": "Returns the list of all active hierarchies and their respective contacts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"10b2fb81-ba0a-413a-89ee-4d1bef20e86e\",\n    \"isActive\": true,\n    \"name\": \"AUT-1907\",\n    \"structureLevelName\": \"LVL4_VP\",\n    \"category\": \"\",\n    \"subCategory\": \"\",\n    \"code\": \"AD32053\",\n    \"modifiedOn\": \"2008-02-19T07:10:22.994Z\",\n    \"administrativeContacts\": null,\n    \"escalationContacts\": [\n      \"\",\n      \"\"\n    ],\n    \"managerContacts\": null,\n    \"hierarchyCodes\": null,\n    \"children\": [\n      \"\",\n      \"\"\n    ]\n  },\n  {\n    \"id\": \"10b2fb81-ba0a-413a-89ee-4d1bef20e86e\",\n    \"isActive\": true,\n    \"name\": \"AUT-1907\",\n    \"structureLevelName\": \"LVL4_VP\",\n    \"category\": \"\",\n    \"subCategory\": \"\",\n    \"code\": \"AD32053\",\n    \"modifiedOn\": \"1954-11-17T03:34:21.075Z\",\n    \"administrativeContacts\": null,\n    \"escalationContacts\": null,\n    \"managerContacts\": null,\n    \"hierarchyCodes\": [\n      \"string\",\n      \"string\"\n    ],\n    \"children\": null\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "053237f7-533a-4ddc-8f1a-a36df45331ac",
+              "name": "If your organization has no hierarchies matching the requested active-state filter",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Hierarchy",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4e6d2792-abf8-4b43-8439-304583fad179",
+    "name": "AcxApi Production Hierarchy API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

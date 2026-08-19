@@ -1,0 +1,334 @@
+{
+  "item": [
+    {
+      "id": "cb9ac7b6-f5d5-45d8-9509-512e42b7dd60",
+      "name": "Media",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2d78e34b-b582-4044-81aa-14ecd1a3948e",
+          "name": "Upload Media",
+          "request": {
+            "name": "Upload Media",
+            "description": {
+              "content": "Uploads an audio file interaction into storage for processing.\n\n*Param name \"file\"* \n\nAudio file uploaded from client (required unless signedUrl is provided). \n\nValid Audio File Extensions:\n- .wav\n- .mp3\n- .mp4\n- .ogg\n- .opus\n- .m4a \n\nValid Chat File Extensions:\n- .tar\n- .zip\n\n*Param name \"signedUrl\"* \n\nOptional signed download URL. If provided, the server downloads the file from this URL instead of using multipart upload. Supports signed URLs from AWS S3, Azure Blob Storage, etc. \n\nExample: \"https://bucket.s3.amazonaws.com/path/to/file.mp3?X-Amz-Algorithm=...\" or \"https://storage.azure.com/container/blob?sv=...\"\n\n*Param name \"metadata\"* \n\nJSON dictionary containing multiple metadata fields about the Audio File: \n\n            \n    Required Fields:\n        - FileName:\n            Path containing file name and extension (extension must match the uploaded file). Subdirectories specifying a more exact path may be prepended to the file name.\n            Examples:\n                -- With subdirectories: \"topfolder/subfolder/subsubfolder/filename.mp3\"\n                -- Without subdirectories: \"filename.mp3\"\n        - UploadType:\n            Type indicating if you are uploding a chat or audio file.\n            Examples:\n                -- \"Chat\"\n                -- \"Audio\"\n\n    Optional Fields: \n        - CallDirection: \n            Direction of the interaction's call to or from the call center. \n            Examples: \n                -- \"Inbound\" \n                -- \"Outbound\" \n        - Name: \n            Name associated with interaction. \n            Example: \n                -- \"Alice\" \n        - Phone: \n            Phone number associated with interaction. \n            Example: \n                --\"800-555-5555\" \n        - Email: \n            Email address associated with interaction. \n            Example: \n                --\"example@example.com\" \n        - AgentFirstName: \n            Agent's First Name associated with interaction. \n            Example: \n                --\"James\" \n        - AgentLastName: \n            Agent's Last Name associated with interaction. \n            Example: \n                --\"Bond\" \n        - AgentCode: \n            Agent Code for associating agent already in system with interaction. \n            Example: \n                --\"007\" \n        - InteractionDate: \n            Date on which interaction occured. \n            ISO-8601 Examples: \n            --UTC datetime: \"2022-03-18T21:52:26\" \n            --UTC datetime with milliseconds: \"2022-03-18T21:52:26.8816090Z\" \n            --UTC date only: \"2022-03-19\" \n            --datetime with timezone: \"2022-03-18T17:56:09.8683110-04:00\" \n        - ExtendedMetadata: [Deprecated - (\"Use ExtendedMetadataValues\")]\n            Array of Dictionaries of key values associated with interaction.\n            Examples: \n            -- [{ \"Data\": \"Example Data\"}, { \"Data2\": \"Example Data 2\", \"ExampleKey\": \"Example Value\" }]\n        - ExtendedMetadataValues: \n            Dictionary of key values associated with interaction.\n            Examples: \n            -- { \"Data\": \"Example Data\" }, { \"Data2\": \"Example Data 2\" }, { \"ExampleKey\": \"Example Value\" }\n        - HierarchyId: \n            Id of hierarchy to associate with this interaction.\n            Example: \n            -- \"00000000-0000-0000-0000-000000000002\" \n        - HierarchyCode: \n            Internal Organization Code for associating hierarchy with this interaction.\n            Example: \n            -- \"Accounting\"\n        - ApplyHierarchyToAgent: \n            If ```true``` AND a ```HierarchyId``` / ```HierarchyCode``` are provided, the system assigns that hierarchy to the agent .\n            Example: \n            -- true\n        - LocaleId:\n            Specifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted.\n        - ClientCallId:\n            Your external telephony reference ID.\n            Example:\n            -- \"5CD1S\"",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Media",
+                "Upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "metadata",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": ""
+                },
+                {
+                  "key": "signedUrl",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7f95f864-b9ba-44cd-8ef6-4d7e6720a85b",
+              "name": "Returns an object with the FileName and FileSizeKb. Returns 200 when file is successfully downloaded from signed URL.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Media",
+                    "Upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "signedUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"000f78b0-4720-467e-854a-d245549f928d\",\n  \"fileName\": \"/extmedia/8950129442109233.mp3.acxMedia\",\n  \"fileSizeKb\": 4032\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59cf0caf-0662-4c8d-983c-5d27871abdcc",
+              "name": "One of the following errors occured: the file provided had an invalid extension, no metadata was provided,\nprovided metadata was malformed, provided metadata had no FileName, an interaction with the provided file name\nalready exists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Media",
+                    "Upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "signedUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a17d6fe2-0be8-40ff-84c4-43589a289c31",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Media",
+                    "Upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "signedUrl",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying after a rate limit",
+                  "key": "Retry-After",
+                  "value": "2852"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b2cee621-210f-4696-93c7-aa50057dc5fb",
+    "name": "AcxApi Production Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

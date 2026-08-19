@@ -1,0 +1,184 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production User Hierarchy API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: UserHierarchy
+paths:
+  /UserHierarchy/{UserId}/{HierarchyId}:
+    get:
+      tags:
+      - UserHierarchy
+      summary: Get Hierarchy Permissions For User
+      description: Returns a list of all permissions within a hierarchy for the specified user.
+      parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: HierarchyId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Returns the specified hierarchy and all of the specified user's permissions within it.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel'
+        '400':
+          description: 'The UserId or HierarchyId provided did not match an existing user/hierarchy in your organization.
+
+            Or, the specified user has no permissions in the specified hierarchy.'
+    put:
+      tags:
+      - UserHierarchy
+      summary: Update Hierarchy Permissions For User
+      description: Updates a user's permissions within a specified hierarchy.
+      parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: HierarchyId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest'
+      responses:
+        '200':
+          description: Returns the Hierarchy, and the newly updated user permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel'
+        '400':
+          description: 'One of the following errors occurred:
+
+            an accessLevel was provided that was not `View`, `Edit`, or `Manage`.
+
+            there was an invalid permission name in your permissions list.'
+        '404':
+          description: If your organization has no hierarchy or user with that specific id
+  /UserHierarchy/{UserId}/All:
+    get:
+      tags:
+      - UserHierarchy
+      summary: Get All Hierarchy Permissions For User
+      description: Returns a list of all active hierarchies along with the specified user's permissions for each hierarchy
+      parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: IsActive
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Returns the list of all active hierarchies along with the specified user's permissions for each hierarchy.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel'
+        '400':
+          description: The UserId provided did not match an existing user in your organization
+components:
+  schemas:
+    AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest:
+      required:
+      - permissions
+      type: object
+      properties:
+        accessLevel:
+          type:
+          - string
+          - 'null'
+          description: This field may only be left blank if Permissions is an empty list []. Otherwise, this value is required to be set to "View", "Edit", or "Manage" and specifies the level of all permissions assigned.
+          example: Manage
+        permissions:
+          type: array
+          items:
+            type: string
+          description: 'List of values (valid values: "Audio", "Email", "Chat", "Video", "Live") that specify the types of permissions to grant to the user in the hierarchy. If specified as an empty list [] all permissions will be removed.'
+          example:
+          - Audio
+          - Email
+          - Chat
+          - Video
+          - Live
+      additionalProperties: false
+    AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel:
+      type: object
+      properties:
+        hierarchyId:
+          type: string
+          description: Unique Id of this user hierarchy
+          format: uuid
+          example: 2140c913-e4ab-4b93-811e-b0b1d3031702
+        hierarchyName:
+          type:
+          - string
+          - 'null'
+          description: Name this hierarchy is referred to by
+          example: Authenticx Director
+        hierarchyIsActive:
+          type:
+          - boolean
+          - 'null'
+          description: Whether this hierarchy is active or not
+          example: true
+        accessLevel:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Manage
+        permissions:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - Audio
+          - ProcessedChat
+        structureLevelName:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: LVL6_Director
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

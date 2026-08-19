@@ -1,0 +1,237 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production (Scim) Schemas (Scim) Schemas API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: (Scim) Schemas
+paths:
+  /scim/v2/Schemas:
+    get:
+      tags:
+      - (Scim) Schemas
+      summary: Get All Schemas
+      description: Returns, in ListResponse format, all the schemas defined by Authenticx
+      responses:
+        '200':
+          description: All schemas defined by Authenticx
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_Of_ResourceSchema'
+  /scim/v2/Schemas/{SchemaUri}:
+    get:
+      tags:
+      - (Scim) Schemas
+      summary: Get Schema
+      description: Returns one schema specified by the schema uri.
+      parameters:
+      - name: SchemaUri
+        in: path
+        description: The uri of the schema to get
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the schema specified by the provided `SchemaUri`
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
+        '400':
+          description: An invalid `SchemaUri` was provided
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+components:
+  schemas:
+    AcxApi.Scim.Resources.ResourceSchema.Attribute:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this attribute
+          readOnly: true
+          example: userName
+        type:
+          type:
+          - string
+          - 'null'
+          description: The data type of this attribute
+          readOnly: true
+          example: string
+        subAttributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
+          description: List of sub attributes of this attribute
+          readOnly: true
+        multiValued:
+          type: boolean
+          description: Whether this attribute supports multiple values (array)
+          readOnly: true
+          example: false
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this attribute
+          readOnly: true
+          example: Unique identifier for the user
+        required:
+          type: boolean
+          description: Whether or not the attribute is required
+          readOnly: true
+          example: true
+        canonicalValues:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of possible canonical values
+        caseExact:
+          type: boolean
+          description: If the attribute is a string, whether case matters
+          readOnly: true
+          example: false
+        mutability:
+          type:
+          - string
+          - 'null'
+          description: The mutability of this attribute
+          example: readWrite
+        returned:
+          type:
+          - string
+          - 'null'
+          description: When this attribute is returned
+          readOnly: true
+          example: default
+        uniqueness:
+          type:
+          - string
+          - 'null'
+          description: Whether this attribute has a uniqueness
+          readOnly: true
+          example: none
+        referenceTypes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: If the attribute type is reference
+          readOnly: true
+      additionalProperties: false
+    ListResponse_Of_ResourceSchema:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The id of this schema, should be a scim uri
+          readOnly: true
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this schema
+          readOnly: true
+          example: User
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this schema
+          readOnly: true
+          example: User Account
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
+          readOnly: true
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

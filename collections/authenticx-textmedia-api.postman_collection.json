@@ -1,0 +1,225 @@
+{
+  "item": [
+    {
+      "id": "0791d4a3-50d2-4c23-945f-fc109bca0465",
+      "name": "TextMedia",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "98686517-b220-433e-a702-e5560bb48d87",
+          "name": "Upload Text Media",
+          "request": {
+            "name": "Upload Text Media",
+            "description": {
+              "content": "Uploads a text media interaction into storage for processing.\n            \n*Param name \"file\"* \n\nText file uploaded from client. \n\nValid File Extensions:\n- .json\n- .json_chat \n\n*Param name \"metadata\"* \n\nJSON object containing multiple metadata fields for the text media File: \n\n            \n> 📘 **Note:** Including the ```Id``` field is recommended. If omitted, one is generated for you, but providing your own lets you correlate with your system.\n            \n- Id:\nUnique identifier for the text media. example: \"4834c9e9-74f2-4bfe-a0c8-ce947a4f30e3\"\n- FilePath:\nPath containing file name and extension. Subdirectories specifying a more exact path may be prepended to the file. If omitted, the system derives a path from the ```Id```.\nname.\nExamples:\n-- With subdirectories: \"topfolder/subfolder/subsubfolder/filename.json\"\n-- Without subdirectories: \"filename.json\"\n- TimeStamp:\nTime stamp of the interaction.\nExamples: \"2022-03-18T21:52:26\", \"2022-03-18T21:52:26.8816090Z\", \"2022-03-19\", \"2022-03-18T17:56:09.8683110-04:00\"\n- CallDirection:\nDirection of the interaction's call to or from the call center.\nExamples:\n-- \"Inbound\"\n-- \"Outbound\"\n- Name:\nName associated with interaction.\nExample:\n-- \"Alice\"\n- Phone:\nPhone number associated with interaction.\nExample:\n--\"800-555-5555\"\n- AgentFirstName:\nAgent's First Name associated with interaction.\nExample:\n--\"James\"\n- AgentLastName:\nAgent's Last Name associated with interaction.\nExample:\n--\"Bond\"\n- AgentCode:\nAgent Code for associating agent already in system with interaction.\nExample:\n--\"007\"\n- ExtendedMetadata:\nArray of Dictionaries of key values associated with interaction\nExamples:\n-- [{ \"Data\": \"Example Data\"}, { \"Data2\": \"Example Data 2\", \"ExampleKey\": \"Example Value\" }]\n- HierarchyId:\nId of hierarchy to associate with this interaction\nExample:\n-- \"00000000-0000-0000-0000-000000000002\"\n- HierarchyCode:\nInternal Organization Code for associating hierarchy with this interaction\nExample:\n-- \"Accounting\"\n- ApplyHierarchyToAgent:\nIf we want the hierarchy that is passed in to also be applied to the agent then true\nExample:\n-- true\n- LocaleId:\nSpecifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "TextMedia",
+                "Upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "metadata",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": ""
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e300da32-950f-4388-9592-21b28f580236",
+              "name": "Returns an object with the FileName and FileSizeKb",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TextMedia",
+                    "Upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ea7334a-a642-4395-b9a5-9ed01d155a04",
+              "name": "One of the following errors occurred: the file provided had an invalid extension, no metadata was provided,\nprovided metadata was malformed, provided metadata had no FileName, an interaction with the provided file name\nalready exists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "TextMedia",
+                    "Upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "metadata",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1c6503a8-55e2-4299-bcce-a56607b1c2a9",
+    "name": "AcxApi Production Text Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production Evaluations API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Evaluations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Evaluations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Evaluations",
+            "params": [
+              {
+                "name": "StartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filters by the evaluation's last modified date.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "EndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filters by the evaluation's last modified date. Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "Status",
+                "value": "",
+                "type": "query",
+                "description": "Valid values: \n\nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+              },
+              {
+                "name": "LastId",
+                "value": "",
+                "type": "query",
+                "description": "The EvaluationNumber (integer) of the last evaluation from the previous page. Used for cursor-based pagination"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Results per page. Default 10"
+              }
+            ]
+          },
+          "docs": "Gets a list of evaluations"
+        },
+        {
+          "info": {
+            "name": "Get Evaluations with their modules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Evaluations/Modules",
+            "params": [
+              {
+                "name": "StartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filters by the evaluation's last modified date.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "EndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filters by the evaluation's last modified date. Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "Status",
+                "value": "",
+                "type": "query",
+                "description": "Valid values: \nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+              },
+              {
+                "name": "LastId",
+                "value": "",
+                "type": "query",
+                "description": "The EvaluationNumber of the last evaluation from the previous page. Used for cursor-based pagination"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Results per page. Default 10"
+              },
+              {
+                "name": "HierarchyId",
+                "value": "",
+                "type": "query",
+                "description": "Single hierarchy GUID to filter by"
+              }
+            ]
+          },
+          "docs": "Gets a list of evaluations with their associated modules"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

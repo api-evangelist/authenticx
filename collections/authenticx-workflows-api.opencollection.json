@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production Workflows API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workflows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Workflows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Workflows",
+            "params": [
+              {
+                "name": "StartDate",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "EndDate",
+                "value": "",
+                "type": "query",
+                "description": "Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+              },
+              {
+                "name": "DateReference",
+                "value": "",
+                "type": "query",
+                "description": "Which date to filter on. Valid values: \n            \n            CreatedOnDate, \n            InteractionDate"
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Results per page. Default 100, max 100."
+              },
+              {
+                "name": "LastId",
+                "value": "",
+                "type": "query",
+                "description": "GUID of the last workflow from the previous page. Used for cursor-based pagination."
+              }
+            ]
+          },
+          "docs": "Gets a list of Workflow objects in a given date range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

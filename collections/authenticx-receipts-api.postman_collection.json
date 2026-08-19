@@ -1,0 +1,325 @@
+{
+  "item": [
+    {
+      "id": "6a624553-1315-4039-99bc-53a3f9c18ee3",
+      "name": "Receipts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "573ecaef-0b87-4ffc-82fa-33cd64fa206b",
+          "name": "Get Receipts based on filter criteria",
+          "request": {
+            "name": "Get Receipts based on filter criteria",
+            "description": {
+              "content": "Returns a list of receipts for interactions that have finished processing and match the specified criteria.\n            \nEach result in the response includes the following fields:\n- ConversationId: Unique identifier for the conversation. Corresponds to the Id field from GET /Metadata and the ConversationId from GET /Conversations/Insights\n- DateTimeReceived: The date/time the interaction arrived in the system\n- ClientCallId: Your external telephony reference ID for this conversation\n- DateTimeTransmitted: The date/time the export attempt was transmitted\n- ReceiptId: The receipt ID returned from the downstream system\n- SafetyEvent: Safety event classification result from the export\n- AdverseEvent: Adverse event classification result from the export\n- ProductQualityComplaint: Product quality complaint result from the export\n- uid: The external system UID returned from the export endpoint",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Receipts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "DateReference",
+                  "value": "<string>",
+                  "description": "Specifies whether to filter by 'ArrivalDate' or 'EvaluationCompleteDate'. Defaults to 'ArrivalDate' if not specified.\nValid values: ArrivalDate, EvaluationCompleteDate"
+                },
+                {
+                  "disabled": false,
+                  "key": "StartDate",
+                  "value": "<string>",
+                  "description": "(Required) The start date for filtering export receipts. Format: YYYY-MM-DDTHH:MM:SS."
+                },
+                {
+                  "disabled": false,
+                  "key": "EndDate",
+                  "value": "<string>",
+                  "description": "(Required) The end date for filtering export receipts. Format: YYYY-MM-DDTHH:MM:SS. Must be equal to or later than StartDate."
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "(Required) The status filter for calls. Valid values: 'Sampled', 'ReadyToSample', 'Processing', and 'FailedToProcess'."
+                },
+                {
+                  "disabled": false,
+                  "key": "LastId",
+                  "value": "<string>",
+                  "description": "GUID of the last result from the previous page. Used for cursor-based pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<integer>",
+                  "description": "Results per page. Default 10, max 1000."
+                },
+                {
+                  "disabled": false,
+                  "key": "HierarchyCodes",
+                  "value": "<string>",
+                  "description": "List of hierarchy codes to filter results. Can be provided as comma-separated string or multiple parameters."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a78cdcda-06df-4f69-9a48-adef1e36cb13",
+              "name": "Returns the receipts that match the specified criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "ArrivalDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "HierarchyCodes",
+                      "value": "ABC123,ChatQueue1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6c1e2f09-4dd3-4381-a04b-8280f8f86e80",
+              "name": "If the request parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "ArrivalDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "HierarchyCodes",
+                      "value": "ABC123,ChatQueue1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "34567da8-7db1-4804-a792-0b76d9797e7c",
+              "name": "If no receipts meet the criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "ArrivalDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "HierarchyCodes",
+                      "value": "ABC123,ChatQueue1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3d4a640a-a6ff-4ba4-a09f-3ec9c34ebde0",
+    "name": "AcxApi Production Receipts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

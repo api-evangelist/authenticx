@@ -1,0 +1,530 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production (Scim) Users (Scim) Users API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: (Scim) Users
+paths:
+  /scim/v2/Users:
+    get:
+      tags:
+      - (Scim) Users
+      summary: Get Users
+      description: 'Returns the list of all users in scim user schema format.
+
+        Supports, filtering, sorting, pagination, and attribute picking
+
+        as defined in rfc 7644.'
+      parameters:
+      - name: filter
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2'
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.3'
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.3'
+        schema:
+          type: string
+      - name: startIndex
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.4'
+        schema:
+          type: integer
+          format: int32
+      - name: count
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.4'
+        schema:
+          type: integer
+          format: int32
+      - name: attributes
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.5'
+        schema:
+          type: string
+      - name: excludedAttributes
+        in: query
+        description: Not supported
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the filtered, sorted, and/or paginated users.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_Of_User'
+    post:
+      tags:
+      - (Scim) Users
+      summary: Create User
+      description: Creates a user with the provided information.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.User.CreateUserRequest'
+      responses:
+        '201':
+          description: Returns the created user
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+        '400':
+          description: An invalid scim schema was provided or no email was provided
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+        '409':
+          description: One or more required fields belonged to an existing user
+          content:
+            application/scim+json:
+              schema:
+                type: string
+  /scim/v2/Users/{UserId}:
+    delete:
+      tags:
+      - (Scim) Users
+      summary: Delete User
+      description: 'This action does not delete the user record from the
+
+        database, it marks the `disabled` field as `true`.
+
+        Therefore, any attempts to create a user with the same user
+
+        name as an existing, deleted user, will fail.'
+      parameters:
+      - name: UserId
+        in: path
+        description: The id of the user to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: The user was successfully deleted
+          content:
+            application/scim+json:
+              schema:
+                type: string
+        '400':
+          description: An invalid user id was provided or the user did not exist
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+    get:
+      tags:
+      - (Scim) Users
+      summary: Get User
+      description: Gets a specific user by their id.
+      parameters:
+      - name: UserId
+        in: path
+        description: The id of the user to retrieve
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the user with the specified id
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+        '404':
+          description: A user with the specified id was not found
+          content:
+            application/scim+json:
+              schema:
+                type: string
+    patch:
+      tags:
+      - (Scim) Users
+      summary: Patch User
+      parameters:
+      - name: UserId
+        in: path
+        description: The id of the user you wish to patch
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchRequest'
+      responses:
+        '200':
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+        '400':
+          description: An invalid user id was provided or one of the patch operations was faulty
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+    put:
+      tags:
+      - (Scim) Users
+      summary: Update User
+      description: 'Updates a user with specified id with the provided
+
+        information.'
+      parameters:
+      - name: UserId
+        in: path
+        description: The id of the user to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.User.UpdateUserRequest'
+      responses:
+        '200':
+          description: Returns the updated user
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+        '400':
+          description: An invalid user id or scim schema was provided or the user did not exist
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+components:
+  schemas:
+    AcxApi.Scim.Models.Patch.PatchRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        operations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchOperation'
+      additionalProperties: false
+    AcxApi.Scim.Models.Name:
+      type: object
+      properties:
+        givenName:
+          type:
+          - string
+          - 'null'
+          description: The given or first name of the user
+          example: John
+        familyName:
+          type:
+          - string
+          - 'null'
+          description: The family or last name of the user
+          example: Doe
+      additionalProperties: false
+    AcxApi.Scim.Models.User.UpdateUserRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The users user name
+          example: john.doe@organization.com
+        name:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users emails
+        phoneNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users phone numbers, if any
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the user is active or not.
+          example: true
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNodeOptions:
+      type: object
+      properties:
+        propertyNameCaseInsensitive:
+          type: boolean
+      additionalProperties: false
+    AcxApi.Scim.Models.User.CreateUserRequest:
+      required:
+      - emails
+      - name
+      - userName
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        userName:
+          minLength: 1
+          type: string
+          description: The users user name
+          example: john.doe@organization.com
+        name:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users emails
+        phoneNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users phone numbers, if any
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the user is active or not.
+          example: true
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
+      additionalProperties: false
+    ListResponse_Of_User:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.Metadata:
+      type: object
+      properties:
+        resourceType:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        version:
+          type:
+          - string
+          - 'null'
+          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
+        location:
+          type:
+          - string
+          - 'null'
+          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+    AcxApi.Scim.Models.Contact:
+      type: object
+      properties:
+        primary:
+          type: boolean
+        value:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AcxApi.Scim.Models.Patch.PatchOperation:
+      type: object
+      properties:
+        op:
+          type:
+          - string
+          - 'null'
+        path:
+          type:
+          - string
+          - 'null'
+        value:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        isValidOp:
+          type: boolean
+          readOnly: true
+        isPathRequired:
+          type: boolean
+          readOnly: true
+        isValueRequired:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Resources.User:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        meta:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Metadata'
+        id:
+          type:
+          - string
+          - 'null'
+          description: Id of the user assigned by the service provider
+          example: c4be4102-23ea-4780-a9a7-444c810daee4
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The users user name
+          example: john.doe@organization.com
+        name:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users emails
+        phoneNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users phone numbers, if any
+        active:
+          type: boolean
+          description: Whether the user is active or not.
+          example: true
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNode:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
+        parent:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        root:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

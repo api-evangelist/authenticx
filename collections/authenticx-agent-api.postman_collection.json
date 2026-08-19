@@ -1,0 +1,705 @@
+{
+  "item": [
+    {
+      "id": "4590ceb2-3cf4-4e22-88fd-45b8e7022ed8",
+      "name": "Agent",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "139b8c26-cb7e-4874-b519-2cb8f36b6bbd",
+          "name": "Create Agent",
+          "request": {
+            "name": "Create Agent",
+            "description": {
+              "content": "Adds an agent to your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Agent"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agentEmail\": \"<string>\",\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"agentCode\": \"<string,null>\",\n  \"osms\": \"<array,null>\",\n  \"userId\": \"<string,null>\",\n  \"managerId\": \"<string,null>\",\n  \"startDate\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da20dcc4-f829-41d9-8e18-0be79f2bd474",
+              "name": "Returns the newly created agent",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"agentCode\": \"007\",\n  \"osms\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"userId\": \"00000000-0000-0000-0000-00000000000\",\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"356ab155-9f34-f8b2-7750-503e364a9237\",\n  \"userId\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"firstName\": \"John\",\n  \"firstInitial\": \"J\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"createdOn\": null,\n  \"modifiedOn\": \"2018-01-01T14:24:17.320Z\",\n  \"isActive\": true,\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19bb3cda-adf7-410d-8a7f-e3c09273f528",
+              "name": "A user id was provided but did not correspond to an existing, active, user in your organization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"agentCode\": \"007\",\n  \"osms\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"userId\": \"00000000-0000-0000-0000-00000000000\",\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b9d4ba0-65c0-47ee-9c82-e4866440ab89",
+          "name": "Get Agent",
+          "request": {
+            "name": "Get Agent",
+            "description": {
+              "content": "Returns the agent with the id specified in the url.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Agent",
+                ":AgentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "AgentId",
+                  "description": "(Required) UUID of the agent to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d577f685-ae77-44b3-afa7-c781985e74fe",
+              "name": "Returns the agent with the specified id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    ":AgentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AgentId",
+                      "description": "(Required) UUID of the agent to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"356ab155-9f34-f8b2-7750-503e364a9237\",\n  \"userId\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"firstName\": \"John\",\n  \"firstInitial\": \"J\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"createdOn\": null,\n  \"modifiedOn\": \"2018-01-01T14:24:17.320Z\",\n  \"isActive\": true,\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3f24cac-22a8-40a8-aa73-b28abab6e825",
+              "name": "If your organization has no agent with that specific id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    ":AgentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AgentId",
+                      "description": "(Required) UUID of the agent to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4668f487-00c0-4860-8452-66d04c2814ff",
+          "name": "Update Agent",
+          "request": {
+            "name": "Update Agent",
+            "description": {
+              "content": "Updates information about an existing agent in your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Agent",
+                ":AgentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "AgentId",
+                  "description": "(Required) UUID of the agent to update"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string,null>\",\n  \"lastName\": \"<string,null>\",\n  \"agentEmail\": \"<string,null>\",\n  \"agentCode\": \"<string,null>\",\n  \"isActive\": \"<boolean,null>\",\n  \"osms\": \"<array,null>\",\n  \"userId\": \"<string,null>\",\n  \"managerId\": \"<string,null>\",\n  \"startDate\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c965d0d5-147c-463f-91b3-2e375d1ddb0b",
+              "name": "Returns the updated agent",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    ":AgentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AgentId",
+                      "description": "(Required) UUID of the agent to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"isActive\": true,\n  \"osms\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"356ab155-9f34-f8b2-7750-503e364a9237\",\n  \"userId\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n  \"firstName\": \"John\",\n  \"firstInitial\": \"J\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"createdOn\": null,\n  \"modifiedOn\": \"2018-01-01T14:24:17.320Z\",\n  \"isActive\": true,\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a01e9f11-6f30-4e64-be94-95adb504a516",
+              "name": "A UserId was provided that corresponded to an inactive or non existent user",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    ":AgentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AgentId",
+                      "description": "(Required) UUID of the agent to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"isActive\": true,\n  \"osms\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71847b09-f94b-4899-9a0d-24192a5b7a20",
+              "name": "If your organization has no agent with that specific id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    ":AgentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AgentId",
+                      "description": "(Required) UUID of the agent to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"agentEmail\": \"john.doe@organization.com\",\n  \"agentCode\": \"007\",\n  \"isActive\": true,\n  \"osms\": [\n    \"00000000-0000-0000-0000-000000000000\",\n    \"00000000-0000-0000-0000-000000000001\"\n  ],\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\n  \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n  \"startDate\": \"2000-10-01T17:42:14.63798\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ead418c8-4dca-4e03-a3ce-a06af06a9ac9",
+          "name": "Get All Agents",
+          "request": {
+            "name": "Get All Agents",
+            "description": {
+              "content": "Returns a list of all agents in your organization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Agent",
+                "All"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "IsActive",
+                  "value": "<boolean>",
+                  "description": "Filter by active (true) or inactive (false) agents. Omit to return all"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eddb63cd-a95f-4ef7-baf6-b0b13befda6c",
+              "name": "Returns the list of all agents",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"4f3bdc1d-7989-ea62-8d30-daad089982ad\",\n    \"userId\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n    \"firstName\": \"John\",\n    \"firstInitial\": \"J\",\n    \"lastName\": \"Doe\",\n    \"agentEmail\": \"john.doe@organization.com\",\n    \"agentCode\": \"007\",\n    \"createdOn\": \"2023-09-11T16:07:54.023Z\",\n    \"modifiedOn\": null,\n    \"isActive\": true,\n    \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n    \"startDate\": \"2000-10-01T17:42:14.63798\"\n  },\n  {\n    \"id\": \"7057f64d-c562-86ea-68bc-1df47e0fdcce\",\n    \"userId\": \"8f02de21-2d25-4a96-8973-7eb8ec9b6c1a\",\n    \"firstName\": \"John\",\n    \"firstInitial\": \"J\",\n    \"lastName\": \"Doe\",\n    \"agentEmail\": \"john.doe@organization.com\",\n    \"agentCode\": \"007\",\n    \"createdOn\": null,\n    \"modifiedOn\": null,\n    \"isActive\": true,\n    \"managerId\": \"00000000-0000-0000-0000-00000000000\",\n    \"startDate\": \"2000-10-01T17:42:14.63798\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e3d9750-7444-4002-ae3d-9f58a431dce2",
+              "name": "If your organization has no agents",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Agent",
+                    "All"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "IsActive",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "64d57373-c24f-430e-b562-76a34d926fdf",
+    "name": "AcxApi Production Agent API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -127,11 +127,23 @@ error_envelope:
 rate_limiting:
   documented: false
   signal: HTTP 429 declared on POST /Media/Upload only
-  headers: none documented
-  retry_after: not documented
+  headers:
+  - name: Retry-After
+    unit: seconds
+    status: '429'
+    scope: 'POST /Media/Upload'
+    source: openapi/_original/authenticx-acxapi-openapi.json
+    quote: 'Seconds to wait before retrying after a rate limit'
+  retry_after: true
+  ratelimit_headers: none
+  corrected: '2026-08-14'
   note: >-
-    No published quota, no rate-limit reference page, no Retry-After or X-RateLimit-* headers in the spec. A
-    client can only discover the limit by hitting it.
+    Corrected 2026-08-14: Retry-After IS declared, on the 429 of POST /Media/Upload, in Authenticx's own
+    harvested spec — the 2026-08-06 pass recorded it as absent. That header is the entire runtime rate-limit
+    contract: there is no X-RateLimit-*/RateLimit-* (RFC 9331), no published quota and no rate-limit reference
+    page, and the other 45 operations declare no 429 at all. A client can back off correctly once refused on
+    the ingest path, but cannot anticipate the limit or budget against it.
+  see: rate-limits/authenticx-rate-limits.yml
 uploads:
   content_type: multipart/form-data
   parts:

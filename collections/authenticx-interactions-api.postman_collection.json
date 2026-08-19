@@ -1,0 +1,672 @@
+{
+  "item": [
+    {
+      "id": "845beeb5-2b8e-47ec-ace8-cce3f4229520",
+      "name": "Interactions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "be594383-f353-4bac-8d6e-1cd88bced17d",
+          "name": "Get Interactions based on filter criteria",
+          "request": {
+            "name": "Get Interactions based on filter criteria",
+            "description": {
+              "content": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Interactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "DateReference",
+                  "value": "<string>",
+                  "description": "Specifies whether to filter by 'InteractionDate' or 'ArrivalDate'."
+                },
+                {
+                  "disabled": false,
+                  "key": "StartDate",
+                  "value": "<string>",
+                  "description": "(Required) The start date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS."
+                },
+                {
+                  "disabled": false,
+                  "key": "EndDate",
+                  "value": "<string>",
+                  "description": "(Required) The end date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS."
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "The status filter for interactions. Valid values: 'Sampled', 'ReadyToSample'."
+                },
+                {
+                  "disabled": false,
+                  "key": "EddyEffect",
+                  "value": "<string>",
+                  "description": "Boolean filter for the Eddy Effect model results. Valid values: 'true', 'false'."
+                },
+                {
+                  "disabled": false,
+                  "key": "LastId",
+                  "value": "<string>",
+                  "description": "The last Interaction ID (excluded) to start pagination from."
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "<integer>",
+                  "description": "The number of results to return per call. Must be an integer between 1 and 20."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dfcda3b2-cfe6-445b-aaa5-ebe89137ab53",
+              "name": "Returns the interactions that match the specified criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "InteractionDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "EddyEffect",
+                      "value": "true"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fff7115d-81f8-4e80-8eb1-2505b47a8bb6\",\n  \"clientCallId\": \"abc123-2018\",\n  \"interactionDate\": \"2024-09-12T13:02:12.199Z\",\n  \"agent\": {\n    \"id\": \"237bad41-f4e7-b062-9944-1156fb84cbd1\",\n    \"fullName\": \"Chris Jericho\",\n    \"agentCode\": \"1386\",\n    \"agentEmail\": \"Chris.Jericho@email.com\"\n  },\n  \"classifierResults\": [\n    {\n      \"name\": \"ML-EddyEffect\",\n      \"modifiedOn\": \"2024-09-12T14:39:59.555797Z\",\n      \"result\": \"False\",\n      \"score\": 0.00234599\n    },\n    {\n      \"name\": \"ML-Summarization\",\n      \"modifiedOn\": \"2024-09-12T14:36:53.270466Z\",\n      \"result\": \"The caller asked about the Eddy Effect. The agent answered the question.\",\n      \"score\": null\n    }\n  ],\n  \"arrivedOn\": \"2024-09-12T14:15:35.678557Z\",\n  \"modifiedOn\": \"2024-09-14T13:33:05.531552Z\",\n  \"status\": \"Sampled\",\n  \"transcriptions\": null,\n  \"metadataExtended\": {\n    \"key_0\": \"string\"\n  },\n  \"evaluationIds\": [\n    \"01000000-e1a4-226a-3335-08dcd4c1c346\"\n  ],\n  \"duration\": 1260672,\n  \"messageCount\": null,\n  \"mediaType\": \"Audio\",\n  \"meta1\": \"true\",\n  \"meta2\": \"0bc16fa3-fc50-49bb-a294-fd0f7732ca3f\",\n  \"meta3\": \"Blue\",\n  \"meta4\": null,\n  \"meta5\": \"Manager Name\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c77d5de4-d9b0-4ffe-b04b-88b3866a5519",
+              "name": "If the request parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "InteractionDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "EddyEffect",
+                      "value": "true"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cacb3523-1564-41a4-83dd-b2954579468f",
+              "name": "If no interactions meet the criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "DateReference",
+                      "value": "InteractionDate"
+                    },
+                    {
+                      "key": "StartDate",
+                      "value": "2024-11-15T08:30:00"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "2024-11-15T17:30:00"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "Sampled"
+                    },
+                    {
+                      "key": "EddyEffect",
+                      "value": "true"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "849e62f6-8422-4f46-9f53-a0b1b50bf693",
+          "name": "Get Interactions based on filter criteria.",
+          "request": {
+            "name": "Get Interactions based on filter criteria.",
+            "description": {
+              "content": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Interactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"endDate\": \"<string>\",\n  \"startDate\": \"<string>\",\n  \"dateReference\": \"<string,null>\",\n  \"status\": \"<string,null>\",\n  \"eddyEffect\": \"<string,null>\",\n  \"lastId\": \"<string,null>\",\n  \"pageSize\": \"<integer,null-int32>\",\n  \"hierarchyIds\": \"<array,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0cfbf9f7-b5e9-434d-bbce-8f26e61d0af6",
+              "name": "Returns the interactions that match the specified criteria.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"endDate\": \"2024-11-15T17:30:00\",\n  \"startDate\": \"2024-11-15T08:30:00\",\n  \"dateReference\": \"InteractionDate\",\n  \"status\": \"Sampled\",\n  \"eddyEffect\": \"true\",\n  \"lastId\": \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n  \"pageSize\": 10,\n  \"hierarchyIds\": [\n    \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n    \"ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fff7115d-81f8-4e80-8eb1-2505b47a8bb6\",\n  \"clientCallId\": \"abc123-2018\",\n  \"interactionDate\": \"2024-09-12T13:02:12.199Z\",\n  \"agent\": {\n    \"id\": \"237bad41-f4e7-b062-9944-1156fb84cbd1\",\n    \"fullName\": \"Chris Jericho\",\n    \"agentCode\": \"1386\",\n    \"agentEmail\": \"Chris.Jericho@email.com\"\n  },\n  \"classifierResults\": [\n    {\n      \"name\": \"ML-EddyEffect\",\n      \"modifiedOn\": \"2024-09-12T14:39:59.555797Z\",\n      \"result\": \"False\",\n      \"score\": 0.00234599\n    },\n    {\n      \"name\": \"ML-Summarization\",\n      \"modifiedOn\": \"2024-09-12T14:36:53.270466Z\",\n      \"result\": \"The caller asked about the Eddy Effect. The agent answered the question.\",\n      \"score\": null\n    }\n  ],\n  \"arrivedOn\": \"2024-09-12T14:15:35.678557Z\",\n  \"modifiedOn\": \"2024-09-14T13:33:05.531552Z\",\n  \"status\": \"Sampled\",\n  \"transcriptions\": null,\n  \"metadataExtended\": {\n    \"key_0\": \"string\"\n  },\n  \"evaluationIds\": [\n    \"01000000-e1a4-226a-3335-08dcd4c1c346\"\n  ],\n  \"duration\": 1260672,\n  \"messageCount\": null,\n  \"mediaType\": \"Audio\",\n  \"meta1\": \"true\",\n  \"meta2\": \"0bc16fa3-fc50-49bb-a294-fd0f7732ca3f\",\n  \"meta3\": \"Blue\",\n  \"meta4\": null,\n  \"meta5\": \"Manager Name\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3125c633-b963-48a3-8bc0-044f14a358b0",
+              "name": "If the request parameters are invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"endDate\": \"2024-11-15T17:30:00\",\n  \"startDate\": \"2024-11-15T08:30:00\",\n  \"dateReference\": \"InteractionDate\",\n  \"status\": \"Sampled\",\n  \"eddyEffect\": \"true\",\n  \"lastId\": \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n  \"pageSize\": 10,\n  \"hierarchyIds\": [\n    \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n    \"ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "da2b3974-4825-45de-af19-bfabf8a51c8b",
+              "name": "If no interactions meet the criteria.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"endDate\": \"2024-11-15T17:30:00\",\n  \"startDate\": \"2024-11-15T08:30:00\",\n  \"dateReference\": \"InteractionDate\",\n  \"status\": \"Sampled\",\n  \"eddyEffect\": \"true\",\n  \"lastId\": \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n  \"pageSize\": 10,\n  \"hierarchyIds\": [\n    \"b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1\",\n    \"ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c998480-338e-4d23-a9ab-38105d254e18",
+          "name": "Get Interaction",
+          "request": {
+            "name": "Get Interaction",
+            "description": {
+              "content": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns the interaction's status, and if completed, additional information describing the interaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Interactions",
+                ":AmdID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "AmdID",
+                  "description": "(Required) The unique identifier of the interaction. This field is required.\n             <example> Example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1</example>"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "276ab345-9dc8-40b9-b7db-1fb22cdd9465",
+              "name": "Returns the interaction with the specified id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions",
+                    ":AmdID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AmdID",
+                      "description": "(Required) The unique identifier of the interaction. This field is required.\n             <example> Example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1</example>"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"fff7115d-81f8-4e80-8eb1-2505b47a8bb6\",\n  \"clientCallId\": \"abc123-2018\",\n  \"interactionDate\": \"2024-09-12T13:02:12.199Z\",\n  \"agent\": {\n    \"id\": \"237bad41-f4e7-b062-9944-1156fb84cbd1\",\n    \"fullName\": \"Chris Jericho\",\n    \"agentCode\": \"1386\",\n    \"agentEmail\": \"Chris.Jericho@email.com\"\n  },\n  \"classifierResults\": [\n    {\n      \"name\": \"ML-EddyEffect\",\n      \"modifiedOn\": \"2024-09-12T14:39:59.555797Z\",\n      \"result\": \"False\",\n      \"score\": 0.00234599\n    },\n    {\n      \"name\": \"ML-Summarization\",\n      \"modifiedOn\": \"2024-09-12T14:36:53.270466Z\",\n      \"result\": \"The caller asked about the Eddy Effect. The agent answered the question.\",\n      \"score\": null\n    }\n  ],\n  \"arrivedOn\": \"2024-09-12T14:15:35.678557Z\",\n  \"modifiedOn\": \"2024-09-14T13:33:05.531552Z\",\n  \"status\": \"Sampled\",\n  \"transcriptions\": null,\n  \"metadataExtended\": {\n    \"key_0\": \"string\"\n  },\n  \"evaluationIds\": [\n    \"01000000-e1a4-226a-3335-08dcd4c1c346\"\n  ],\n  \"duration\": 1260672,\n  \"messageCount\": null,\n  \"mediaType\": \"Audio\",\n  \"meta1\": \"true\",\n  \"meta2\": \"0bc16fa3-fc50-49bb-a294-fd0f7732ca3f\",\n  \"meta3\": \"Blue\",\n  \"meta4\": null,\n  \"meta5\": \"Manager Name\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54055f4f-54e9-4a71-8ac0-aa1e86b01889",
+              "name": "If your organization has no interaction with that specific id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Interactions",
+                    ":AmdID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "AmdID",
+                      "description": "(Required) The unique identifier of the interaction. This field is required.\n             <example> Example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1</example>"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "261e2574-4ed0-4781-b2de-c3954c929338",
+    "name": "AcxApi Production Interactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

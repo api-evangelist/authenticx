@@ -1,0 +1,500 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Metadata API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Metadata
+paths:
+  /Metadata:
+    get:
+      tags:
+      - Metadata
+      summary: Get Metadata
+      description: Gets a list of Metadata objects
+      parameters:
+      - name: StartDate
+        in: query
+        description: 'Filters based On ArrivedOn date of the metadata File.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: EndDate
+        in: query
+        description: 'Filters based On ArrivedOn date of the metadata File. Must be equal to or later than StartDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: MediaType
+        in: query
+        description: 'Valid Options:
+
+          - Audio,
+
+          - Email,
+
+          - Chat,
+
+          - Video,
+
+          - Live,
+
+          - Metadata,
+
+          - ProcessedChat
+
+          - MetadataExtended'
+        schema:
+          type: string
+      - name: ClientCallId
+        in: query
+        description: Comma-separated list of your system's call identifiers. Up to 100 supported per request.
+        schema:
+          type: string
+      - name: LastId
+        in: query
+        description: GUID of the last result from the previous page. Used for cursor-based pagination.
+        schema:
+          type: string
+      - name: PageSize
+        in: query
+        description: Maximum number of metadata objects returned per call.
+        schema:
+          type: integer
+          format: int32
+      - name: HierarchyIds
+        in: query
+        description: Comma-delimited list of hierarchy IDs (GUIDs) to filter by organizational structure. Cannot be used with Chat, Metadata, or MetadataExtended media types as those files are not assigned to a hierarchy.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the list of all metadata that meet the provided criteria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+    post:
+      tags:
+      - Metadata
+      summary: Post Metadata
+      description: Return a list of Metadata with specified criteria.
+      requestBody:
+        description: 'Request body containing parameters for Metadata creation
+
+          startDate and endDate filter based on ArrivedOn date of the metadata file'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PostMetadataRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PostMetadataRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PostMetadataRequest'
+      responses:
+        '200':
+          description: Returns the list of all metadata that meet the provided criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /Metadata/{id}:
+    patch:
+      tags:
+      - Metadata
+      summary: Patch Metadata
+      description: 'Updates a target metadata object with the provided values.
+
+        Performs a patch operation that will overwrite existing values
+
+        with those provided.'
+      parameters:
+      - name: id
+        in: path
+        description: Id of the metadata object to update
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: New values to patch in
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PatchMetadataRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PatchMetadataRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.Metadata.PatchMetadataRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+components:
+  schemas:
+    AcxApi.Models.Metadata.PatchMetadataRequest:
+      type: object
+      properties:
+        timestamp:
+          type:
+          - string
+          - 'null'
+          description: ISO 8601 datetime of the interaction
+          format: date-time
+          example: '2021-06-08T19:39:08.561'
+        phone:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: '8444025347'
+        callDirection:
+          type:
+          - string
+          - 'null'
+          description: Inbound or Outbound
+          example: Outbound
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: 491028027895064.wav.acxMedia.mp3
+        localeId:
+          type:
+          - integer
+          - 'null'
+          description: Specifies the language of the interaction using a locale ID. Defaults to 1033 (English) if omitted
+          format: int32
+          example: 1033
+        meta1:
+          description: ''
+          example: 0
+          deprecated: true
+        meta2:
+          description: ''
+          example: null
+          deprecated: true
+        meta3:
+          description: ''
+          deprecated: true
+        meta4:
+          description: ''
+          example: true
+          deprecated: true
+        meta5:
+          description: ''
+          deprecated: true
+        extendedMetadata:
+          type:
+          - object
+          - 'null'
+          additionalProperties: {}
+          description: Key-value pairs of extended metadata attached to this conversation
+          example:
+            data: extra data
+            data2: extra data2
+      additionalProperties: false
+    AcxApi.Models.Metadata.ProcessFailure:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this process failure
+          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
+        message:
+          type:
+          - string
+          - 'null'
+          description: Message related to the cause of failure
+          example: ''
+        createdOn:
+          type: string
+          description: Date the failure occurred
+          format: date-time
+      additionalProperties: false
+    AcxApi.Models.Metadata.PostMetadataRequest:
+      required:
+      - endDate
+      - pageSize
+      - startDate
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        mediaType:
+          type:
+          - string
+          - 'null'
+        clientCallIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        lastId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        pageSize:
+          type: integer
+          format: int32
+        hierarchyIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: 'A list of hierarchy IDs (GUIDs) to filter metadata by organizational structure.
+
+            Cannot be used with Chat, Metadata, or MetadataExtended media types as those files
+
+            are not assigned to a hierarchy.'
+          example:
+          - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+          - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      additionalProperties: false
+    AcxApi.Models.Metadata.Metadata:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: 'Unique identifier for this conversation. This is the conversation ID used across other endpoints —
+
+            pass this value to PATCH /Metadata/{id}, GET /Conversations/Transcriptions/{conversationId},
+
+            and GET /Conversations/Insights to retrieve or update data for this conversation.'
+          example: 000f78b0-4720-467e-854a-d245549f928e
+        acxIdentifier:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: b1707d53-5369-4d61-b9b7-21ac19318d70
+        organizationId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: f90db5b4-1b3c-4b41-bff4-cfc2524c41d8
+        organizationStructureMemberId:
+          type:
+          - string
+          - 'null'
+          description: ID of the hierarchy node this conversation belongs to.
+          example: 6365f3bf-0be1-46f2-9894-7305f0aad53c
+        fileName:
+          type:
+          - string
+          - 'null'
+          description: The name of the file as is in your organizations storage account.
+          example: 491028027895064.wav.acxMedia
+        origFileName:
+          type:
+          - string
+          - 'null'
+          description: The name of the file as it was uploaded, before processing.
+          example: 491028027895064.wav
+        uploadedFileName:
+          type:
+          - string
+          - 'null'
+          description: Name of parent file.
+        fileSizeKiloBytes:
+          type: integer
+          description: Size of the audio file.
+          format: int64
+          example: 2500
+        mediaType:
+          type:
+          - string
+          - 'null'
+          description: 'Type of interaction. Values include: Audio, Email, Chat, Video, Live, Metadata, ProcessedChat, MetadataExtended.'
+          example: Audio
+        status:
+          type:
+          - string
+          - 'null'
+          description: 'Current processing status. Values include: Sampled, ReadyToSample, FailedToProcess.'
+          example: Sampled
+        timestamp:
+          type:
+          - string
+          - 'null'
+          description: The date/time of the actual interaction.
+          format: date-time
+          example: '2021-06-08T19:39:08.561'
+        arrivedOn:
+          type: string
+          description: When the interaction arrived in the system.
+          format: date-time
+        agentId:
+          type:
+          - string
+          - 'null'
+          description: 'Unique identifier of the agent associated with this conversation.
+
+            Null when no agent is assigned to the conversation.'
+          example: f4d9440f-a090-4ddf-88f5-f957711f8028
+        agentName:
+          type:
+          - string
+          - 'null'
+          description: Agent's name.
+          example: JOHN DOE
+        phone:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: '8444025347'
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your system's call identifier for this conversation.
+          example: 491028027895064.wav.acxMedia.mp3
+        callDirection:
+          type:
+          - string
+          - 'null'
+          description: Direction of the call from the agents perspective.
+          example: Outbound
+        callDurationMillis:
+          type: integer
+          description: Length of audio conversation in milliseconds. 0 when not an audio conversation.
+          format: int64
+          example: 18840
+        chatMessageCount:
+          type:
+          - integer
+          - 'null'
+          description: Number of messages in a chat conversation. 0 when not a chat conversation.
+          format: int32
+          example: 13
+        localeId:
+          type: integer
+          description: Locale Id of the source calls language.
+          format: int32
+          example: 1033
+        extendedMetadataValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          description: A list of extended metadata key value pairs.
+          example:
+            data: extra data
+            data2: extra data2
+        extendedMetadata:
+          type:
+          - array
+          - 'null'
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: ''
+          example:
+          - data: extra data
+          deprecated: true
+        meta1:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: '0'
+          deprecated: true
+        meta2:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: null
+          deprecated: true
+        meta3:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: vq_KEHP_Member_Voice
+          deprecated: true
+        meta4:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: 'true'
+          deprecated: true
+        meta5:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+          deprecated: true
+        processFailures:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Metadata.ProcessFailure'
+          description: ''
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

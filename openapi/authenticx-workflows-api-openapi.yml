@@ -1,0 +1,217 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Workflows API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Workflows
+paths:
+  /Workflows:
+    get:
+      tags:
+      - Workflows
+      summary: Get Workflows
+      description: Gets a list of Workflow objects in a given date range.
+      parameters:
+      - name: StartDate
+        in: query
+        description: 'Start of the date range.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: EndDate
+        in: query
+        description: 'Must be equal to or later than StartDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: DateReference
+        in: query
+        description: "Which date to filter on. Valid values: \n            \n            CreatedOnDate, \n            InteractionDate"
+        schema:
+          type: string
+      - name: PageSize
+        in: query
+        description: Results per page. Default 100, max 100.
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      - name: LastId
+        in: query
+        description: GUID of the last workflow from the previous page. Used for cursor-based pagination.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.Workflows.WorkflowModel'
+components:
+  schemas:
+    AcxApi.Models.Workflows.ModuleQuestions:
+      type: object
+      properties:
+        questionText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Action Plan Established
+        answers:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - 'No'
+          - 'Yes'
+      additionalProperties: false
+    AcxApi.Models.Workflows.WorkflowLevel:
+      type: object
+      properties:
+        level:
+          type: integer
+          description: ''
+          format: int32
+          example: 0
+        assignees:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - doe.john@organization.com
+        completer:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: thomas.doe@organization.com
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        outcome:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Continue Workflow
+        notes:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
+    AcxApi.Models.Workflows.WorkflowModel:
+      type: object
+      properties:
+        interactionId:
+          type: string
+          description: 'ID of the conversation associated with this workflow. Note: this is NOT the same as the conversation ID (AudioMetadata ID) used by the Metadata, Transcriptions, and Insights endpoints — it cannot be passed directly to those endpoints.'
+          format: uuid
+          example: f23f4c65-188a-433d-b189-205b334ea958
+        evaluationNumber:
+          type: integer
+          description: The evaluation that triggered this workflow. Use this to cross-reference with GET /Evaluations or GET /Evaluations/Modules.
+          format: int32
+          example: 2466
+        workflowId:
+          type: string
+          description: Unique identifier for this workflow. Use as LastId for cursor-based pagination.
+          format: uuid
+          example: ec063bc3-831f-486a-b298-a035fa6e288c
+        workflowType:
+          type:
+          - string
+          - 'null'
+          description: Type of workflow.
+          example: APT
+        workflowName:
+          type:
+          - string
+          - 'null'
+          description: Display name.
+          example: Reconsideration
+        workflowStatus:
+          type:
+          - string
+          - 'null'
+          description: Current workflow status (e.g. Closed, Open).
+          example: Closed
+        levels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Workflows.WorkflowLevel'
+          description: List of workflow level records showing progression through the workflow steps.
+        bossModule:
+          $ref: '#/components/schemas/AcxApi.Models.Workflows.BossModule'
+      additionalProperties: false
+    AcxApi.Models.Workflows.BossModule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          format: uuid
+          example: 66799610-12fe-4725-90aa-70079109df96"
+        name:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: APT Test 2.0
+        questions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
+          description: ''
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

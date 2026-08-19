@@ -127,9 +127,19 @@ problems:
   title: Too Many Requests
   scope: media-upload
   description: >-
-    The only rate-limit signal anywhere in the AcxAPI surface. Declared on POST /Media/Upload only. No
-    Retry-After, X-RateLimit-* headers, published quota, or rate-limit documentation page was found — so a
-    client can observe throttling but cannot anticipate or back off against a published budget.
+    The only rate-limit signal anywhere in the AcxAPI surface. Declared on POST /Media/Upload only, and it
+    DOES carry a Retry-After response header (integer seconds, "Seconds to wait before retrying after a rate
+    limit") in Authenticx's own harvested spec. There are no X-RateLimit-*/RateLimit-* headers, no published
+    quota and no rate-limit documentation page — so a client can back off correctly once refused, but cannot
+    anticipate the limit or budget against it.
+  headers:
+  - name: Retry-After
+    schema: integer (seconds)
+  corrected: '2026-08-14'
+  correction_note: >-
+    Supersedes the 2026-08-06 text, which stated no Retry-After was found. Verified in
+    openapi/_original/authenticx-acxapi-openapi.json and openapi/authenticx-media-api-openapi.yml.
+  see: rate-limits/authenticx-rate-limits.yml
   source_operation: openapi/authenticx-acxapi-openapi.yml#POST /Media/Upload
   remediation: Back off and retry; no published limit or Retry-After to key on.
 - status: 500

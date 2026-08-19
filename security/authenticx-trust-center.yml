@@ -1,0 +1,120 @@
+generated: '2026-08-14'
+method: searched
+probe: true
+url: https://authenticx.com/privacy-security
+title: 'Privacy & Security — Built for healthcare. Secured for trust.'
+kind: security-and-compliance-page
+dedicated_trust_portal: false
+certifications:
+- name: SOC 2 Type I & II
+  body: AICPA
+  quote: 'SOC 2 Type I & II — AICPA'
+  evidence_url: https://authenticx.com/privacy-security
+- name: HIPAA
+  body: HHS (US)
+  quote: 'HIPAA — HIPAA Compliant'
+  kind: regulatory-compliance-claim
+  evidence_url: https://authenticx.com/privacy-security
+- name: GDPR
+  body: EU / UK
+  quote: 'GDPR — General Data Protection Regulation (EU & UK)'
+  kind: regulatory-compliance-claim
+  evidence_url: https://authenticx.com/privacy-security
+- name: CCPA
+  body: State of California
+  quote: 'CCPA — California Consumer Privacy Act'
+  kind: regulatory-compliance-claim
+  evidence_url: https://authenticx.com/privacy-security
+not_claimed:
+- HITRUST CSF
+- ISO 27001
+- ISO 27017
+- ISO 27018
+- PCI DSS
+- FedRAMP
+- CSA STAR
+- 'NIST 800-53'
+controls_published:
+- area: Access Management
+  controls:
+  - name: Role-Based Access Controls
+    detail: >-
+      Each client operates in a dedicated resource group with least-privilege access controls, while Azure AD
+      securely manages user identities and role-based permissions.
+  - name: Single Sign-On (SSO) & Identity Management
+    detail: >-
+      Authenticx enforces multi-factor authentication for internal services and supports Single Sign-On (SSO),
+      requiring unique credentials for each authorized user.
+  - name: Application Governance & Audit Logging
+    detail: >-
+      Governance policies are applied to cloud infrastructure and APIs, with comprehensive audit logs tracking
+      access, authentication attempts and data activity within sensitive systems.
+- area: Quality Assurance & Change Management
+  controls:
+  - name: Personnel
+    detail: >-
+      Background checks, ongoing security training for all employees, and documented policies and procedures
+      governing risk management and incident response.
+  - name: Auditability & Monitoring
+    detail: System activity is logged and monitored for transparency, traceability and accountability.
+  - name: Continuous Improvement
+    detail: Controls are continuously evaluated and refined against healthcare and regulatory standards.
+- area: Data Resiliency
+  controls:
+  - name: Data Back-Up
+    detail: Encrypted daily backups of customer and system data, with production-equivalent protections.
+  - name: Data Storage
+    detail: >-
+      Hosted across multiple data centers with built-in failover, on Azure infrastructure engineered for
+      99%+ data durability and continuity.
+  - name: Disaster Recovery
+    detail: Annual disaster recovery and backup restoration testing.
+- area: Data Protection
+  controls:
+  - name: Purpose Limitations
+    detail: >-
+      "Data is processed solely to deliver conversation intelligence insights for your organization.
+      Sensitive healthcare data is never sold or used to train our models."
+  - name: Data Minimization
+    detail: Only the data necessary to deliver the service is collected and retained.
+gaps:
+  vulnerability_disclosure: false
+  security_contact: false
+  bug_bounty: false
+  security_txt: false
+  pen_test_statement: false
+  subprocessor_list: false
+  audit_report_request_flow: false
+  note: >-
+    The page is a marketing-tier trust statement, not a trust CENTER: there is no portal to request the SOC 2
+    report, no subprocessor list, no named security contact, no responsible-disclosure or bug-bounty program,
+    no /.well-known/security.txt (404 on authenticx.com, 403 default-deny on api.beauthenticx.com), and no
+    penetration-testing statement. trust.authenticx.com and security.authenticx.com do not resolve. A
+    healthcare buyer's security review therefore starts with an email, not a document.
+evidence:
+- source: https://authenticx.com/privacy-security
+  status: 200
+  keywords:
+  - soc 2 type i & ii
+  - hipaa compliant
+  - gdpr
+  - ccpa
+  - encrypted daily backups
+  - audit logging
+  fetched: '2026-08-14'
+probes:
+- url: https://trust.authenticx.com/
+  status: '000'
+  note: does not resolve
+- url: https://security.authenticx.com/
+  status: '000'
+  note: does not resolve
+- url: https://authenticx.com/security
+  status: 404
+- url: https://authenticx.com/.well-known/security.txt
+  status: 404
+- url: https://authenticx.com/privacy-security
+  status: 200
+related:
+- conformance/authenticx-conformance.yml
+- security/authenticx-domain-security.yml

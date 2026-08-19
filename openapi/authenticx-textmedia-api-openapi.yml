@@ -1,0 +1,55 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Text Media API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: TextMedia
+paths:
+  /TextMedia/Upload:
+    post:
+      tags:
+      - TextMedia
+      summary: Upload Text Media
+      description: "Uploads a text media interaction into storage for processing.\n            \n*Param name \"file\"* \n\nText file uploaded from client. \n\nValid File Extensions:\n- .json\n- .json_chat \n\n*Param name \"metadata\"* \n\nJSON object containing multiple metadata fields for the text media File: \n\n            \n> \U0001F4D8 **Note:** Including the ```Id``` field is recommended. If omitted, one is generated for you, but providing your own lets you correlate with your system.\n            \n- Id:\nUnique identifier for the text media. example: \"4834c9e9-74f2-4bfe-a0c8-ce947a4f30e3\"\n- FilePath:\nPath containing file name and extension. Subdirectories specifying a more exact path may be prepended to the file. If omitted, the system derives a path from the ```Id```.\nname.\nExamples:\n-- With subdirectories: \"topfolder/subfolder/subsubfolder/filename.json\"\n-- Without subdirectories: \"filename.json\"\n- TimeStamp:\nTime stamp of the interaction.\nExamples: \"2022-03-18T21:52:26\", \"2022-03-18T21:52:26.8816090Z\", \"2022-03-19\", \"2022-03-18T17:56:09.8683110-04:00\"\n- CallDirection:\nDirection of the interaction's call to or from the call center.\nExamples:\n-- \"Inbound\"\n-- \"Outbound\"\n- Name:\nName associated with interaction.\nExample:\n-- \"Alice\"\n- Phone:\nPhone number associated with interaction.\nExample:\n--\"800-555-5555\"\n- AgentFirstName:\nAgent's First Name associated with interaction.\nExample:\n--\"James\"\n- AgentLastName:\nAgent's Last Name associated with interaction.\nExample:\n--\"Bond\"\n- AgentCode:\nAgent Code for associating agent already in system with interaction.\nExample:\n--\"007\"\n- ExtendedMetadata:\nArray of Dictionaries of key values associated with interaction\nExamples:\n-- [{ \"Data\": \"Example Data\"}, { \"Data2\": \"Example Data 2\", \"ExampleKey\": \"Example Value\" }]\n- HierarchyId:\nId of hierarchy to associate with this interaction\nExample:\n-- \"00000000-0000-0000-0000-000000000002\"\n- HierarchyCode:\nInternal Organization Code for associating hierarchy with this interaction\nExample:\n-- \"Accounting\"\n- ApplyHierarchyToAgent:\nIf we want the hierarchy that is passed in to also be applied to the agent then true\nExample:\n-- true\n- LocaleId:\nSpecifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted."
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - metadata
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+            encoding:
+              file:
+                style: form
+              metadata:
+                style: form
+      responses:
+        '200':
+          description: Returns an object with the FileName and FileSizeKb
+        '400':
+          description: 'One of the following errors occurred: the file provided had an invalid extension, no metadata was provided,
+
+            provided metadata was malformed, provided metadata had no FileName, an interaction with the provided file name
+
+            already exists.'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

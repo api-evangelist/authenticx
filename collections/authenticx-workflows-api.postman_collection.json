@@ -1,0 +1,179 @@
+{
+  "item": [
+    {
+      "id": "c07a8252-fc88-4b64-ac41-939d06fce76b",
+      "name": "Workflows",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9f819d1a-5424-44e1-bfa9-372b71cb7f29",
+          "name": "Get Workflows",
+          "request": {
+            "name": "Get Workflows",
+            "description": {
+              "content": "Gets a list of Workflow objects in a given date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Workflows"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "StartDate",
+                  "value": "<string>",
+                  "description": "Start of the date range.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "EndDate",
+                  "value": "<string>",
+                  "description": "Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "DateReference",
+                  "value": "<string>",
+                  "description": "Which date to filter on. Valid values: \n            \n            CreatedOnDate, \n            InteractionDate"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "100",
+                  "description": "Results per page. Default 100, max 100."
+                },
+                {
+                  "disabled": false,
+                  "key": "LastId",
+                  "value": "<uuid>",
+                  "description": "GUID of the last workflow from the previous page. Used for cursor-based pagination."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "53b4e43e-de6d-4105-a90c-a1df0c74f279",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Workflows"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "StartDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "DateReference",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"interactionId\": \"f23f4c65-188a-433d-b189-205b334ea958\",\n    \"evaluationNumber\": 2466,\n    \"workflowId\": \"ec063bc3-831f-486a-b298-a035fa6e288c\",\n    \"workflowType\": \"APT\",\n    \"workflowName\": \"Reconsideration\",\n    \"workflowStatus\": \"Closed\",\n    \"levels\": null,\n    \"bossModule\": {\n      \"id\": \"475bccad-d242-ea45-9ca3-6badd57fa3f2\",\n      \"name\": \"APT Test 2.0\",\n      \"questions\": null\n    }\n  },\n  {\n    \"interactionId\": \"f23f4c65-188a-433d-b189-205b334ea958\",\n    \"evaluationNumber\": 2466,\n    \"workflowId\": \"ec063bc3-831f-486a-b298-a035fa6e288c\",\n    \"workflowType\": \"APT\",\n    \"workflowName\": \"Reconsideration\",\n    \"workflowStatus\": \"Closed\",\n    \"levels\": [\n      \"\",\n      \"\"\n    ],\n    \"bossModule\": {\n      \"id\": \"64fa9e0f-7406-ae55-bdf6-042bf5503fd3\",\n      \"name\": \"APT Test 2.0\",\n      \"questions\": [\n        \"\",\n        \"\"\n      ]\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b6bbde03-0596-4673-95cb-8f180f607a48",
+    "name": "AcxApi Production Workflows API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,328 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production User API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: User
+paths:
+  /User:
+    get:
+      tags:
+      - User
+      summary: Get User By UserName
+      description: Returns the user with the username specified in the query string.
+      parameters:
+      - name: UserName
+        in: query
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the user with the specified username
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+        '400':
+          description: The UserName query parameter was not supplied
+        '404':
+          description: No user in your organization matches the specified username
+    post:
+      tags:
+      - User
+      summary: Create User
+      description: Adds a user to your organization.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.User.CreateUserRequest'
+      responses:
+        '200':
+          description: Returns the newly created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+        '400':
+          description: One or more of the required fields were incorrect or belonged to a user that already exists
+  /User/{UserId}:
+    get:
+      tags:
+      - User
+      summary: Get User
+      description: Returns the user with the id specified in the url.
+      parameters:
+      - name: UserId
+        in: path
+        description: ''
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the user with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+    put:
+      tags:
+      - User
+      summary: Update User
+      description: Updates information about an existing user in your organization.
+      parameters:
+      - name: UserId
+        in: path
+        description: The string ID of the user to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Models.User.UpdateUserRequest'
+      responses:
+        '200':
+          description: Returns the newly updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+        '400':
+          description: ''
+  /User/All:
+    get:
+      tags:
+      - User
+      summary: Get All Users
+      description: Returns a list of all users in your organization.
+      parameters:
+      - name: IsActive
+        in: query
+        description: Filter by active (true) or disabled (false) users. Omit to return all
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Returns the list of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+components:
+  schemas:
+    AcxApi.Models.User.UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: The first name of the new user you intend to add.
+          example: Alice
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: The last name of the new user you intend to add.
+          example: Doe
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The username that the user signs in with (typically their email).
+          example: alice.doe@organization.com
+        email:
+          type:
+          - string
+          - 'null'
+          description: The email address of the new user you intend to add.
+          example: alice.doe@organization.com
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+          description: The phone number you wish to assign to the user.
+          example: 888-888-8888
+        roleName:
+          type:
+          - string
+          - 'null'
+          description: Must exactly match a role name from GET /Roles/All.
+          example: Analyst
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: Set to true to disable the user's access.
+          example: false
+        samlProviderUserCode:
+          type:
+          - string
+          - 'null'
+          description: Your SSO provider's identifier for this user, if applicable.
+          example: '00000'
+        emailConfirmed:
+          type:
+          - boolean
+          - 'null'
+          description: When specified to true, allows the user to skip confirming their email address.
+          example: true
+      additionalProperties: false
+    AcxApi.Models.User.UserResponseModel:
+      type: object
+      properties:
+        organizationId:
+          type: string
+          description: Unique Id of the organization this user belongs to.
+          format: uuid
+          example: f90db5b4-1b3c-4b41-bff4-cfc2524c41d8
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: User's first name.
+          example: John
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: Users last name
+          example: Doe
+        userName:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: john.doe@organization.com
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+          description: User's phone number.
+          example: '3171119067'
+        id:
+          type:
+          - string
+          - 'null'
+          description: The user's unique ID. Needed when assigning users as hierarchy contacts in POST /Hierarchy or PUT /Hierarchy. Use this when assigning the user as a hierarchy contact, or when linking the user to an agent.
+          example: 8f02de21-2d25-4a96-8973-7eb8ec9b6c1a
+        email:
+          type:
+          - string
+          - 'null'
+          description: User's email address.
+          example: john.doe@organization.com
+        emailConfirmed:
+          type: boolean
+          description: Whether or not the user has confirmed their email.
+          example: true
+        disabled:
+          type: boolean
+          description: Whether or not the user is currently disabled.
+          example: false
+        roleName:
+          type:
+          - string
+          - 'null'
+          description: The role assigned to this user. Role names are used by name (not ID) in create and update calls.
+          example: Company Agent
+        createdOn:
+          type:
+          - string
+          - 'null'
+          description: Date this user was created.
+          format: date-time
+        samlProviderUserCode:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: AG66539
+        lastLogin:
+          type:
+          - string
+          - 'null'
+          description: The last time this user logged in.
+          format: date-time
+          example: ''
+        agentId:
+          type:
+          - string
+          - 'null'
+          description: If this user is linked to an agent record, the agent's ID is included here.
+          format: uuid
+          example: d1a539ee-675d-443d-9dab-6d0d3be8e0c1
+      additionalProperties: false
+    AcxApi.Models.User.CreateUserRequest:
+      required:
+      - email
+      - firstName
+      - lastName
+      - userName
+      type: object
+      properties:
+        firstName:
+          minLength: 1
+          type: string
+          description: The first name of the new user you intend to add.
+          example: John
+        lastName:
+          minLength: 1
+          type: string
+          description: The last name of the new user you intend to add.
+          example: Doe
+        userName:
+          minLength: 1
+          type: string
+          description: The username the new user will sign in with (typically their email).
+          example: john.doe@organization.com
+        email:
+          minLength: 1
+          type: string
+          description: Email address where the invitation will be sent.
+          example: john.doe@organization.com
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+          description: The phone number you wish to assign to the user.
+          example: 888-888-8888
+        roleName:
+          type:
+          - string
+          - 'null'
+          description: Role to assign. Must exactly match a role name returned by GET /Roles/All.
+          example: Analyst
+        samlProviderUserCode:
+          type:
+          - string
+          - 'null'
+          description: Your SSO provider's identifier for this user, if applicable.
+          example: '00000'
+        emailConfirmed:
+          type:
+          - boolean
+          - 'null'
+          description: Set to true to skip email confirmation for the new user.
+          example: true
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

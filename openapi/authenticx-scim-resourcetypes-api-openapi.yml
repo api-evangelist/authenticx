@@ -1,0 +1,186 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production (Scim) ResourceTypes (Scim) ResourceTypes API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: (Scim) ResourceTypes
+paths:
+  /scim/v2/ResourceTypes:
+    get:
+      tags:
+      - (Scim) ResourceTypes
+      summary: Get All Resource Types
+      description: Returns, in ListResponse format, all the resource types defined by Authenticx
+      responses:
+        '200':
+          description: All resource types defined by Authenticx
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_Of_ResourceType'
+  /scim/v2/ResourceTypes/{ResourceTypeId}:
+    get:
+      tags:
+      - (Scim) ResourceTypes
+      summary: Get Resource Type
+      description: Returns one resource type specified by the resource type id.
+      parameters:
+      - name: ResourceTypeId
+        in: path
+        description: The id of the resource type to get
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the resource type specified by the provided `ResourceTypeId`
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
+        '400':
+          description: An invalid `ResourceTypeId` was provided
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+components:
+  schemas:
+    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
+      type: object
+      properties:
+        schema:
+          type:
+          - string
+          - 'null'
+          description: The uri of the extended schema
+          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+        required:
+          type: boolean
+          description: Whether the extension is required
+          example: true
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceType.ResourceType:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: The schemas for this response
+          example:
+          - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        id:
+          type:
+          - string
+          - 'null'
+          description: The id of this resource type
+          example: User
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this resource type, likely the same as `id`
+          example: User
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this resource type
+          example: User Account
+        endpoint:
+          type:
+          - string
+          - 'null'
+          description: Where this resource type is located on the server
+          example: /Users
+        schema:
+          type:
+          - string
+          - 'null'
+          description: The schema uri associated with this resource type
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        schemaExtensions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
+          description: Any extensions of this resource type
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+    ListResponse_Of_ResourceType:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Receipts API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Receipts
+paths:
+  /Receipts:
+    get:
+      tags:
+      - Receipts
+      summary: Get Receipts based on filter criteria
+      description: "Returns a list of receipts for interactions that have finished processing and match the specified criteria.\n            \nEach result in the response includes the following fields:\n- ConversationId: Unique identifier for the conversation. Corresponds to the Id field from GET /Metadata and the ConversationId from GET /Conversations/Insights\n- DateTimeReceived: The date/time the interaction arrived in the system\n- ClientCallId: Your external telephony reference ID for this conversation\n- DateTimeTransmitted: The date/time the export attempt was transmitted\n- ReceiptId: The receipt ID returned from the downstream system\n- SafetyEvent: Safety event classification result from the export\n- AdverseEvent: Adverse event classification result from the export\n- ProductQualityComplaint: Product quality complaint result from the export\n- uid: The external system UID returned from the export endpoint"
+      parameters:
+      - name: DateReference
+        in: query
+        description: 'Specifies whether to filter by ''ArrivalDate'' or ''EvaluationCompleteDate''. Defaults to ''ArrivalDate'' if not specified.
+
+          Valid values: ArrivalDate, EvaluationCompleteDate'
+        schema:
+          type: string
+          example: ArrivalDate
+        example: ArrivalDate
+      - name: StartDate
+        in: query
+        description: 'The start date for filtering export receipts. Format: YYYY-MM-DDTHH:MM:SS.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T08:30:00'
+        example: '2024-11-15T08:30:00'
+      - name: EndDate
+        in: query
+        description: 'The end date for filtering export receipts. Format: YYYY-MM-DDTHH:MM:SS. Must be equal to or later than StartDate.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T17:30:00'
+        example: '2024-11-15T17:30:00'
+      - name: Status
+        in: query
+        description: 'The status filter for calls. Valid values: ''Sampled'', ''ReadyToSample'', ''Processing'', and ''FailedToProcess''.'
+        required: true
+        schema:
+          type: string
+          example: Sampled
+        example: Sampled
+      - name: LastId
+        in: query
+        description: GUID of the last result from the previous page. Used for cursor-based pagination.
+        schema:
+          type: string
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+      - name: PageSize
+        in: query
+        description: Results per page. Default 10, max 1000.
+        schema:
+          type: integer
+          format: int32
+          example: 10
+        example: 10
+      - name: HierarchyCodes
+        in: query
+        description: List of hierarchy codes to filter results. Can be provided as comma-separated string or multiple parameters.
+        schema:
+          type: string
+          example: ABC123,ChatQueue1
+        example: ABC123,ChatQueue1
+      responses:
+        '400':
+          description: If the request parameters are invalid
+        '404':
+          description: If no receipts meet the criteria
+        '200':
+          description: Returns the receipts that match the specified criteria
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

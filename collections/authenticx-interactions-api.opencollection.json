@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production Interactions API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Interactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Interactions based on filter criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Interactions",
+            "params": [
+              {
+                "name": "DateReference",
+                "value": "InteractionDate",
+                "type": "query",
+                "description": "Specifies whether to filter by 'InteractionDate' or 'ArrivalDate'."
+              },
+              {
+                "name": "StartDate",
+                "value": "2024-11-15T08:30:00",
+                "type": "query",
+                "description": "The start date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS."
+              },
+              {
+                "name": "EndDate",
+                "value": "2024-11-15T17:30:00",
+                "type": "query",
+                "description": "The end date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS."
+              },
+              {
+                "name": "Status",
+                "value": "Sampled",
+                "type": "query",
+                "description": "The status filter for interactions. Valid values: 'Sampled', 'ReadyToSample'."
+              },
+              {
+                "name": "EddyEffect",
+                "value": "true",
+                "type": "query",
+                "description": "Boolean filter for the Eddy Effect model results. Valid values: 'true', 'false'."
+              },
+              {
+                "name": "LastId",
+                "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1",
+                "type": "query",
+                "description": "The last Interaction ID (excluded) to start pagination from."
+              },
+              {
+                "name": "PageSize",
+                "value": "10",
+                "type": "query",
+                "description": "The number of results to return per call. Must be an integer between 1 and 20."
+              }
+            ]
+          },
+          "docs": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria."
+        },
+        {
+          "info": {
+            "name": "Get Interactions based on filter criteria.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.beauthenticx.com/Interactions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria."
+        },
+        {
+          "info": {
+            "name": "Get Interaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Interactions/:AmdID",
+            "params": [
+              {
+                "name": "AmdID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the interaction. This field is required.\n             <example> Example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1</example>"
+              }
+            ]
+          },
+          "docs": "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns the interaction's status, and if completed, additional information describing the interaction."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

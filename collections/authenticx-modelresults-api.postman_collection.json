@@ -1,0 +1,507 @@
+{
+  "item": [
+    {
+      "id": "eced970d-149d-4192-a896-7eaeee47ac12",
+      "name": "ModelResults",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b2071c97-75cc-4996-bb8f-3f46dfd7b6fa",
+          "name": "Get Model Results based on filter criteria",
+          "request": {
+            "name": "Get Model Results based on filter criteria",
+            "description": {
+              "content": "Returns a list of model results for the specified criteria including ML predictions and human review results.\n            \nmodelIds must contain active model IDs for your organization.\nUse GET /Conversations/Classifiers to discover valid modelIds for your organization.\nUse GET /Hierarchy/All to discover valid hierarchyCodes for your organization.\n            \nThis endpoint uses cursor-based pagination. Pass the lastId from the final item in a page to retrieve the next page.\nWhen includeUnprocessedMedia=true, the response may include conversations whose mediaStatus is Processed,\nNotProcessed, or FailedToProcess. Unprocessed conversations return mediaStatus details with modelResults set to null.\n            \nRequests earlier than 2025-10-01 are automatically clamped to 2025-10-01.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ModelResults"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDate",
+                  "value": "<string>",
+                  "description": "Start of the date range.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDate",
+                  "value": "<string>",
+                  "description": "Must be equal to or later than startDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "modelIds",
+                  "value": "<string>",
+                  "description": "Comma-separated list of active model GUIDs for your organization. At least one required. Retrieve valid IDs from GET /Conversations/Classifiers."
+                },
+                {
+                  "disabled": false,
+                  "key": "hierarchyCodes",
+                  "value": "<string>",
+                  "description": "Comma-separated list of hierarchy codes to filter by. Retrieve valid codes from GET /Hierarchy/All."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "100",
+                  "description": "Results per page. Default 100, max 1000"
+                },
+                {
+                  "disabled": false,
+                  "key": "lastId",
+                  "value": "<string>",
+                  "description": "Identifier of the last result from the previous page. Used for cursor-based pagination. Omit on the first request."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeUnprocessedMedia",
+                  "value": "false",
+                  "description": "Boolean. Include conversations that have not yet completed processing. Default false. When true, mediaStatus is included for every item."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f41cef01-97bd-4624-953d-91c85e1e39dc",
+              "name": "Returns the model results that match the specified criteria (empty array if no results)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ModelResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "modelIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "hierarchyCodes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "lastId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUnprocessedMedia",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conversationId\": \"000f78b0-4720-467e-854a-d245549f928e\",\n    \"clientCallId\": \"CALL-123456789\",\n    \"eventType\": \"HumanReview\",\n    \"eventTime\": \"2025-11-15T14:32:10\",\n    \"mediaStatus\": {\n      \"status\": \"FailedToProcess\",\n      \"reason\": \"This conversation could not be processed due to an internal processing error.\"\n    },\n    \"modelResults\": [\n      \"\",\n      \"\"\n    ],\n    \"emissionReceipt\": {\n      \"eventTime\": \"2025-11-15T14:32:10\",\n      \"authenticxReceiptId\": \"4d3e4ef5-cb2d-45da-a71d-c6af550660a1\",\n      \"customerReceiptId\": \"REMOTE-RECEIPT-12345\"\n    },\n    \"priorResults\": [\n      \"\",\n      \"\"\n    ]\n  },\n  {\n    \"conversationId\": \"000f78b0-4720-467e-854a-d245549f928e\",\n    \"clientCallId\": \"CALL-123456789\",\n    \"eventType\": \"HumanReview\",\n    \"eventTime\": \"2025-11-15T14:32:10\",\n    \"mediaStatus\": {\n      \"status\": \"FailedToProcess\",\n      \"reason\": \"This conversation could not be processed due to an internal processing error.\"\n    },\n    \"modelResults\": [\n      \"\",\n      \"\"\n    ],\n    \"emissionReceipt\": {\n      \"eventTime\": \"2025-11-15T14:32:10\",\n      \"authenticxReceiptId\": \"4d3e4ef5-cb2d-45da-a71d-c6af550660a1\",\n      \"customerReceiptId\": \"REMOTE-RECEIPT-12345\"\n    },\n    \"priorResults\": [\n      \"\",\n      \"\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb058e8a-1b48-41c3-bce0-f4850c8ff6e1",
+              "name": "If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the organization. Other 400 responses cover invalid dates, page size, or hierarchyCodes.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ModelResults"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "modelIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "hierarchyCodes",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "100"
+                    },
+                    {
+                      "key": "lastId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUnprocessedMedia",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f3d5a25d-c67a-453a-91f8-21a898d43cdd",
+          "name": "Get Model Results for one or more specific conversations",
+          "request": {
+            "name": "Get Model Results for one or more specific conversations",
+            "description": {
+              "content": "Returns all model results for conversations matching the provided Conversation Ids or Client Call Ids.\nmodelIds is required and must contain active model IDs for your organization.\nAt least one of conversationIds or clientCallIds must also be supplied.\nWhen both conversationIds and clientCallIds are provided, results for any conversation matching\neither set of identifiers are returned. Maximum 100 IDs per parameter.\n            \nUse this endpoint when you already know the Authenticx ConversationId from GET /Metadata or your own\nsource-system ClientCallId and want the latest available model results for those specific conversations.\nSet includeUnprocessedMedia=true to also return conversations that are still processing or failed to process.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ModelResults",
+                "Conversation"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "conversationIds",
+                  "value": "<string>",
+                  "description": "Comma-separated list of Authenticx conversation GUIDs as returned by GET /Metadata.\nMaximum 100 values per request."
+                },
+                {
+                  "disabled": false,
+                  "key": "clientCallIds",
+                  "value": "<string>",
+                  "description": "Comma-separated list of source system unique identifiers for conversations.\nMaximum 100 values per request."
+                },
+                {
+                  "disabled": false,
+                  "key": "modelIds",
+                  "value": "<string>",
+                  "description": "Required comma-separated list of active model GUIDs for your organization.\nOnly results for those models are returned. Retrieve valid IDs from GET /Conversations/Classifiers."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeUnprocessedMedia",
+                  "value": "true",
+                  "description": "Include conversations that failed or have not yet completed processing.\nWhen true, returned items may contain mediaStatus with modelResults set to null.\nDefault true."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "34e1e33b-2159-4fa2-89f2-6b99f4ca9cbd",
+              "name": "Returns the model results for the matched conversations (empty array if no results)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ModelResults",
+                    "Conversation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientCallIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "modelIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUnprocessedMedia",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"conversationId\": \"000f78b0-4720-467e-854a-d245549f928e\",\n    \"clientCallId\": \"CALL-123456789\",\n    \"eventType\": \"HumanReview\",\n    \"eventTime\": \"2025-11-15T14:32:10\",\n    \"mediaStatus\": {\n      \"status\": \"FailedToProcess\",\n      \"reason\": \"This conversation could not be processed due to an internal processing error.\"\n    },\n    \"modelResults\": [\n      \"\",\n      \"\"\n    ],\n    \"emissionReceipt\": {\n      \"eventTime\": \"2025-11-15T14:32:10\",\n      \"authenticxReceiptId\": \"4d3e4ef5-cb2d-45da-a71d-c6af550660a1\",\n      \"customerReceiptId\": \"REMOTE-RECEIPT-12345\"\n    },\n    \"priorResults\": [\n      \"\",\n      \"\"\n    ]\n  },\n  {\n    \"conversationId\": \"000f78b0-4720-467e-854a-d245549f928e\",\n    \"clientCallId\": \"CALL-123456789\",\n    \"eventType\": \"HumanReview\",\n    \"eventTime\": \"2025-11-15T14:32:10\",\n    \"mediaStatus\": {\n      \"status\": \"FailedToProcess\",\n      \"reason\": \"This conversation could not be processed due to an internal processing error.\"\n    },\n    \"modelResults\": [\n      \"\",\n      \"\"\n    ],\n    \"emissionReceipt\": {\n      \"eventTime\": \"2025-11-15T14:32:10\",\n      \"authenticxReceiptId\": \"4d3e4ef5-cb2d-45da-a71d-c6af550660a1\",\n      \"customerReceiptId\": \"REMOTE-RECEIPT-12345\"\n    },\n    \"priorResults\": [\n      \"\",\n      \"\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45a9aca9-a804-4c5d-bda5-3811fa3b8797",
+              "name": "If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the organization. Other 400 responses cover invalid conversation IDs or too many identifiers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ModelResults",
+                    "Conversation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientCallIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "modelIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUnprocessedMedia",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fb498a17-3bbb-4e81-b122-819adc51d3e6",
+              "name": "This endpoint is not available for your organization. Please contact Authenticx Help Desk support.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ModelResults",
+                    "Conversation"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "conversationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "clientCallIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "modelIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeUnprocessedMedia",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"string\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9410cc64-c6e7-4ee0-aaa4-1867f422cbdc",
+    "name": "AcxApi Production Model Results API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

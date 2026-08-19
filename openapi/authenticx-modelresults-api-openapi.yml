@@ -1,0 +1,287 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Model Results API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: ModelResults
+paths:
+  /ModelResults:
+    get:
+      tags:
+      - ModelResults
+      summary: Get Model Results based on filter criteria
+      description: "Returns a list of model results for the specified criteria including ML predictions and human review results.\n            \nmodelIds must contain active model IDs for your organization.\nUse GET /Conversations/Classifiers to discover valid modelIds for your organization.\nUse GET /Hierarchy/All to discover valid hierarchyCodes for your organization.\n            \nThis endpoint uses cursor-based pagination. Pass the lastId from the final item in a page to retrieve the next page.\nWhen includeUnprocessedMedia=true, the response may include conversations whose mediaStatus is Processed,\nNotProcessed, or FailedToProcess. Unprocessed conversations return mediaStatus details with modelResults set to null.\n            \nRequests earlier than 2025-10-01 are automatically clamped to 2025-10-01."
+      parameters:
+      - name: startDate
+        in: query
+        description: 'Start of the date range.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        description: 'Must be equal to or later than startDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        schema:
+          type: string
+      - name: modelIds
+        in: query
+        description: Comma-separated list of active model GUIDs for your organization. At least one required. Retrieve valid IDs from GET /Conversations/Classifiers.
+        schema:
+          type: string
+      - name: hierarchyCodes
+        in: query
+        description: Comma-separated list of hierarchy codes to filter by. Retrieve valid codes from GET /Hierarchy/All.
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        description: Results per page. Default 100, max 1000
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      - name: lastId
+        in: query
+        description: Identifier of the last result from the previous page. Used for cursor-based pagination. Omit on the first request.
+        schema:
+          type: string
+      - name: includeUnprocessedMedia
+        in: query
+        description: Boolean. Include conversations that have not yet completed processing. Default false. When true, mediaStatus is included for every item.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Returns the model results that match the specified criteria (empty array if no results)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResults'
+        '400':
+          description: If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the organization. Other 400 responses cover invalid dates, page size, or hierarchyCodes.
+  /ModelResults/Conversation:
+    get:
+      tags:
+      - ModelResults
+      summary: Get Model Results for one or more specific conversations
+      description: "Returns all model results for conversations matching the provided Conversation Ids or Client Call Ids.\nmodelIds is required and must contain active model IDs for your organization.\nAt least one of conversationIds or clientCallIds must also be supplied.\nWhen both conversationIds and clientCallIds are provided, results for any conversation matching\neither set of identifiers are returned. Maximum 100 IDs per parameter.\n            \nUse this endpoint when you already know the Authenticx ConversationId from GET /Metadata or your own\nsource-system ClientCallId and want the latest available model results for those specific conversations.\nSet includeUnprocessedMedia=true to also return conversations that are still processing or failed to process."
+      parameters:
+      - name: conversationIds
+        in: query
+        description: 'Comma-separated list of Authenticx conversation GUIDs as returned by GET /Metadata.
+
+          Maximum 100 values per request.'
+        schema:
+          type: string
+      - name: clientCallIds
+        in: query
+        description: 'Comma-separated list of source system unique identifiers for conversations.
+
+          Maximum 100 values per request.'
+        schema:
+          type: string
+      - name: modelIds
+        in: query
+        description: 'Required comma-separated list of active model GUIDs for your organization.
+
+          Only results for those models are returned. Retrieve valid IDs from GET /Conversations/Classifiers.'
+        schema:
+          type: string
+      - name: includeUnprocessedMedia
+        in: query
+        description: 'Include conversations that failed or have not yet completed processing.
+
+          When true, returned items may contain mediaStatus with modelResults set to null.
+
+          Default true.'
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: Returns the model results for the matched conversations (empty array if no results)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResults'
+        '400':
+          description: If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the organization. Other 400 responses cover invalid conversation IDs or too many identifiers.
+        '501':
+          description: This endpoint is not available for your organization. Please contact Authenticx Help Desk support.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    AcxApi.Models.ModelResults.ModelResult:
+      type: object
+      properties:
+        modelId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier of the model or classifier that produced this result.
+          example: 1a356274-97b2-4536-aa2c-82e6213cd49b
+        modelName:
+          type:
+          - string
+          - 'null'
+          description: Display name of the model or classifier.
+          example: First Impression
+        result:
+          type:
+          - boolean
+          - 'null'
+          description: Boolean result for models that return true or false. Null when the model returns free-text output instead.
+          example: true
+        textResult:
+          type:
+          - string
+          - 'null'
+          description: Text result for models that return narrative output instead of a boolean.
+          example: The caller asked about a billing discrepancy and the agent resolved it.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.MediaStatus:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+          description: Processing status of the conversation. Values include Processed, NotProcessed, and FailedToProcess.
+          example: FailedToProcess
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Additional detail about why a conversation is not available for model results yet.
+          example: This conversation could not be processed due to an internal processing error.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.PriorResult:
+      type: object
+      properties:
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
+        eventTime:
+          type: string
+          description: Timestamp when this prior result set was generated.
+          format: date-time
+          example: '2025-11-14T09:10:11'
+        modelResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Model results captured during the prior event.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.EmissionReceipt:
+      type: object
+      properties:
+        eventTime:
+          type: string
+          description: Timestamp when the export receipt was recorded.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        authenticxReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Authenticx-generated receipt identifier for the export attempt.
+          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
+        customerReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Customer-provided or downstream-system receipt identifier, when available.
+          example: REMOTE-RECEIPT-12345
+      additionalProperties: false
+    AcxApi.Models.ModelResults.ModelResults:
+      type: object
+      properties:
+        conversationId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier for the conversation. This is the same identifier returned as Id from GET /Metadata and as ConversationId from GET /Conversations/Insights and GET /Receipts.
+          example: 000f78b0-4720-467e-854a-d245549f928e
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your source-system conversation identifier, when available.
+          example: CALL-123456789
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Type of the latest event represented by this payload. Values include ModelResults, HumanReview, and QualityControl.
+          example: HumanReview
+        eventTime:
+          type: string
+          description: Timestamp when the latest event represented by this payload occurred.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        mediaStatus:
+          $ref: '#/components/schemas/AcxApi.Models.ModelResults.MediaStatus'
+        modelResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Latest model results for this conversation. Null when the conversation has not completed processing.
+        emissionReceipt:
+          $ref: '#/components/schemas/AcxApi.Models.ModelResults.EmissionReceipt'
+        priorResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.PriorResult'
+          description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
+      additionalProperties: false
+      description: Model results for a single conversation, including the latest result set and any prior review history.
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

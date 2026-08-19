@@ -1,0 +1,321 @@
+{
+  "item": [
+    {
+      "id": "4e04d5c1-88ff-43a1-862a-b47df1f0f936",
+      "name": "Evaluations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c9a038d-81d0-4813-a7ff-d66cea7ec6cf",
+          "name": "Get Evaluations",
+          "request": {
+            "name": "Get Evaluations",
+            "description": {
+              "content": "Gets a list of evaluations",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Evaluations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "StartDate",
+                  "value": "<string>",
+                  "description": "Filters by the evaluation's last modified date.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "EndDate",
+                  "value": "<string>",
+                  "description": "Filters by the evaluation's last modified date. Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "Valid values: \n\nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+                },
+                {
+                  "disabled": false,
+                  "key": "LastId",
+                  "value": "<integer>",
+                  "description": "The EvaluationNumber (integer) of the last evaluation from the previous page. Used for cursor-based pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "10",
+                  "description": "Results per page. Default 10"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e530bde7-a74a-405c-ae91-43d0b95ce372",
+              "name": "Returns the list of all evaluations that meet the provided criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Evaluations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "StartDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"89183d9b-dc8f-436d-a244-1daaee0ba98c\",\n    \"evaluationNumber\": 391,\n    \"evaluationName\": null,\n    \"submittedDate\": null,\n    \"assignedDate\": \"1992-11-28T15:10:25.718Z\",\n    \"modifiedOn\": \"1991-01-16T00:42:05.123Z\",\n    \"questions\": [\n      \"\",\n      \"\"\n    ],\n    \"agent\": {\n      \"id\": \"374c372a-1212-45e6-a2f6-7bafef6d7c5c\",\n      \"agentCode\": \"AF86700\",\n      \"firstName\": \"JOHN\",\n      \"lastName\": \"DOE\",\n      \"agentEmail\": \"john.doe@organization.com\"\n    },\n    \"analyst\": {\n      \"id\": \"78a4e165-0b3a-4f62-8520-99607383d60f\",\n      \"domainId\": \"\",\n      \"userName\": \"john.doe@authenticx.com\",\n      \"email\": \"john.doe@authenticx.com\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"role\": \"\"\n    },\n    \"metadata\": {\n      \"id\": \"000f78b0-4720-467e-854a-d245549f928e\",\n      \"acxIdentifier\": \"b1707d53-5369-4d61-b9b7-21ac19318d70\",\n      \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n      \"organizationStructureMemberId\": \"6365f3bf-0be1-46f2-9894-7305f0aad53c\",\n      \"fileName\": \"491028027895064.wav.acxMedia\",\n      \"origFileName\": \"491028027895064.wav\",\n      \"uploadedFileName\": null,\n      \"fileSizeKiloBytes\": 2500,\n      \"mediaType\": \"Audio\",\n      \"status\": \"Sampled\",\n      \"timestamp\": \"2021-06-08T19:39:08.561\",\n      \"arrivedOn\": \"1967-09-20T19:21:33.973Z\",\n      \"agentId\": \"f4d9440f-a090-4ddf-88f5-f957711f8028\",\n      \"agentName\": \"JOHN DOE\",\n      \"phone\": \"8444025347\",\n      \"clientCallId\": \"491028027895064.wav.acxMedia.mp3\",\n      \"callDirection\": \"Outbound\",\n      \"callDurationMillis\": 18840,\n      \"chatMessageCount\": 13,\n      \"localeId\": 1033,\n      \"extendedMetadataValues\": {\n        \"data\": \"extra data\",\n        \"data2\": \"extra data2\"\n      },\n      \"extendedMetadata\": [\n        {\n          \"data\": \"extra data\"\n        }\n      ],\n      \"meta1\": \"0\",\n      \"meta2\": null,\n      \"meta3\": \"vq_KEHP_Member_Voice\",\n      \"meta4\": \"true\",\n      \"meta5\": \"\",\n      \"processFailures\": null\n    },\n    \"callSummary\": null,\n    \"customerType\": {\n      \"id\": null,\n      \"name\": \"string\",\n      \"isActive\": false\n    }\n  },\n  {\n    \"id\": \"89183d9b-dc8f-436d-a244-1daaee0ba98c\",\n    \"evaluationNumber\": 391,\n    \"evaluationName\": null,\n    \"submittedDate\": \"1957-03-03T21:26:26.500Z\",\n    \"assignedDate\": \"1988-11-20T02:55:18.269Z\",\n    \"modifiedOn\": \"1981-12-12T14:50:29.722Z\",\n    \"questions\": null,\n    \"agent\": {\n      \"id\": \"374c372a-1212-45e6-a2f6-7bafef6d7c5c\",\n      \"agentCode\": \"AF86700\",\n      \"firstName\": \"JOHN\",\n      \"lastName\": \"DOE\",\n      \"agentEmail\": \"john.doe@organization.com\"\n    },\n    \"analyst\": {\n      \"id\": \"78a4e165-0b3a-4f62-8520-99607383d60f\",\n      \"domainId\": \"\",\n      \"userName\": \"john.doe@authenticx.com\",\n      \"email\": \"john.doe@authenticx.com\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"role\": \"\"\n    },\n    \"metadata\": {\n      \"id\": \"000f78b0-4720-467e-854a-d245549f928e\",\n      \"acxIdentifier\": \"b1707d53-5369-4d61-b9b7-21ac19318d70\",\n      \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n      \"organizationStructureMemberId\": \"6365f3bf-0be1-46f2-9894-7305f0aad53c\",\n      \"fileName\": \"491028027895064.wav.acxMedia\",\n      \"origFileName\": \"491028027895064.wav\",\n      \"uploadedFileName\": null,\n      \"fileSizeKiloBytes\": 2500,\n      \"mediaType\": \"Audio\",\n      \"status\": \"Sampled\",\n      \"timestamp\": \"2021-06-08T19:39:08.561\",\n      \"arrivedOn\": \"1964-05-04T02:00:22.493Z\",\n      \"agentId\": \"f4d9440f-a090-4ddf-88f5-f957711f8028\",\n      \"agentName\": \"JOHN DOE\",\n      \"phone\": \"8444025347\",\n      \"clientCallId\": \"491028027895064.wav.acxMedia.mp3\",\n      \"callDirection\": \"Outbound\",\n      \"callDurationMillis\": 18840,\n      \"chatMessageCount\": 13,\n      \"localeId\": 1033,\n      \"extendedMetadataValues\": {\n        \"data\": \"extra data\",\n        \"data2\": \"extra data2\"\n      },\n      \"extendedMetadata\": [\n        {\n          \"data\": \"extra data\"\n        }\n      ],\n      \"meta1\": \"0\",\n      \"meta2\": null,\n      \"meta3\": \"vq_KEHP_Member_Voice\",\n      \"meta4\": \"true\",\n      \"meta5\": \"\",\n      \"processFailures\": null\n    },\n    \"callSummary\": \"string\",\n    \"customerType\": {\n      \"id\": null,\n      \"name\": \"string\",\n      \"isActive\": true\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7d6ec59d-565d-4c94-8fd2-eede11480957",
+          "name": "Get Evaluations with their modules",
+          "request": {
+            "name": "Get Evaluations with their modules",
+            "description": {
+              "content": "Gets a list of evaluations with their associated modules",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Evaluations",
+                "Modules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "StartDate",
+                  "value": "<string>",
+                  "description": "Filters by the evaluation's last modified date.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "EndDate",
+                  "value": "<string>",
+                  "description": "Filters by the evaluation's last modified date. Must be equal to or later than StartDate.\nISO-8601 Examples:\nUTC datetime: 2022-03-18T21:52:26\nUTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z\nUTC date only: 2022-03-19\ndatetime with timezone: 2022-03-18T17:56:09.8683110-04:00"
+                },
+                {
+                  "disabled": false,
+                  "key": "Status",
+                  "value": "<string>",
+                  "description": "Valid values: \nNotStarted, \nInProgress, \nCompleted, \nNoValue, \nPendingReview, \nReviewComplete"
+                },
+                {
+                  "disabled": false,
+                  "key": "LastId",
+                  "value": "<integer>",
+                  "description": "The EvaluationNumber of the last evaluation from the previous page. Used for cursor-based pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "10",
+                  "description": "Results per page. Default 10"
+                },
+                {
+                  "disabled": false,
+                  "key": "HierarchyId",
+                  "value": "<uuid>",
+                  "description": "Single hierarchy GUID to filter by"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d8eb9831-2bee-420d-8482-d4ecfbd0fe2b",
+              "name": "Returns the list of all evaluations that meet the provided criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Evaluations",
+                    "Modules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "StartDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "EndDate",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "LastId",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "HierarchyId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"evaluationNumber\": 51174176,\n    \"submittedDate\": null,\n    \"assignedDate\": \"1965-10-16T13:02:07.627Z\",\n    \"modifiedOn\": \"2013-04-04T22:45:07.292Z\",\n    \"modules\": [\n      \"\",\n      \"\"\n    ],\n    \"agent\": {\n      \"id\": \"374c372a-1212-45e6-a2f6-7bafef6d7c5c\",\n      \"agentCode\": \"AF86700\",\n      \"firstName\": \"JOHN\",\n      \"lastName\": \"DOE\",\n      \"agentEmail\": \"john.doe@organization.com\"\n    },\n    \"analyst\": {\n      \"id\": \"78a4e165-0b3a-4f62-8520-99607383d60f\",\n      \"domainId\": \"\",\n      \"userName\": \"john.doe@authenticx.com\",\n      \"email\": \"john.doe@authenticx.com\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"role\": \"\"\n    },\n    \"metadata\": {\n      \"id\": \"000f78b0-4720-467e-854a-d245549f928e\",\n      \"acxIdentifier\": \"b1707d53-5369-4d61-b9b7-21ac19318d70\",\n      \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n      \"organizationStructureMemberId\": \"6365f3bf-0be1-46f2-9894-7305f0aad53c\",\n      \"fileName\": \"491028027895064.wav.acxMedia\",\n      \"origFileName\": \"491028027895064.wav\",\n      \"uploadedFileName\": \"string\",\n      \"fileSizeKiloBytes\": 2500,\n      \"mediaType\": \"Audio\",\n      \"status\": \"Sampled\",\n      \"timestamp\": \"2021-06-08T19:39:08.561\",\n      \"arrivedOn\": \"2009-04-09T18:15:33.616Z\",\n      \"agentId\": \"f4d9440f-a090-4ddf-88f5-f957711f8028\",\n      \"agentName\": \"JOHN DOE\",\n      \"phone\": \"8444025347\",\n      \"clientCallId\": \"491028027895064.wav.acxMedia.mp3\",\n      \"callDirection\": \"Outbound\",\n      \"callDurationMillis\": 18840,\n      \"chatMessageCount\": 13,\n      \"localeId\": 1033,\n      \"extendedMetadataValues\": {\n        \"data\": \"extra data\",\n        \"data2\": \"extra data2\"\n      },\n      \"extendedMetadata\": [\n        {\n          \"data\": \"extra data\"\n        }\n      ],\n      \"meta1\": \"0\",\n      \"meta2\": null,\n      \"meta3\": \"vq_KEHP_Member_Voice\",\n      \"meta4\": \"true\",\n      \"meta5\": \"\",\n      \"processFailures\": [\n        \"\",\n        \"\"\n      ]\n    },\n    \"callSummary\": \"string\",\n    \"customerType\": {\n      \"id\": null,\n      \"name\": null,\n      \"isActive\": false\n    }\n  },\n  {\n    \"evaluationNumber\": 51174176,\n    \"submittedDate\": null,\n    \"assignedDate\": null,\n    \"modifiedOn\": \"1956-08-01T05:30:58.409Z\",\n    \"modules\": [\n      \"\",\n      \"\"\n    ],\n    \"agent\": {\n      \"id\": \"374c372a-1212-45e6-a2f6-7bafef6d7c5c\",\n      \"agentCode\": \"AF86700\",\n      \"firstName\": \"JOHN\",\n      \"lastName\": \"DOE\",\n      \"agentEmail\": \"john.doe@organization.com\"\n    },\n    \"analyst\": {\n      \"id\": \"78a4e165-0b3a-4f62-8520-99607383d60f\",\n      \"domainId\": \"\",\n      \"userName\": \"john.doe@authenticx.com\",\n      \"email\": \"john.doe@authenticx.com\",\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"role\": \"\"\n    },\n    \"metadata\": {\n      \"id\": \"000f78b0-4720-467e-854a-d245549f928e\",\n      \"acxIdentifier\": \"b1707d53-5369-4d61-b9b7-21ac19318d70\",\n      \"organizationId\": \"f90db5b4-1b3c-4b41-bff4-cfc2524c41d8\",\n      \"organizationStructureMemberId\": \"6365f3bf-0be1-46f2-9894-7305f0aad53c\",\n      \"fileName\": \"491028027895064.wav.acxMedia\",\n      \"origFileName\": \"491028027895064.wav\",\n      \"uploadedFileName\": \"string\",\n      \"fileSizeKiloBytes\": 2500,\n      \"mediaType\": \"Audio\",\n      \"status\": \"Sampled\",\n      \"timestamp\": \"2021-06-08T19:39:08.561\",\n      \"arrivedOn\": \"2016-12-22T17:47:07.980Z\",\n      \"agentId\": \"f4d9440f-a090-4ddf-88f5-f957711f8028\",\n      \"agentName\": \"JOHN DOE\",\n      \"phone\": \"8444025347\",\n      \"clientCallId\": \"491028027895064.wav.acxMedia.mp3\",\n      \"callDirection\": \"Outbound\",\n      \"callDurationMillis\": 18840,\n      \"chatMessageCount\": 13,\n      \"localeId\": 1033,\n      \"extendedMetadataValues\": {\n        \"data\": \"extra data\",\n        \"data2\": \"extra data2\"\n      },\n      \"extendedMetadata\": [\n        {\n          \"data\": \"extra data\"\n        }\n      ],\n      \"meta1\": \"0\",\n      \"meta2\": null,\n      \"meta3\": \"vq_KEHP_Member_Voice\",\n      \"meta4\": \"true\",\n      \"meta5\": \"\",\n      \"processFailures\": null\n    },\n    \"callSummary\": null,\n    \"customerType\": {\n      \"id\": null,\n      \"name\": \"string\",\n      \"isActive\": true\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.beauthenticx.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "acxapi"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://api.beauthenticx.com/connect/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "49183e67-2776-4233-a957-5d114f3bcb80",
+    "name": "AcxApi Production Evaluations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

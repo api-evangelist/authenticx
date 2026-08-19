@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production User Hierarchy API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "UserHierarchy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Hierarchy Permissions For User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/UserHierarchy/:UserId/:HierarchyId",
+            "params": [
+              {
+                "name": "UserId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "HierarchyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of all permissions within a hierarchy for the specified user."
+        },
+        {
+          "info": {
+            "name": "Update Hierarchy Permissions For User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.beauthenticx.com/UserHierarchy/:UserId/:HierarchyId",
+            "params": [
+              {
+                "name": "UserId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "HierarchyId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a user's permissions within a specified hierarchy."
+        },
+        {
+          "info": {
+            "name": "Get All Hierarchy Permissions For User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/UserHierarchy/:UserId/All",
+            "params": [
+              {
+                "name": "UserId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "IsActive",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all active hierarchies along with the specified user's permissions for each hierarchy"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

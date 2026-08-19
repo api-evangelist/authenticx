@@ -1,0 +1,418 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Interactions API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Interactions
+paths:
+  /Interactions:
+    get:
+      tags:
+      - Interactions
+      summary: Get Interactions based on filter criteria
+      description: "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria."
+      parameters:
+      - name: DateReference
+        in: query
+        description: Specifies whether to filter by 'InteractionDate' or 'ArrivalDate'.
+        schema:
+          type: string
+          example: InteractionDate
+        example: InteractionDate
+      - name: StartDate
+        in: query
+        description: 'The start date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T08:30:00'
+        example: '2024-11-15T08:30:00'
+      - name: EndDate
+        in: query
+        description: 'The end date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS.'
+        required: true
+        schema:
+          type: string
+          example: '2024-11-15T17:30:00'
+        example: '2024-11-15T17:30:00'
+      - name: Status
+        in: query
+        description: 'The status filter for interactions. Valid values: ''Sampled'', ''ReadyToSample''.'
+        schema:
+          type: string
+          example: Sampled
+        example: Sampled
+      - name: EddyEffect
+        in: query
+        description: 'Boolean filter for the Eddy Effect model results. Valid values: ''true'', ''false''.'
+        schema:
+          type: string
+          example: 'true'
+        example: 'true'
+      - name: LastId
+        in: query
+        description: The last Interaction ID (excluded) to start pagination from.
+        schema:
+          type: string
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+      - name: PageSize
+        in: query
+        description: The number of results to return per call. Must be an integer between 1 and 20.
+        schema:
+          type: integer
+          format: int32
+          example: 10
+        example: 10
+      responses:
+        '200':
+          description: Returns the interactions that match the specified criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Controllers.Interactions.InteractionResponseModel'
+        '400':
+          description: If the request parameters are invalid
+        '404':
+          description: If no interactions meet the criteria
+      deprecated: true
+    post:
+      tags:
+      - Interactions
+      summary: Get Interactions based on filter criteria.
+      description: "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns a list of interactions that have finished processing and match the specified criteria."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Controllers.Interactions.PostInteractionsRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Controllers.Interactions.PostInteractionsRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Controllers.Interactions.PostInteractionsRequest'
+      responses:
+        '200':
+          description: Returns the interactions that match the specified criteria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Controllers.Interactions.InteractionResponseModel'
+        '400':
+          description: If the request parameters are invalid.
+        '404':
+          description: If no interactions meet the criteria.
+      deprecated: true
+  /Interactions/{AmdID}:
+    get:
+      tags:
+      - Interactions
+      summary: Get Interaction
+      description: "Deprecated. Please use `/Conversations/Insights` instead.\n            \nReturns the interaction's status, and if completed, additional information describing the interaction."
+      parameters:
+      - name: AmdID
+        in: path
+        description: "The unique identifier of the interaction. This field is required.\n             <example> Example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1</example>"
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Returns the interaction with the specified id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Controllers.Interactions.InteractionResponseModel'
+        '404':
+          description: If your organization has no interaction with that specific id
+      deprecated: true
+components:
+  schemas:
+    AcxApi.Controllers.Interactions.AgentInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fullName:
+          type:
+          - string
+          - 'null'
+          description: The full name of the agent.
+          example: Chris Jericho
+        agentCode:
+          type:
+          - string
+          - 'null'
+          description: The unique code of the agent.
+          example: '1386'
+        agentEmail:
+          type:
+          - string
+          - 'null'
+          description: The email of the agent.
+          example: Chris.Jericho@email.com
+      additionalProperties: false
+    AcxApi.Controllers.Interactions.ClassifierResult:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the classifier.
+          example: ML-EddyEffect
+        modifiedOn:
+          type: string
+          description: The date and time when the result was last modified.
+          format: date-time
+          example: '2024-09-12T14:39:59.555797Z'
+        result:
+          type:
+          - string
+          - 'null'
+          description: The result from the classifier.
+          example: 'False'
+        score:
+          type:
+          - number
+          - 'null'
+          description: The confidence score of the classifier result (optional).
+          format: double
+          example: 0.00234599
+      additionalProperties: false
+    AcxApi.Controllers.Interactions.TranscriptionModel:
+      type: object
+      properties:
+        languageCode:
+          type:
+          - string
+          - 'null'
+          description: The language code of the transcription.
+          example: en
+        transcription:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: The transcriptions for the interaction.
+          example:
+          - '00:00 Agent: Hello, calls may be recorded for quality assurance. Just to make sure, you''re calling as a member. Right?'
+          - '00:17 Customer: Yes.'
+          - '00:20 Agent: Great, how can I help you?'
+          - '00:23 Customer: What is the Eddy Effect?'
+          - '00:23 Agent: The Eddy Effect occurs when a customer gets stuck in their journey.'
+          - '00:33 Customer: I understand now. Thank you.'
+          - '00:35 Agent: Thank you, Have a good day.'
+      additionalProperties: false
+    AcxApi.Controllers.Interactions.PostInteractionsRequest:
+      required:
+      - endDate
+      - startDate
+      type: object
+      properties:
+        dateReference:
+          type:
+          - string
+          - 'null'
+          description: Specifies whether to filter by 'InteractionDate' or 'ArrivalDate'.
+          example: InteractionDate
+        startDate:
+          minLength: 1
+          type: string
+          description: 'The start date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS.'
+          example: '2024-11-15T08:30:00'
+        endDate:
+          minLength: 1
+          type: string
+          description: 'The end date for filtering interactions. Format: YYYY-MM-DDTHH:MM:SS.'
+          example: '2024-11-15T17:30:00'
+        status:
+          type:
+          - string
+          - 'null'
+          description: 'The status filter for interactions. Valid values: ''Sampled'', ''ReadyToSample''.'
+          example: Sampled
+        eddyEffect:
+          type:
+          - string
+          - 'null'
+          description: 'Boolean filter for the Eddy Effect model results. Valid values: ''true'', ''false''.'
+          example: 'true'
+        lastId:
+          type:
+          - string
+          - 'null'
+          description: The last Interaction ID (excluded) to start pagination from.
+          example: b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+        pageSize:
+          type:
+          - integer
+          - 'null'
+          description: The number of results to return per call. Must be an integer between 1 and 20.
+          format: int32
+          example: 10
+        hierarchyIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: A list of GUIDs representing the hierarchy IDs to filter interactions by organizational structure.
+          example:
+          - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
+          - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      additionalProperties: false
+      description: Request model for filtering interactions for POST requests.
+    AcxApi.Controllers.Interactions.InteractionResponseModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of this interaction.
+          format: uuid
+          example: fff7115d-81f8-4e80-8eb1-2505b47a8bb6
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: The customer-specific unique ID of this interaction
+          example: abc123-2018
+        interactionDate:
+          type: string
+          description: The date and time when this interaction occurred.
+          format: date-time
+          example: '2024-09-12T13:02:12.199Z'
+        agent:
+          $ref: '#/components/schemas/AcxApi.Controllers.Interactions.AgentInfo'
+        classifierResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Controllers.Interactions.ClassifierResult'
+          description: Results from classifiers applied during the interaction.
+          example:
+          - name: ML-EddyEffect
+            modifiedOn: '2024-09-12T14:39:59.555797Z'
+            result: 'False'
+            score: 0.00234599
+          - name: ML-Summarization
+            modifiedOn: '2024-09-12T14:36:53.270466Z'
+            result: The caller asked about the Eddy Effect. The agent answered the question.
+            score: null
+        arrivedOn:
+          type: string
+          description: The date and time when this interaction arrived in the system.
+          format: date-time
+          example: '2024-09-12T14:15:35.678557Z'
+        modifiedOn:
+          type: string
+          description: The date and time when this interaction was last modified.
+          format: date-time
+          example: '2024-09-14T13:33:05.531552Z'
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status of the interaction.
+          example: Sampled
+        transcriptions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Controllers.Interactions.TranscriptionModel'
+          description: A list of transcriptions related to the interaction.
+        metadataExtended:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          description: Extended metadata related to the interaction.
+          example:
+            ANI: '18888375309'
+            DNIS: '18008375309'
+            CustomField: true
+        evaluationIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: A list of evaluation IDs associated with the interaction.
+          example:
+          - 01000000-e1a4-226a-3335-08dcd4c1c346
+        duration:
+          type: integer
+          description: The duration of the interaction in milliseconds.
+          format: int64
+          example: 1260672
+        messageCount:
+          type:
+          - integer
+          - 'null'
+          description: The number of messages exchanged during the interaction.
+          format: int32
+          example: null
+        mediaType:
+          type:
+          - string
+          - 'null'
+          description: The type of media for the interaction (e.g., Audio, ProcessedChat).
+          example: Audio
+        meta1:
+          type:
+          - string
+          - 'null'
+          description: Additional metadata for the interaction (optional).
+          example: 'true'
+          deprecated: true
+        meta2:
+          type:
+          - string
+          - 'null'
+          description: Additional metadata for the interaction (optional).
+          example: 0bc16fa3-fc50-49bb-a294-fd0f7732ca3f
+          deprecated: true
+        meta3:
+          type:
+          - string
+          - 'null'
+          description: Additional metadata for the interaction (optional).
+          example: Blue
+          deprecated: true
+        meta4:
+          type:
+          - string
+          - 'null'
+          description: Additional metadata for the interaction (optional).
+          example: null
+          deprecated: true
+        meta5:
+          type:
+          - string
+          - 'null'
+          description: Additional metadata for the interaction (optional).
+          example: Manager Name
+          deprecated: true
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

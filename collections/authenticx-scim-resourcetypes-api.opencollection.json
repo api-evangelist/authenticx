@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production (Scim) ResourceTypes (Scim) ResourceTypes API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "(Scim) ResourceTypes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get All Resource Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/scim/v2/ResourceTypes"
+          },
+          "docs": "Returns, in ListResponse format, all the resource types defined by Authenticx"
+        },
+        {
+          "info": {
+            "name": "Get Resource Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/scim/v2/ResourceTypes/:ResourceTypeId",
+            "params": [
+              {
+                "name": "ResourceTypeId",
+                "value": "",
+                "type": "path",
+                "description": "The id of the resource type to get"
+              }
+            ]
+          },
+          "docs": "Returns one resource type specified by the resource type id."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

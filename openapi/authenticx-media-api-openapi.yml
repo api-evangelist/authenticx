@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production Media API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: Media
+paths:
+  /Media/Upload:
+    post:
+      tags:
+      - Media
+      summary: Upload Media
+      description: "Uploads an audio file interaction into storage for processing.\n\n*Param name \"file\"* \n\nAudio file uploaded from client (required unless signedUrl is provided). \n\nValid Audio File Extensions:\n- .wav\n- .mp3\n- .mp4\n- .ogg\n- .opus\n- .m4a \n\nValid Chat File Extensions:\n- .tar\n- .zip\n\n*Param name \"signedUrl\"* \n\nOptional signed download URL. If provided, the server downloads the file from this URL instead of using multipart upload. Supports signed URLs from AWS S3, Azure Blob Storage, etc. \n\nExample: \"https://bucket.s3.amazonaws.com/path/to/file.mp3?X-Amz-Algorithm=...\" or \"https://storage.azure.com/container/blob?sv=...\"\n\n*Param name \"metadata\"* \n\nJSON dictionary containing multiple metadata fields about the Audio File: \n\n            \n    Required Fields:\n        - FileName:\n            Path containing file name and extension (extension must match the uploaded file). Subdirectories specifying a more exact path may be prepended to the file name.\n            Examples:\n                -- With subdirectories: \"topfolder/subfolder/subsubfolder/filename.mp3\"\n                -- Without subdirectories: \"filename.mp3\"\n        - UploadType:\n            Type indicating if you are uploding a chat or audio file.\n            Examples:\n                -- \"Chat\"\n                -- \"Audio\"\n\n    Optional Fields: \n        - CallDirection: \n            Direction of the interaction's call to or from the call center. \n            Examples: \n                -- \"Inbound\" \n                -- \"Outbound\" \n        - Name: \n            Name associated with interaction. \n            Example: \n                -- \"Alice\" \n        - Phone: \n            Phone number associated with interaction. \n            Example: \n                --\"800-555-5555\" \n        - Email: \n            Email address associated with interaction. \n            Example: \n                --\"example@example.com\" \n        - AgentFirstName: \n            Agent's First Name associated with interaction. \n            Example: \n                --\"James\" \n        - AgentLastName: \n            Agent's Last Name associated with interaction. \n            Example: \n                --\"Bond\" \n        - AgentCode: \n            Agent Code for associating agent already in system with interaction. \n            Example: \n                --\"007\" \n        - InteractionDate: \n            Date on which interaction occured. \n            ISO-8601 Examples: \n            --UTC datetime: \"2022-03-18T21:52:26\" \n            --UTC datetime with milliseconds: \"2022-03-18T21:52:26.8816090Z\" \n            --UTC date only: \"2022-03-19\" \n            --datetime with timezone: \"2022-03-18T17:56:09.8683110-04:00\" \n        - ExtendedMetadata: [Deprecated - (\"Use ExtendedMetadataValues\")]\n            Array of Dictionaries of key values associated with interaction.\n            Examples: \n            -- [{ \"Data\": \"Example Data\"}, { \"Data2\": \"Example Data 2\", \"ExampleKey\": \"Example Value\" }]\n        - ExtendedMetadataValues: \n            Dictionary of key values associated with interaction.\n            Examples: \n            -- { \"Data\": \"Example Data\" }, { \"Data2\": \"Example Data 2\" }, { \"ExampleKey\": \"Example Value\" }\n        - HierarchyId: \n            Id of hierarchy to associate with this interaction.\n            Example: \n            -- \"00000000-0000-0000-0000-000000000002\" \n        - HierarchyCode: \n            Internal Organization Code for associating hierarchy with this interaction.\n            Example: \n            -- \"Accounting\"\n        - ApplyHierarchyToAgent: \n            If ```true``` AND a ```HierarchyId``` / ```HierarchyCode``` are provided, the system assigns that hierarchy to the agent .\n            Example: \n            -- true\n        - LocaleId:\n            Specifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted.\n        - ClientCallId:\n            Your external telephony reference ID.\n            Example:\n            -- \"5CD1S\""
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - metadata
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                metadata:
+                  type: string
+                signedUrl:
+                  type: string
+            encoding:
+              file:
+                style: form
+              metadata:
+                style: form
+              signedUrl:
+                style: form
+      responses:
+        '200':
+          description: Returns an object with the FileName and FileSizeKb. Returns 200 when file is successfully downloaded from signed URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Media.MediaResponseModel'
+        '400':
+          description: 'One of the following errors occured: the file provided had an invalid extension, no metadata was provided,
+
+            provided metadata was malformed, provided metadata had no FileName, an interaction with the provided file name
+
+            already exists.'
+        '429':
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying after a rate limit
+              schema:
+                type: integer
+components:
+  schemas:
+    AcxApi.Models.Media.MediaResponseModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The interaction's unique ID. Use this to reference this interaction in subsequent calls. The interaction's server-generated unique ID. Capture this to reference the interaction in subsequent calls.
+          format: uuid
+          example: 000f78b0-4720-467e-854a-d245549f928d
+        fileName:
+          type:
+          - string
+          - 'null'
+          description: The stored path of the file (including the directory). The system appends .acxMedia to the filename you provided.
+          example: /extmedia/8950129442109233.mp3.acxMedia
+        fileSizeKb:
+          type: integer
+          description: The file size, in kilobytes, of the audio interaction.
+          format: int64
+          example: 4032
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

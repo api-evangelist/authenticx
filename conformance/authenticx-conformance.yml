@@ -64,13 +64,32 @@ standards:
     No idempotency key, header, or replay window is documented. Duplicate uploads are rejected on file-name
     uniqueness, which is a constraint rather than an idempotency contract.
 - id: rate-limit-headers
-  conforms: false
-  evidence: 429 declared on POST /Media/Upload with no Retry-After, no X-RateLimit-* headers, no published quota.
+  conforms: partial
+  evidence: >-
+    POST /Media/Upload declares 429 "Too Many Requests" WITH a Retry-After response header ("Seconds to wait
+    before retrying after a rate limit") in the spec — present in the harvested originals, so it is
+    Authenticx's own declaration. That is the only rate-limit signal in the API: the other 45 operations
+    declare no 429, there are no X-RateLimit-*/RateLimit-* headers (RFC 9331), and no quota, window or burst
+    is published in any documentation.
+  corrected: '2026-08-14'
+  correction_note: >-
+    Supersedes the 2026-08-06 entry, which stated "429 declared on POST /Media/Upload with no Retry-After".
+    The Retry-After header IS declared; re-read of openapi/authenticx-media-api-openapi.yml confirms it.
+  see: rate-limits/authenticx-rate-limits.yml
 - id: asyncapi
   conforms: false
   evidence: >-
-    No event, webhook, streaming, or callback surface is published — completion of asynchronous processing is
-    discovered by polling. N/A rather than a failure.
+    No AsyncAPI document is published on any host (/asyncapi.yaml 403 on api.beauthenticx.com, 404 on the docs
+    hub), and no event catalog, payload schema, callback authentication, retry policy or subscription API
+    exists. An event surface DOES exist, however: the architecture guide's section "6) Emission (outbound
+    integrations)" states Authenticx "can emit data to a client API when a configured signal occurs (e.g.,
+    identification of a safety event)", and GET /Receipts is the transmission audit trail for those exports.
+    So this is an unspecified event surface, not an absent one.
+  corrected: '2026-08-14'
+  correction_note: >-
+    Supersedes the 2026-08-06 entry, which stated "No event, webhook, streaming, or callback surface is
+    published". Authenticx does advertise outbound event-based emission; what it does not publish is a schema.
+  see: asyncapi/authenticx-emissions-webhooks.yml
 - id: tls-1.2-plus
   conforms: true
   evidence: >-

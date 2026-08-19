@@ -1,0 +1,159 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production (Scim) ServiceProviderConfig (Scim) ServiceProviderConfig API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- OAuth2:
+  - acxapi
+tags:
+- name: (Scim) ServiceProviderConfig
+paths:
+  /scim/v2/ServiceProviderConfig:
+    get:
+      tags:
+      - (Scim) ServiceProviderConfig
+      summary: Get Service Provider Config
+      description: Returns the Authenticx service provider config
+      responses:
+        '200':
+          description: Returns the Authenticx service provider config
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Configs.ServiceProvider'
+components:
+  schemas:
+    AcxApi.Scim.Models.BulkService:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+        maxOperations:
+          type: integer
+          description: An integer value specifying the maximum number of operations
+          format: int32
+          example: 100
+        maxPayloadSize:
+          type: integer
+          description: An integer value specifying the maximum payload size in bytes
+          format: int32
+          example: 100
+      additionalProperties: false
+    AcxApi.Scim.Models.Service:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+      additionalProperties: false
+    AcxApi.Scim.Models.AuthenticationScheme:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: 'The authentication scheme.  This specification defines the
+
+            values "oauth", "oauth2", "oauthbearertoken", "httpbasic", and
+
+            "httpdigest"'
+          example: oauth2
+        name:
+          type:
+          - string
+          - 'null'
+          description: The common authentication scheme name
+          example: OAuth Bearer
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the authentication scheme
+          example: Authentication scheme using the OAuth Bearer Token Standard
+        specUri:
+          type:
+          - string
+          - 'null'
+          description: An HTTP-addressable URL pointing to the authentication scheme's specification
+          readOnly: true
+          example: ''
+        documentationUri:
+          type:
+          - string
+          - 'null'
+          description: An HTTP-addressable URL pointing to the authentication scheme's usage documentation.
+          readOnly: true
+          example: https://api.beauthenticx.com/swagger/index.html
+      additionalProperties: false
+    AcxApi.Scim.Configs.ServiceProvider:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'An unchanging list containing one element,
+
+            "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"'
+          readOnly: true
+        documentationUri:
+          type:
+          - string
+          - 'null'
+          description: 'An HTTP-addressable URL pointing to the service provider''s
+
+            human-consumable help documentation'
+          readOnly: true
+        patch:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        bulk:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.BulkService'
+        filter:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.FilterService'
+        changePassword:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        sort:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        etag:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        authenticationSchemes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.AuthenticationScheme'
+          description: 'A multi-valued complex type that specifies supported
+
+            authentication scheme properties'
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.FilterService:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+        maxResults:
+          type: integer
+          description: The maximum number of results a filtered query can contain
+          format: int32
+          example: 100
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

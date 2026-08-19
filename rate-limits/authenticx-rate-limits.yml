@@ -1,0 +1,98 @@
+generated: '2026-08-14'
+method: searched
+source: https://authenticx.readme.io/docs/acxapi
+limit_count: 0
+rate_limits: []
+headers:
+  request: []
+  response:
+  - name: Retry-After
+    type: integer
+    unit: seconds
+    status: '429'
+    declared_on:
+    - 'POST /Media/Upload'
+    source: openapi/authenticx-media-api-openapi.yml
+    quote: 'Seconds to wait before retrying after a rate limit'
+    scope: spec-declared, undocumented in prose
+  retry_after: true
+  ratelimit_standard: none
+  note: >-
+    Retry-After on a 429 is the one runtime rate-limit signal AcxAPI actually gives an agent, and it exists on
+    exactly one of 46 operations — POST /Media/Upload, the audio ingest endpoint. There is no X-RateLimit-*
+    and no RateLimit-*/RateLimit-Policy (RFC 9331), so a client learns nothing about remaining budget before
+    it is refused; it can only react after the fact, and only on the upload path. The other 45 operations
+    declare no 429 at all, so a caller cannot tell whether they are unlimited, limited-but-undeclared, or
+    share the upload budget.
+exhaustion_status_code: 429
+exhaustion_scope: 'POST /Media/Upload only (spec-declared)'
+summary: >-
+  Authenticx publishes NO rate-limit NUMBERS — not a request ceiling, not a window, not a burst, not a quota,
+  on any surface. Eight guide pages, the full API reference and the complete llms.txt page index were searched
+  for limits, throttling, quotas, concurrency caps and 429 semantics, and no prose limit exists anywhere. What
+  the OpenAPI does declare, and what the docs never mention, is that POST /Media/Upload answers 429 "Too Many
+  Requests" with a Retry-After header giving "Seconds to wait before retrying after a rate limit". So a limit
+  demonstrably EXISTS and is enforced on the ingest path — Authenticx simply never says what it is. That is
+  the finding: the mechanism is in the contract, the magnitude is not, which leaves an integrator to discover
+  their ceiling by hitting it in production. Separately, two PAYLOAD limits are published — a 2.5GB per-file
+  upload ceiling and a 1000-row page cap — recorded below so they are not mistaken for the missing throughput
+  contract.
+payload_limits:
+- name: media upload file size
+  limit: 2.5GB
+  scope: per-file
+  applies_to:
+  - 'POST /Media/Upload'
+  - 'POST /TextMedia/Upload'
+  source: https://authenticx.readme.io/docs/media-upload-format-limitations
+  quote: 'For all files there is a size limit of `2.5GB`.'
+  kind: payload-size
+- name: page size
+  limit: 1000
+  default: 10
+  scope: per-request
+  parameter: PageSize
+  applies_to:
+  - 'GET /Receipts'
+  - 'GET /Conversations/Insights'
+  - 'GET /Conversations/Classifiers'
+  - 'GET /Evaluations'
+  - 'GET /Evaluations/Modules'
+  - 'GET /Interactions'
+  - 'GET /Metadata'
+  - 'GET /ModelResults'
+  - 'GET /Workflows'
+  source: openapi/authenticx-receipts-api-openapi.yml
+  quote: 'Results per page. Default 10, max 1000.'
+  kind: pagination-cap
+  note: >-
+    The only provider-set ceiling on how much a single call may return. Paired with cursor pagination on
+    LastId — see conventions/authenticx-conventions.yml.
+probes:
+- url: https://authenticx.readme.io/docs/acxapi
+  status: 200
+  finding: no rate-limit, throttling or quota language; 2.5GB file ceiling only
+- url: https://authenticx.readme.io/docs/media-upload-format-limitations
+  status: 200
+  finding: 2.5GB file size limit; no request-rate limit
+- url: https://authenticx.readme.io/docs/media-upload-error-handling-and-response-codes
+  status: 200
+  finding: documents upload error codes; no 429 and no retry/backoff guidance
+- url: https://authenticx.readme.io/llms.txt
+  status: 200
+  finding: complete page index contains no rate-limit, throttle or quota page
+spec_evidence:
+  operations_declaring_429: 1
+  operations_total: 46
+  operation: 'POST /Media/Upload'
+  retry_after_declared: true
+  source: openapi/authenticx-media-api-openapi.yml
+  note: >-
+    Also present in the harvested originals (openapi/_original/authenticx-acxapi-openapi.json and the
+    experimental spec), so this is Authenticx's own declaration, not a refinement artifact of ours.
+notes: >-
+  limit_count is a measured zero for PUBLISHED limits, and that zero coexists with a spec-declared 429 +
+  Retry-After on the ingest endpoint — the two facts are recorded separately on purpose. This is a genuine
+  agent-readiness gap the provider can close cheaply, because the enforcement already exists: state the
+  per-token ceiling and window for /Media/Upload in the docs, and add RateLimit-Limit/Remaining/Reset
+  alongside the Retry-After it already returns.

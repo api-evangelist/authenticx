@@ -1,0 +1,188 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AcxApi Production Conversations API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://api.beauthenticx.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets a list of classifiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Conversations/Classifiers",
+            "params": [
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records returned per request (1-1000, default 100)"
+              },
+              {
+                "name": "LastId",
+                "value": "",
+                "type": "query",
+                "description": "Id of the last Classifier object in previously returned collection"
+              },
+              {
+                "name": "CategoryNames",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-delimited list of category names to filter by"
+              },
+              {
+                "name": "ClassifierTypes",
+                "value": "",
+                "type": "query",
+                "description": "Optional comma-delimited classifier type filter. Valid values are static aliases: Classifier, Core AI Model, LLM Model, Metadata."
+              }
+            ]
+          },
+          "docs": "Gets a list of classifiers"
+        },
+        {
+          "info": {
+            "name": "Get classifier results for conversations based on filter criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Conversations/Insights",
+            "params": [
+              {
+                "name": "DateReference",
+                "value": "ArrivalDate",
+                "type": "query",
+                "description": "Which date to filter on. Valid values: ArrivalDate (default), InteractionDate."
+              },
+              {
+                "name": "StartDate",
+                "value": "2024-11-15T08:30:00",
+                "type": "query",
+                "description": "ISO 8601 datetime. Required. Requests may span at most 7 days unless at least one of\nClassifierIds, HierarchyIds, HierarchyCodes, ClassifierCategoryNames, or ClassifierTypes\nis supplied, in which case up to 31 days is allowed."
+              },
+              {
+                "name": "EndDate",
+                "value": "2024-11-15T17:30:00",
+                "type": "query",
+                "description": "ISO 8601 datetime. Must be equal to or later than StartDate. Required. The total requested\nrange may be at most 7 days unless at least one of ClassifierIds, HierarchyIds,\nHierarchyCodes, ClassifierCategoryNames, or ClassifierTypes is supplied, in which case up\nto 31 days is allowed."
+              },
+              {
+                "name": "ClassifierIds",
+                "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f",
+                "type": "query",
+                "description": "Comma-separated list of classifier GUIDs. Use GET /Conversations/Classifiers to discover available IDs.\nProviding this filter qualifies the request for the 31-day maximum date range."
+              },
+              {
+                "name": "HierarchyIds",
+                "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1,ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f",
+                "type": "query",
+                "description": "Comma-separated list of hierarchy GUIDs. Providing this filter qualifies the request for the\n31-day maximum date range."
+              },
+              {
+                "name": "HierarchyCodes",
+                "value": "CODE1,CODE2,CODE3",
+                "type": "query",
+                "description": "Comma-separated list of hierarchy codes. Resolved to hierarchy IDs automatically. Providing\nthis filter qualifies the request for the 31-day maximum date range."
+              },
+              {
+                "name": "ClassifierCategoryNames",
+                "value": "Skills,Topics",
+                "type": "query",
+                "description": "Comma-separated category name filter. Valid values: Skills, Topics, Process, SE Suite.\nProviding this filter qualifies the request for the 31-day maximum date range."
+              },
+              {
+                "name": "ClassifierTypes",
+                "value": "Core AI Model,LLM Model",
+                "type": "query",
+                "description": "Comma-delimited classifier type filter. Valid values: Classifier, Core AI Model, LLM Model, Metadata.\nProviding this filter qualifies the request for the 31-day maximum date range."
+              },
+              {
+                "name": "LastId",
+                "value": "b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1",
+                "type": "query",
+                "description": "GUID of the last conversation from the previous page. Used for cursor-based pagination."
+              },
+              {
+                "name": "PageSize",
+                "value": "100",
+                "type": "query",
+                "description": "Results per page. Default 100, max 1000."
+              }
+            ]
+          },
+          "docs": "Returns a list of classifier results for conversations \nwith Status of \"Sampled\" or \"ReadyToSample\" that match the specified criteria.\n            \nRequests without any classifier or hierarchy filters may span up to 7 days.\nSupplying at least one of ClassifierIds, HierarchyIds, HierarchyCodes,\nClassifierCategoryNames, or ClassifierTypes extends the maximum date range to 31 days.\n            \nUse GET /Conversations/Classifiers to discover valid classifier IDs.\nUse GET /Hierarchy/All to discover v"
+        },
+        {
+          "info": {
+            "name": "Post hierarchyIds, hierarchyCodes, or classifierIds to filter on classifier results.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.beauthenticx.com/Conversations/Insights",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns a list of classifier results for conversations \nwith Status of \"Sampled\" or \"ReadyToSample\" that match the specified criteria."
+        },
+        {
+          "info": {
+            "name": "Get Batched Conversation Transcriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.beauthenticx.com/Conversations/Transcriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the transcriptions for multiple conversations identified by their unique IDs.\nUp to 100 conversation IDs are accepted per request. Duplicate IDs are ignored.\n            \nResponse includes:\n- transcriptions: successful items\n- errors: failed items, each with a statusCode indicating why it failed\n  * 404 = conversation not found\n  * 400 = failed to process\n  * 200 = not processed or still processing (message included)\n            \nExample request:\n{\n  \"conversationIds\": [\n    \"b1a9e4d6-7c"
+        },
+        {
+          "info": {
+            "name": "Get Single Conversation Transcriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.beauthenticx.com/Conversations/Transcriptions/:conversationId",
+            "params": [
+              {
+                "name": "conversationId",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation. Transcriptions are only available once processing is complete. Returns 200 with a message if still processing, 400 if processing failed"
+              }
+            ]
+          },
+          "docs": "Returns the transcriptions for a conversation identified by its unique ID.\nIf the conversation has not finished processing, returns 200 with a message.\nIf the conversation failed to process, returns 400 with a message."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
