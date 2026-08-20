@@ -20,6 +20,19 @@ specificationVersion: '0.23'
 created: '2026-08-06'
 modified: '2026-08-14'
 tags:
+- Conversation Intelligence
+- Healthcare
+- Speech Analytics
+- Contact Center
+- Customer Experience
+- Quality Assurance
+- Pharmacovigilance
+- Patient Experience
+- Transcription
+- Life Sciences
+- SCIM
+- Authentication
+tags_raw:
 - conversation-intelligence
 - healthcare
 - speech-analytics
@@ -39,6 +52,8 @@ apis:
   humanURL: https://authenticx.readme.io/reference/acxapi
   baseURL: https://api.beauthenticx.com
   tags:
+  - Agents
+  tags_raw:
   - Agent
   properties:
   - type: OpenAPI
