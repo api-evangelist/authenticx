@@ -10,6 +10,18 @@ description: >-
   connectors for Genesys Cloud, Amazon Connect, NICE CXone, Five9, Vonage Contact Center and Talkdesk, plus
   Salesforce/MuleSoft conversation enrichment and SFTP batch delivery. Authentication is OAuth 2.0 client
   credentials against an OpenID Connect provider, with separate production and experimental (staging) hosts.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://files.readme.io/e7477e0-small-authenticx-logo-black.png
 url: https://raw.githubusercontent.com/api-evangelist/authenticx/refs/heads/main/apis.yml
 x-type: company
