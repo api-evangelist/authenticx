@@ -679,6 +679,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/authenticx-capability-edges.yml
+  name: Authenticx Business Capability Map
 - type: Website
   url: https://authenticx.com/
 - type: DeveloperPortal

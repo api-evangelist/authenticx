@@ -1,0 +1,35 @@
+slug: authenticx
+provider: Authenticx
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Healthcare Providers
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: (Scim) Users
+  spec_file: authenticx-scim-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /scim/v2/Users    Create User; DELETE /scim/v2/Users/{UserId}    Delete User
+  reason: Full SCIM user provisioning CRUD (create/patch/update/delete users) is identity lifecycle provisioning,
+    mapping to Identity & Access Management (joiners-movers-leavers).
+- tag: Conversations
+  spec_file: authenticx-conversations-api-openapi.yml
+  capability_id: BC-430.30
+  capability_id_l1: BC-430
+  capability_name: Contact Centre Operations Management
+  confidence: 0.7
+  evidence: GET /Conversations/Insights    Get classifier results for conversations based on filter criteria;
+    POST /Conversations/Transcriptions    Get Batched Conversation Transcriptions
+  reason: Transcription and classifier insight retrieval over contact-center conversations — speech analytics
+    over contact-centre interactions, supporting contact centre operations and voice-of-customer signal.
+    Chose contact centre operations over feedback management given transcription/classifier focus.
