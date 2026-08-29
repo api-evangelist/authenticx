@@ -3,7 +3,7 @@ provider: Authenticx
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
-- Healthcare Providers
+- Telecommunications
 min_confidence: 0.7
 capability_model:
   source: https://github.com/vincentmakes/turbo-ea-capabilities
@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 2
+edge_count: 5
 edges:
 - tag: (Scim) Users
   spec_file: authenticx-scim-users-api-openapi.yml
@@ -19,17 +19,44 @@ edges:
   capability_id_l1: BC-620
   capability_name: Identity & Access Management
   confidence: 0.8
-  evidence: POST /scim/v2/Users    Create User; DELETE /scim/v2/Users/{UserId}    Delete User
-  reason: Full SCIM user provisioning CRUD (create/patch/update/delete users) is identity lifecycle provisioning,
-    mapping to Identity & Access Management (joiners-movers-leavers).
+  evidence: POST /scim/v2/Users "Create User"; DELETE /scim/v2/Users/{UserId} "Delete User"; schema AcxApi.Scim.Models.User.UpdateUserRequest
+  reason: Full SCIM user provisioning lifecycle (create, read, patch, update, delete) is standard identity
+    and access administration — automated joiner/mover/leaver account management for the platform's users.
+- tag: UserHierarchy
+  spec_file: authenticx-userhierarchy-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.72
+  evidence: GET /UserHierarchy/{UserId}/{HierarchyId}  Get Hierarchy Permissions For User; UpdateUserHierarchyRequest
+  reason: Grants and updates per-user permissions over hierarchy nodes — access authorisation management,
+    i.e. Identity & Access Management.
 - tag: Conversations
   spec_file: authenticx-conversations-api-openapi.yml
-  capability_id: BC-430.30
+  capability_id: BC-430
   capability_id_l1: BC-430
-  capability_name: Contact Centre Operations Management
+  capability_name: Customer Service Management
   confidence: 0.7
-  evidence: GET /Conversations/Insights    Get classifier results for conversations based on filter criteria;
-    POST /Conversations/Transcriptions    Get Batched Conversation Transcriptions
-  reason: Transcription and classifier insight retrieval over contact-center conversations — speech analytics
-    over contact-centre interactions, supporting contact centre operations and voice-of-customer signal.
-    Chose contact centre operations over feedback management given transcription/classifier focus.
+  evidence: GET /Conversations/Insights "Get classifier results for conversations based on filter criteria";
+    GET /Conversations/Transcriptions/{conversationId}
+  reason: Exposes transcriptions and ML classifier insights over ingested contact-centre interactions
+    — customer service interaction analytics. L1 Customer Service Management is supported; evidence does
+    not clearly separate contact-centre operations from voice-of-customer feedback, so no L2.
+- tag: Roles
+  spec_file: authenticx-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /Roles/All  Get All Roles; AcxApi.Models.Roles.RolePermission
+  reason: Role and permission definitions used to control platform access map to Identity & Access Management,
+    though the surface is read-only and minimal.
+- tag: User
+  spec_file: authenticx-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /User  Create User; PUT /User/{UserId}  Update User; AcxApi.Models.User.CreateUserRequest
+  reason: Lifecycle management of platform user accounts is identity and access administration rather
+    than any HR or customer capability.
