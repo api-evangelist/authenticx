@@ -33,15 +33,15 @@ created: '2026-08-06'
 modified: '2026-08-14'
 tags:
 - Conversation Intelligence
-- Healthcare
-- Speech Analytics
-- Contact Center
-- Customer Experience
-- Quality Assurance
-- Pharmacovigilance
-- Patient Experience
+- healthcare
+- speech-analytics
+- contact-center
+- customer-experience
+- quality-assurance
+- pharmacovigilance
+- patient-experience
 - Transcription
-- Life Sciences
+- life-sciences
 - SCIM
 - Authentication
 tags_raw:
