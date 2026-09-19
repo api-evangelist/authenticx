@@ -151,6 +151,8 @@ apis:
   humanURL: https://authenticx.readme.io/reference/acxapi
   baseURL: https://api.beauthenticx.com
   tags:
+  - Evaluation
+  tags_raw:
   - Evaluations
   properties:
   - type: OpenAPI
