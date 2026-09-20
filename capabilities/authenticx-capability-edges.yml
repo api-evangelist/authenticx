@@ -11,7 +11,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 5
+edge_count: 6
 edges:
 - tag: (Scim) Users
   spec_file: authenticx-scim-users-api-openapi.yml
@@ -42,6 +42,18 @@ edges:
   reason: Exposes transcriptions and ML classifier insights over ingested contact-centre interactions
     — customer service interaction analytics. L1 Customer Service Management is supported; evidence does
     not clearly separate contact-centre operations from voice-of-customer feedback, so no L2.
+- tag: Interactions
+  spec_file: authenticx-interactions-api-openapi.yml
+  capability_id: BC-430
+  capability_id_l1: BC-430
+  capability_name: Customer Service Management
+  confidence: 0.7
+  evidence: GET /Interactions Get Interactions based on filter criteria; schemas TranscriptionModel, ClassifierResult,
+    AgentInfo
+  reason: The operations retrieve contact-centre interaction records (call transcriptions, agent info,
+    classifier output), which is squarely customer service / contact-centre interaction data. Which sub-capability
+    (contact centre operations vs voice-of-customer feedback) is ambiguous, so only the L1 is asserted.
+  recovered_from: vertical-pharmaceuticals-life-sciences-edges.json
 - tag: Roles
   spec_file: authenticx-roles-api-openapi.yml
   capability_id: BC-620.20
