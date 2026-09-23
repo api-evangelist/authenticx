@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production User Hierarchy API
+  title: AcxApi Experimental User Hierarchy API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: UserHierarchy
 paths:
@@ -42,6 +41,8 @@ paths:
           description: 'The UserId or HierarchyId provided did not match an existing user/hierarchy in your organization.
 
             Or, the specified user has no permissions in the specified hierarchy.'
+      operationId: getUserHierarchyByUserIdByHierarchyId
+      x-operation-id-source: derived
     put:
       tags:
       - UserHierarchy
@@ -79,6 +80,8 @@ paths:
             there was an invalid permission name in your permissions list.'
         '404':
           description: If your organization has no hierarchy or user with that specific id
+      operationId: putUserHierarchyByUserIdByHierarchyId
+      x-operation-id-source: derived
   /UserHierarchy/{UserId}/All:
     get:
       tags:
@@ -106,31 +109,10 @@ paths:
                   $ref: '#/components/schemas/AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel'
         '400':
           description: The UserId provided did not match an existing user in your organization
+      operationId: getUserHierarchyByUserIdAll
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest:
-      required:
-      - permissions
-      type: object
-      properties:
-        accessLevel:
-          type:
-          - string
-          - 'null'
-          description: This field may only be left blank if Permissions is an empty list []. Otherwise, this value is required to be set to "View", "Edit", or "Manage" and specifies the level of all permissions assigned.
-          example: Manage
-        permissions:
-          type: array
-          items:
-            type: string
-          description: 'List of values (valid values: "Audio", "Email", "Chat", "Video", "Live") that specify the types of permissions to grant to the user in the hierarchy. If specified as an empty list [] all permissions will be removed.'
-          example:
-          - Audio
-          - Email
-          - Chat
-          - Video
-          - Live
-      additionalProperties: false
     AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel:
       type: object
       properties:
@@ -174,11 +156,34 @@ components:
           description: ''
           example: LVL6_Director
       additionalProperties: false
+    AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest:
+      required:
+      - permissions
+      type: object
+      properties:
+        accessLevel:
+          type:
+          - string
+          - 'null'
+          description: This field may only be left blank if Permissions is an empty list []. Otherwise, this value is required to be set to "View", "Edit", or "Manage" and specifies the level of all permissions assigned.
+          example: Manage
+        permissions:
+          type: array
+          items:
+            type: string
+          description: 'List of values (valid values: "Audio", "Email", "Chat", "Video", "Live") that specify the types of permissions to grant to the user in the hierarchy. If specified as an empty list [] all permissions will be removed.'
+          example:
+          - Audio
+          - Email
+          - Chat
+          - Video
+          - Live
+      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

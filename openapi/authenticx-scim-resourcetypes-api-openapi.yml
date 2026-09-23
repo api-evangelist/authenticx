@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production (Scim) ResourceTypes (Scim) ResourceTypes API
+  title: AcxApi Experimental (Scim) ResourceTypes API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: (Scim) ResourceTypes
 paths:
@@ -24,6 +23,8 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ListResponse_Of_ResourceType'
+      operationId: getScimV2ResourceTypes
+      x-operation-id-source: derived
   /scim/v2/ResourceTypes/{ResourceTypeId}:
     get:
       tags:
@@ -50,8 +51,38 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: getScimV2ResourceTypesByResourceTypeId
+      x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
     AcxApi.Scim.Resources.ResourceType.SchemaExtension:
       type: object
       properties:
@@ -116,34 +147,6 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
       additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
     ListResponse_Of_ResourceType:
       type: object
       properties:
@@ -181,6 +184,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

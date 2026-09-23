@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Media API
+  title: AcxApi Experimental Media API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: Media
 paths:
@@ -16,7 +15,200 @@ paths:
       tags:
       - Media
       summary: Upload Media
-      description: "Uploads an audio file interaction into storage for processing.\n\n*Param name \"file\"* \n\nAudio file uploaded from client (required unless signedUrl is provided). \n\nValid Audio File Extensions:\n- .wav\n- .mp3\n- .mp4\n- .ogg\n- .opus\n- .m4a \n\nValid Chat File Extensions:\n- .tar\n- .zip\n\n*Param name \"signedUrl\"* \n\nOptional signed download URL. If provided, the server downloads the file from this URL instead of using multipart upload. Supports signed URLs from AWS S3, Azure Blob Storage, etc. \n\nExample: \"https://bucket.s3.amazonaws.com/path/to/file.mp3?X-Amz-Algorithm=...\" or \"https://storage.azure.com/container/blob?sv=...\"\n\n*Param name \"metadata\"* \n\nJSON dictionary containing multiple metadata fields about the Audio File: \n\n            \n    Required Fields:\n        - FileName:\n            Path containing file name and extension (extension must match the uploaded file). Subdirectories specifying a more exact path may be prepended to the file name.\n            Examples:\n                -- With subdirectories: \"topfolder/subfolder/subsubfolder/filename.mp3\"\n                -- Without subdirectories: \"filename.mp3\"\n        - UploadType:\n            Type indicating if you are uploding a chat or audio file.\n            Examples:\n                -- \"Chat\"\n                -- \"Audio\"\n\n    Optional Fields: \n        - CallDirection: \n            Direction of the interaction's call to or from the call center. \n            Examples: \n                -- \"Inbound\" \n                -- \"Outbound\" \n        - Name: \n            Name associated with interaction. \n            Example: \n                -- \"Alice\" \n        - Phone: \n            Phone number associated with interaction. \n            Example: \n                --\"800-555-5555\" \n        - Email: \n            Email address associated with interaction. \n            Example: \n                --\"example@example.com\" \n        - AgentFirstName: \n            Agent's First Name associated with interaction. \n            Example: \n                --\"James\" \n        - AgentLastName: \n            Agent's Last Name associated with interaction. \n            Example: \n                --\"Bond\" \n        - AgentCode: \n            Agent Code for associating agent already in system with interaction. \n            Example: \n                --\"007\" \n        - InteractionDate: \n            Date on which interaction occured. \n            ISO-8601 Examples: \n            --UTC datetime: \"2022-03-18T21:52:26\" \n            --UTC datetime with milliseconds: \"2022-03-18T21:52:26.8816090Z\" \n            --UTC date only: \"2022-03-19\" \n            --datetime with timezone: \"2022-03-18T17:56:09.8683110-04:00\" \n        - ExtendedMetadata: [Deprecated - (\"Use ExtendedMetadataValues\")]\n            Array of Dictionaries of key values associated with interaction.\n            Examples: \n            -- [{ \"Data\": \"Example Data\"}, { \"Data2\": \"Example Data 2\", \"ExampleKey\": \"Example Value\" }]\n        - ExtendedMetadataValues: \n            Dictionary of key values associated with interaction.\n            Examples: \n            -- { \"Data\": \"Example Data\" }, { \"Data2\": \"Example Data 2\" }, { \"ExampleKey\": \"Example Value\" }\n        - HierarchyId: \n            Id of hierarchy to associate with this interaction.\n            Example: \n            -- \"00000000-0000-0000-0000-000000000002\" \n        - HierarchyCode: \n            Internal Organization Code for associating hierarchy with this interaction.\n            Example: \n            -- \"Accounting\"\n        - ApplyHierarchyToAgent: \n            If ```true``` AND a ```HierarchyId``` / ```HierarchyCode``` are provided, the system assigns that hierarchy to the agent .\n            Example: \n            -- true\n        - LocaleId:\n            Specifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted.\n        - ClientCallId:\n            Your external telephony reference ID.\n            Example:\n            -- \"5CD1S\""
+      description: 'Uploads an audio file interaction into storage for processing.
+
+
+        *Param name "file"*
+
+
+        Audio file uploaded from client (required unless signedUrl is provided).
+
+
+        Valid Audio File Extensions:
+
+        - .wav
+
+        - .mp3
+
+        - .mp4
+
+        - .ogg
+
+        - .opus
+
+        - .m4a
+
+
+        Valid Chat File Extensions:
+
+        - .tar
+
+        - .zip
+
+
+        *Param name "signedUrl"*
+
+
+        Optional signed download URL. If provided, the server downloads the file from this URL instead of using multipart upload. Supports signed URLs from AWS S3, Azure Blob Storage, etc.
+
+
+        Example: "https://bucket.s3.amazonaws.com/path/to/file.mp3?X-Amz-Algorithm=..." or "https://storage.azure.com/container/blob?sv=..."
+
+
+        *Param name "metadata"*
+
+
+        JSON dictionary containing multiple metadata fields about the Audio File:
+
+
+        Required Fields:
+
+        - FileName:
+
+        Path containing file name and extension (extension must match the uploaded file). Subdirectories specifying a more exact path may be prepended to the file name.
+
+        Examples:
+
+        -- With subdirectories: "topfolder/subfolder/subsubfolder/filename.mp3"
+
+        -- Without subdirectories: "filename.mp3"
+
+        - UploadType:
+
+        Type indicating if you are uploding a chat or audio file.
+
+        Examples:
+
+        -- "Chat"
+
+        -- "Audio"
+
+
+        Optional Fields:
+
+        - CallDirection:
+
+        Direction of the interaction''s call to or from the call center.
+
+        Examples:
+
+        -- "Inbound"
+
+        -- "Outbound"
+
+        - Name:
+
+        Name associated with interaction.
+
+        Example:
+
+        -- "Alice"
+
+        - Phone:
+
+        Phone number associated with interaction.
+
+        Example:
+
+        --"800-555-5555"
+
+        - Email:
+
+        Email address associated with interaction.
+
+        Example:
+
+        --"example@example.com"
+
+        - AgentFirstName:
+
+        Agent''s First Name associated with interaction.
+
+        Example:
+
+        --"James"
+
+        - AgentLastName:
+
+        Agent''s Last Name associated with interaction.
+
+        Example:
+
+        --"Bond"
+
+        - AgentCode:
+
+        Agent Code for associating agent already in system with interaction.
+
+        Example:
+
+        --"007"
+
+        - InteractionDate:
+
+        Date on which interaction occured.
+
+        ISO-8601 Examples:
+
+        --UTC datetime: "2022-03-18T21:52:26"
+
+        --UTC datetime with milliseconds: "2022-03-18T21:52:26.8816090Z"
+
+        --UTC date only: "2022-03-19"
+
+        --datetime with timezone: "2022-03-18T17:56:09.8683110-04:00"
+
+        - ExtendedMetadata: [Deprecated - ("Use ExtendedMetadataValues")]
+
+        Array of Dictionaries of key values associated with interaction.
+
+        Examples:
+
+        -- [{ "Data": "Example Data"}, { "Data2": "Example Data 2", "ExampleKey": "Example Value" }]
+
+        - ExtendedMetadataValues:
+
+        Dictionary of key values associated with interaction.
+
+        Examples:
+
+        -- { "Data": "Example Data" }, { "Data2": "Example Data 2" }, { "ExampleKey": "Example Value" }
+
+        - HierarchyId:
+
+        Id of hierarchy to associate with this interaction.
+
+        Example:
+
+        -- "00000000-0000-0000-0000-000000000002"
+
+        - HierarchyCode:
+
+        Internal Organization Code for associating hierarchy with this interaction.
+
+        Example:
+
+        -- "Accounting"
+
+        - ApplyHierarchyToAgent:
+
+        If ```true``` AND a ```HierarchyId``` / ```HierarchyCode``` are provided, the system assigns that hierarchy to the agent .
+
+        Example:
+
+        -- true
+
+        - LocaleId:
+
+        Specifies the language of the interaction using a locale ID. Defaults to ```1033``` (English) if omitted.
+
+        - ClientCallId:
+
+        Your external telephony reference ID.
+
+        Example:
+
+        -- "5CD1S"'
       requestBody:
         content:
           multipart/form-data:
@@ -59,6 +251,8 @@ paths:
               description: Seconds to wait before retrying after a rate limit
               schema:
                 type: integer
+      operationId: postMediaUpload
+      x-operation-id-source: derived
 components:
   schemas:
     AcxApi.Models.Media.MediaResponseModel:
@@ -86,6 +280,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

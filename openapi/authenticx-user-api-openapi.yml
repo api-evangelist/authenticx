@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production User API
+  title: AcxApi Experimental User API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: User
 paths:
@@ -34,6 +33,8 @@ paths:
           description: The UserName query parameter was not supplied
         '404':
           description: No user in your organization matches the specified username
+      operationId: getUser
+      x-operation-id-source: derived
     post:
       tags:
       - User
@@ -53,6 +54,8 @@ paths:
                 $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
         '400':
           description: One or more of the required fields were incorrect or belonged to a user that already exists
+      operationId: postUser
+      x-operation-id-source: derived
   /User/{UserId}:
     get:
       tags:
@@ -73,6 +76,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+      operationId: getUserByUserId
+      x-operation-id-source: derived
     put:
       tags:
       - User
@@ -99,6 +104,8 @@ paths:
                 $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
         '400':
           description: ''
+      operationId: putUserByUserId
+      x-operation-id-source: derived
   /User/All:
     get:
       tags:
@@ -120,35 +127,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AcxApi.Models.User.UserResponseModel'
+      operationId: getUserAll
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.User.UpdateUserRequest:
+    AcxApi.Models.User.CreateUserRequest:
+      required:
+      - email
+      - firstName
+      - lastName
+      - userName
       type: object
       properties:
         firstName:
-          type:
-          - string
-          - 'null'
+          minLength: 1
+          type: string
           description: The first name of the new user you intend to add.
-          example: Alice
+          example: John
         lastName:
-          type:
-          - string
-          - 'null'
+          minLength: 1
+          type: string
           description: The last name of the new user you intend to add.
           example: Doe
         userName:
-          type:
-          - string
-          - 'null'
-          description: The username that the user signs in with (typically their email).
-          example: alice.doe@organization.com
+          minLength: 1
+          type: string
+          description: The username the new user will sign in with (typically their email).
+          example: john.doe@organization.com
         email:
-          type:
-          - string
-          - 'null'
-          description: The email address of the new user you intend to add.
-          example: alice.doe@organization.com
+          minLength: 1
+          type: string
+          description: Email address where the invitation will be sent.
+          example: john.doe@organization.com
         phoneNumber:
           type:
           - string
@@ -159,14 +169,8 @@ components:
           type:
           - string
           - 'null'
-          description: Must exactly match a role name from GET /Roles/All.
+          description: Role to assign. Must exactly match a role name returned by GET /Roles/All.
           example: Analyst
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: Set to true to disable the user's access.
-          example: false
         samlProviderUserCode:
           type:
           - string
@@ -177,7 +181,7 @@ components:
           type:
           - boolean
           - 'null'
-          description: When specified to true, allows the user to skip confirming their email address.
+          description: Set to true to skip email confirmation for the new user.
           example: true
       additionalProperties: false
     AcxApi.Models.User.UserResponseModel:
@@ -265,34 +269,33 @@ components:
           format: uuid
           example: d1a539ee-675d-443d-9dab-6d0d3be8e0c1
       additionalProperties: false
-    AcxApi.Models.User.CreateUserRequest:
-      required:
-      - email
-      - firstName
-      - lastName
-      - userName
+    AcxApi.Models.User.UpdateUserRequest:
       type: object
       properties:
         firstName:
-          minLength: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: The first name of the new user you intend to add.
-          example: John
+          example: Alice
         lastName:
-          minLength: 1
-          type: string
+          type:
+          - string
+          - 'null'
           description: The last name of the new user you intend to add.
           example: Doe
         userName:
-          minLength: 1
-          type: string
-          description: The username the new user will sign in with (typically their email).
-          example: john.doe@organization.com
+          type:
+          - string
+          - 'null'
+          description: The username that the user signs in with (typically their email).
+          example: alice.doe@organization.com
         email:
-          minLength: 1
-          type: string
-          description: Email address where the invitation will be sent.
-          example: john.doe@organization.com
+          type:
+          - string
+          - 'null'
+          description: The email address of the new user you intend to add.
+          example: alice.doe@organization.com
         phoneNumber:
           type:
           - string
@@ -303,8 +306,14 @@ components:
           type:
           - string
           - 'null'
-          description: Role to assign. Must exactly match a role name returned by GET /Roles/All.
+          description: Must exactly match a role name from GET /Roles/All.
           example: Analyst
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: Set to true to disable the user's access.
+          example: false
         samlProviderUserCode:
           type:
           - string
@@ -315,7 +324,7 @@ components:
           type:
           - boolean
           - 'null'
-          description: Set to true to skip email confirmation for the new user.
+          description: When specified to true, allows the user to skip confirming their email address.
           example: true
       additionalProperties: false
   securitySchemes:
@@ -323,6 +332,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

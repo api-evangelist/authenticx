@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Receipts API
+  title: AcxApi Experimental Receipts API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: Receipts
 paths:
@@ -16,7 +15,28 @@ paths:
       tags:
       - Receipts
       summary: Get Receipts based on filter criteria
-      description: "Returns a list of receipts for interactions that have finished processing and match the specified criteria.\n            \nEach result in the response includes the following fields:\n- ConversationId: Unique identifier for the conversation. Corresponds to the Id field from GET /Metadata and the ConversationId from GET /Conversations/Insights\n- DateTimeReceived: The date/time the interaction arrived in the system\n- ClientCallId: Your external telephony reference ID for this conversation\n- DateTimeTransmitted: The date/time the export attempt was transmitted\n- ReceiptId: The receipt ID returned from the downstream system\n- SafetyEvent: Safety event classification result from the export\n- AdverseEvent: Adverse event classification result from the export\n- ProductQualityComplaint: Product quality complaint result from the export\n- uid: The external system UID returned from the export endpoint"
+      description: 'Returns a list of receipts for interactions that have finished processing and match the specified criteria.
+
+
+        Each result in the response includes the following fields:
+
+        - ConversationId: Unique identifier for the conversation. Corresponds to the Id field from GET /Metadata and the ConversationId from GET /Conversations/Insights
+
+        - DateTimeReceived: The date/time the interaction arrived in the system
+
+        - ClientCallId: Your external telephony reference ID for this conversation
+
+        - DateTimeTransmitted: The date/time the export attempt was transmitted
+
+        - ReceiptId: The receipt ID returned from the downstream system
+
+        - SafetyEvent: Safety event classification result from the export
+
+        - AdverseEvent: Adverse event classification result from the export
+
+        - ProductQualityComplaint: Product quality complaint result from the export
+
+        - uid: The external system UID returned from the export endpoint'
       parameters:
       - name: DateReference
         in: query
@@ -80,12 +100,14 @@ paths:
           description: If no receipts meet the criteria
         '200':
           description: Returns the receipts that match the specified criteria
+      operationId: getReceipts
+      x-operation-id-source: derived
 components:
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

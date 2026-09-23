@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Evaluations API
+  title: AcxApi Experimental Evaluations API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: Evaluations
 paths:
@@ -75,6 +74,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AcxApi.Models.Evaluations.Evaluation'
+      operationId: getEvaluations
+      x-operation-id-source: derived
   /Evaluations/Modules:
     get:
       tags:
@@ -145,66 +146,76 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleEvaluation'
+      operationId: getEvaluationsModules
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.Evaluations.Agent:
+    AcxApi.Models.Evaluations.Question:
       type: object
       properties:
         id:
           type:
           - string
           - 'null'
-          description: Unique Id of this agent
-          example: 374c372a-1212-45e6-a2f6-7bafef6d7c5c
-        agentCode:
+          description: Unique Id of this question
+        questionText:
           type:
           - string
           - 'null'
-          description: Unique internal code used for the agent
-          example: AF86700
-        firstName:
+          description: ''
+          example: Ending Sentiment
+        shortQuestionText:
           type:
           - string
           - 'null'
-          description: Agents first name
-          example: JOHN
-        lastName:
-          type:
-          - string
-          - 'null'
-          description: Agents last name
-          example: DOE
-        agentEmail:
-          type:
-          - string
-          - 'null'
-          description: Agents email address
-          example: john.doe@organization.com
-      additionalProperties: false
-    AcxApi.Models.Evaluations.ModuleAnswer:
-      type: object
-      properties:
-        answerId:
-          type: string
-          description: The unique identifier for this answer.
-          format: uuid
-        fillInAnswer:
-          type:
-          - string
-          - 'null'
-          description: For questions that require a fill in answer, this will be the answer.
-        note:
-          type:
-          - string
-          - 'null'
-          description: Any notes associated with the answer.
-        answerTags:
+          description: ''
+          example: Ending Sentiment
+        answers:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleAnswerTag'
-          description: A list of tags that represent the answers to the question.
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Answer'
+          description: The list of possible answers to this question
+        order:
+          type: integer
+          description: ''
+          format: int32
+          example: 1
+        helperText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Rate your initial caller sentiment on a scale of 1 - 5.  1 being negative and 5 being positive
+        required:
+          type: boolean
+          description: ''
+          example: true
+        weight:
+          type: number
+          description: ''
+          format: double
+          example: 1
+        type:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Question
+        category:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Starting Sentiment
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
+          description: Tags this question has
       additionalProperties: false
     AcxApi.Models.Metadata.Metadata:
       type: object
@@ -296,6 +307,12 @@ components:
           - 'null'
           description: Agent's name.
           example: JOHN DOE
+        agentCode:
+          type:
+          - string
+          - 'null'
+          description: Your organization's internal code for this agent.
+          example: '01234'
         phone:
           type:
           - string
@@ -396,151 +413,6 @@ components:
             $ref: '#/components/schemas/AcxApi.Models.Metadata.ProcessFailure'
           description: ''
       additionalProperties: false
-    AcxApi.Models.Metadata.ProcessFailure:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Unique Id of this process failure
-          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
-        message:
-          type:
-          - string
-          - 'null'
-          description: Message related to the cause of failure
-          example: ''
-        createdOn:
-          type: string
-          description: Date the failure occurred
-          format: date-time
-      additionalProperties: false
-    AcxApi.Models.Evaluations.AnswerTag:
-      type: object
-      properties:
-        tagId:
-          type: string
-          description: Unique Id for this answer tag
-          format: uuid
-          example: 620a396c-5fa1-4e78-997c-22b2844b1533
-        tag:
-          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
-      additionalProperties: false
-    AcxApi.Models.Evaluations.CustomerType:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-      additionalProperties: false
-    AcxApi.Models.Evaluations.Answer:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Unique Id for this Answer
-          example: ff666edb-e563-4a35-9d96-4f1607881706
-        note:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-        answerAlert:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-        weightedScore:
-          type:
-          - number
-          - 'null'
-          description: ''
-          format: double
-          example: 1
-        answerTags:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Evaluations.AnswerTag'
-          description: ''
-        fillInAnswerValue:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-      additionalProperties: false
-    AcxApi.Models.Evaluations.ModuleAnswerTag:
-      type: object
-      properties:
-        answerTagId:
-          type: string
-          description: The unique identifier for this answer tag.
-          format: uuid
-        tagValue:
-          type:
-          - string
-          - 'null'
-          description: The value of the tag.
-      additionalProperties: false
-    AcxApi.Models.Evaluations.ModuleEvaluation:
-      type: object
-      properties:
-        evaluationNumber:
-          type: integer
-          description: Auto-incrementing identifier. Use as LastId for cursor-based pagination.
-          format: int32
-          example: 51174176
-        submittedDate:
-          type:
-          - string
-          - 'null'
-          description: When the evaluation was completed and submitted.
-          format: date-time
-        assignedDate:
-          type:
-          - string
-          - 'null'
-          description: The date this evaluation was assigned.
-          format: date-time
-        modifiedOn:
-          type: string
-          description: When the evaluation was last modified.
-          format: date-time
-        modules:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Module'
-          description: List of modules, each with a Name, Description, Score (percentage 0-100), and a Questions list. Each question contains Answers, which contain AnswerTags with the selected tag values and a SmartPredict boolean indicating whether the tag was AI-generated.
-        agent:
-          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Agent'
-        analyst:
-          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Analyst'
-        metadata:
-          $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
-        callSummary:
-          type:
-          - string
-          - 'null'
-          description: Summary of the call, if available.
-        customerType:
-          $ref: '#/components/schemas/AcxApi.Models.Evaluations.CustomerType'
-      additionalProperties: false
     AcxApi.Models.Evaluations.Evaluation:
       type: object
       properties:
@@ -600,6 +472,119 @@ components:
         customerType:
           $ref: '#/components/schemas/AcxApi.Models.Evaluations.CustomerType'
       additionalProperties: false
+    AcxApi.Models.Evaluations.ModuleAnswer:
+      type: object
+      properties:
+        answerId:
+          type: string
+          description: The unique identifier for this answer.
+          format: uuid
+        fillInAnswer:
+          type:
+          - string
+          - 'null'
+          description: For questions that require a fill in answer, this will be the answer.
+        note:
+          type:
+          - string
+          - 'null'
+          description: Any notes associated with the answer.
+        answerTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleAnswerTag'
+          description: A list of tags that represent the answers to the question.
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Analyst:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id for this analyst
+          example: 78a4e165-0b3a-4f62-8520-99607383d60f
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        userName:
+          type:
+          - string
+          - 'null'
+          description: Analysts user name
+          example: john.doe@authenticx.com
+        email:
+          type:
+          - string
+          - 'null'
+          description: Analysts email
+          example: john.doe@authenticx.com
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: Analysts first name
+          example: John
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: Analysts last name
+          example: Doe
+        role:
+          type:
+          - string
+          - 'null'
+          description: Analysts role
+          example: ''
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Answer:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id for this Answer
+          example: ff666edb-e563-4a35-9d96-4f1607881706
+        note:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        answerAlert:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        weightedScore:
+          type:
+          - number
+          - 'null'
+          description: ''
+          format: double
+          example: 1
+        answerTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.AnswerTag'
+          description: ''
+        fillInAnswerValue:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
     AcxApi.Models.Evaluations.Tag:
       type: object
       properties:
@@ -640,72 +625,97 @@ components:
           format: int32
           example: 4
       additionalProperties: false
-    AcxApi.Models.Evaluations.Question:
+    AcxApi.Models.Evaluations.ModuleAnswerTag:
+      type: object
+      properties:
+        answerTagId:
+          type: string
+          description: The unique identifier for this answer tag.
+          format: uuid
+        tagValue:
+          type:
+          - string
+          - 'null'
+          description: The value of the tag.
+      additionalProperties: false
+    AcxApi.Models.Evaluations.CustomerType:
       type: object
       properties:
         id:
           type:
           - string
           - 'null'
-          description: Unique Id of this question
-        questionText:
+        name:
           type:
           - string
           - 'null'
-          description: ''
-          example: Ending Sentiment
-        shortQuestionText:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Ending Sentiment
-        answers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Answer'
-          description: The list of possible answers to this question
-        order:
-          type: integer
-          description: ''
-          format: int32
-          example: 1
-        helperText:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Rate your initial caller sentiment on a scale of 1 - 5.  1 being negative and 5 being positive
-        required:
+        isActive:
           type: boolean
-          description: ''
-          example: true
-        weight:
-          type: number
-          description: ''
-          format: double
-          example: 1
-        type:
+      additionalProperties: false
+    AcxApi.Models.Evaluations.Agent:
+      type: object
+      properties:
+        id:
           type:
           - string
           - 'null'
-          description: ''
-          example: Question
-        category:
+          description: Unique Id of this agent
+          example: 374c372a-1212-45e6-a2f6-7bafef6d7c5c
+        agentCode:
           type:
           - string
           - 'null'
-          description: ''
-          example: Starting Sentiment
-        tags:
+          description: Unique internal code used for the agent
+          example: AF86700
+        firstName:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
-          description: Tags this question has
+          description: Agents first name
+          example: JOHN
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: Agents last name
+          example: DOE
+        agentEmail:
+          type:
+          - string
+          - 'null'
+          description: Agents email address
+          example: john.doe@organization.com
+      additionalProperties: false
+    AcxApi.Models.Metadata.ProcessFailure:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this process failure
+          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
+        message:
+          type:
+          - string
+          - 'null'
+          description: Message related to the cause of failure
+          example: ''
+        createdOn:
+          type: string
+          description: Date the failure occurred
+          format: date-time
+      additionalProperties: false
+    AcxApi.Models.Evaluations.AnswerTag:
+      type: object
+      properties:
+        tagId:
+          type: string
+          description: Unique Id for this answer tag
+          format: uuid
+          example: 620a396c-5fa1-4e78-997c-22b2844b1533
+        tag:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Tag'
       additionalProperties: false
     AcxApi.Models.Evaluations.Module:
       type: object
@@ -764,57 +774,56 @@ components:
             $ref: '#/components/schemas/AcxApi.Models.Evaluations.ModuleAnswer'
           description: The answers to this question. These are always a 'FillInAnswer' or a list of 'AnswerTags'.
       additionalProperties: false
-    AcxApi.Models.Evaluations.Analyst:
+    AcxApi.Models.Evaluations.ModuleEvaluation:
       type: object
       properties:
-        id:
+        evaluationNumber:
+          type: integer
+          description: Auto-incrementing identifier. Use as LastId for cursor-based pagination.
+          format: int32
+          example: 51174176
+        submittedDate:
           type:
           - string
           - 'null'
-          description: Unique Id for this analyst
-          example: 78a4e165-0b3a-4f62-8520-99607383d60f
-        domainId:
+          description: When the evaluation was completed and submitted.
+          format: date-time
+        assignedDate:
           type:
           - string
           - 'null'
-          description: ''
-          example: ''
-        userName:
+          description: The date this evaluation was assigned.
+          format: date-time
+        modifiedOn:
+          type: string
+          description: When the evaluation was last modified.
+          format: date-time
+        modules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Evaluations.Module'
+          description: List of modules, each with a Name, Description, Score (percentage 0-100), and a Questions list. Each question contains Answers, which contain AnswerTags with the selected tag values and a SmartPredict boolean indicating whether the tag was AI-generated.
+        agent:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Agent'
+        analyst:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.Analyst'
+        metadata:
+          $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
+        callSummary:
           type:
           - string
           - 'null'
-          description: Analysts user name
-          example: john.doe@authenticx.com
-        email:
-          type:
-          - string
-          - 'null'
-          description: Analysts email
-          example: john.doe@authenticx.com
-        firstName:
-          type:
-          - string
-          - 'null'
-          description: Analysts first name
-          example: John
-        lastName:
-          type:
-          - string
-          - 'null'
-          description: Analysts last name
-          example: Doe
-        role:
-          type:
-          - string
-          - 'null'
-          description: Analysts role
-          example: ''
+          description: Summary of the call, if available.
+        customerType:
+          $ref: '#/components/schemas/AcxApi.Models.Evaluations.CustomerType'
       additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

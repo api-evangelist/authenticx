@@ -342,16 +342,7 @@ coverage:
   operationids_in_spec: 0
 deployment:
   mode: none
-  endpoint: null
-  install: null
-  package: null
-  auth: unknown
   verified: derived
   tools: 43
-  checked: '2026-08-14'
+  checked: '2026-08-12'
   source: catalog MCP census
-  note: >-
-    mode: none — Authenticx ships no MCP server, remote or stdio, so there is nothing to authenticate to and
-    no endpoint or install command exists to record. The tools below are a derived candidate surface only.
-    Were a server ever built against this API it would inherit the AcxAPI's OAuth 2.0 client-credentials
-    model (see authentication/authenticx-authentication.yml).

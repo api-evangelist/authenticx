@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Hierarchy API
+  title: AcxApi Experimental Hierarchy API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: Hierarchy
 paths:
@@ -35,6 +34,8 @@ paths:
             within your organization, a valid `ParentId` was provided but you don''t have enough structure levels for the new hierarchy,
 
             your organization has no structure levels, a user id in the provided contact lists is invalid.'
+      operationId: postHierarchy
+      x-operation-id-source: derived
   /Hierarchy/{HierarchyId}:
     put:
       tags:
@@ -65,6 +66,8 @@ paths:
           description: Bad Request
         '404':
           description: If your organization has no hierarchy with that specific id
+      operationId: putHierarchyByHierarchyId
+      x-operation-id-source: derived
   /Hierarchy/All:
     get:
       tags:
@@ -88,8 +91,102 @@ paths:
                   $ref: '#/components/schemas/AcxApi.Models.Hierarchies.HierarchyResponseModel'
         '404':
           description: If your organization has no hierarchies matching the requested active-state filter
+      operationId: getHierarchyAll
+      x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Hierarchies.HierarchyContact:
+      type: object
+      properties:
+        userName:
+          type:
+          - string
+          - 'null'
+          description: User name of the contact
+          example: john.doe@organization.com
+        userId:
+          type:
+          - string
+          - 'null'
+          description: Unique user id of the contact
+          example: 0d0dc9da-95b4-4434-9009-27823ac1c00f
+      additionalProperties: false
+    AcxApi.Models.Hierarchies.CreateHierarchyRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: Display name for the new hierarchy node.
+          example: New Child Hierarchy
+        category:
+          type:
+          - string
+          - 'null'
+          description: Organizational category label.
+          example: Category
+        subCategory:
+          type:
+          - string
+          - 'null'
+          description: Organizational subcategory label.
+          example: SubCategory
+        code:
+          type:
+          - string
+          - 'null'
+          description: A short internal code for this node used by your organization.
+          example: '007'
+        administrativeContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of User Id strings to assign as administrative contacts.
+          example:
+          - 00000000-0000-0000-0000-000000000000
+          - 00000000-0000-0000-0000-000000000001
+        escalationContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of User Id strings to assign as escalation contacts.
+          example:
+          - 00000000-0000-0000-0000-000000000002
+          - 00000000-0000-0000-0000-000000000003
+        managerContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of User Id strings to assign as manager contacts.
+          example:
+          - 00000000-0000-0000-0000-000000000004
+          - 00000000-0000-0000-0000-000000000005
+        hierarchyCodes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of string codes from your source system that map to this hierarchy. Used when uploading interactions by code rather than ID.
+          example:
+          - Code1
+          - CodeABC
+        parentId:
+          type:
+          - string
+          - 'null'
+          description: Id of an existing hierarchy to nest this node under. Omit to create a top-level node.
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000009
+      additionalProperties: false
     AcxApi.Models.Hierarchies.UpdateHierarchyRequest:
       type: object
       properties:
@@ -247,6 +344,7 @@ components:
           items:
             type: string
           description: Additional lookup codes mapped to this hierarchy. Usable as HierarchyCode on upload to POST /TextMedia/Upload or POST /Media/Upload.
+          example: []
         children:
           type:
           - array
@@ -255,103 +353,11 @@ components:
             $ref: '#/components/schemas/AcxApi.Models.Hierarchies.HierarchyResponseModel'
           description: Nested list of child hierarchy nodes.
       additionalProperties: false
-    AcxApi.Models.Hierarchies.HierarchyContact:
-      type: object
-      properties:
-        userName:
-          type:
-          - string
-          - 'null'
-          description: User name of the contact
-          example: john.doe@organization.com
-        userId:
-          type:
-          - string
-          - 'null'
-          description: Unique user id of the contact
-          example: 0d0dc9da-95b4-4434-9009-27823ac1c00f
-      additionalProperties: false
-    AcxApi.Models.Hierarchies.CreateHierarchyRequest:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          minLength: 1
-          type: string
-          description: Display name for the new hierarchy node.
-          example: New Child Hierarchy
-        category:
-          type:
-          - string
-          - 'null'
-          description: Organizational category label.
-          example: Category
-        subCategory:
-          type:
-          - string
-          - 'null'
-          description: Organizational subcategory label.
-          example: SubCategory
-        code:
-          type:
-          - string
-          - 'null'
-          description: A short internal code for this node used by your organization.
-          example: '007'
-        administrativeContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of User Id strings to assign as administrative contacts.
-          example:
-          - 00000000-0000-0000-0000-000000000000
-          - 00000000-0000-0000-0000-000000000001
-        escalationContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of User Id strings to assign as escalation contacts.
-          example:
-          - 00000000-0000-0000-0000-000000000002
-          - 00000000-0000-0000-0000-000000000003
-        managerContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of User Id strings to assign as manager contacts.
-          example:
-          - 00000000-0000-0000-0000-000000000004
-          - 00000000-0000-0000-0000-000000000005
-        hierarchyCodes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of string codes from your source system that map to this hierarchy. Used when uploading interactions by code rather than ID.
-          example:
-          - Code1
-          - CodeABC
-        parentId:
-          type:
-          - string
-          - 'null'
-          description: Id of an existing hierarchy to nest this node under. Omit to create a top-level node.
-          format: uuid
-          example: 00000000-0000-0000-0000-000000000009
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Roles API
+  title: AcxApi Experimental Roles API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: Roles
 paths:
@@ -31,8 +30,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AcxApi.Models.Roles.RoleResponseModel'
+      operationId: getRolesAll
+      x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Roles.RoleResponseModel:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this role
+          example: Analyst
+        permissions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Roles.RolePermission'
+          description: A list of permissions this role has
+      additionalProperties: false
     AcxApi.Models.Roles.RolePermission:
       type: object
       properties:
@@ -51,28 +69,11 @@ components:
             are capable of.'
           example: Determines if the user can see and utilize the Summary tab.
       additionalProperties: false
-    AcxApi.Models.Roles.RoleResponseModel:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of this role
-          example: Analyst
-        permissions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Roles.RolePermission'
-          description: A list of permissions this role has
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

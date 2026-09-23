@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production Model Results API
+  title: AcxApi Experimental Model Results API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: ModelResults
 paths:
@@ -16,7 +15,24 @@ paths:
       tags:
       - ModelResults
       summary: Get Model Results based on filter criteria
-      description: "Returns a list of model results for the specified criteria including ML predictions and human review results.\n            \nmodelIds must contain active model IDs for your organization.\nUse GET /Conversations/Classifiers to discover valid modelIds for your organization.\nUse GET /Hierarchy/All to discover valid hierarchyCodes for your organization.\n            \nThis endpoint uses cursor-based pagination. Pass the lastId from the final item in a page to retrieve the next page.\nWhen includeUnprocessedMedia=true, the response may include conversations whose mediaStatus is Processed,\nNotProcessed, or FailedToProcess. Unprocessed conversations return mediaStatus details with modelResults set to null.\n            \nRequests earlier than 2025-10-01 are automatically clamped to 2025-10-01."
+      description: 'Returns a list of model results for the specified criteria including ML predictions and human review results.
+
+
+        modelIds must contain active model IDs for your organization.
+
+        Use GET /Conversations/Classifiers to discover valid modelIds for your organization.
+
+        Use GET /Hierarchy/All to discover valid hierarchyCodes for your organization.
+
+
+        This endpoint uses cursor-based pagination. Pass the lastId from the final item in a page to retrieve the next page.
+
+        When includeUnprocessedMedia=true, the response may include conversations whose mediaStatus is Processed,
+
+        NotProcessed, or FailedToProcess. Unprocessed conversations return mediaStatus details with modelResults set to null.
+
+
+        Requests earlier than 2025-10-01 are automatically clamped to 2025-10-01.'
       parameters:
       - name: startDate
         in: query
@@ -87,12 +103,29 @@ paths:
                   $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResults'
         '400':
           description: If modelIds is missing, malformed, or unknown, the response includes the available active model IDs for the organization. Other 400 responses cover invalid dates, page size, or hierarchyCodes.
+      operationId: getModelResults
+      x-operation-id-source: derived
   /ModelResults/Conversation:
     get:
       tags:
       - ModelResults
       summary: Get Model Results for one or more specific conversations
-      description: "Returns all model results for conversations matching the provided Conversation Ids or Client Call Ids.\nmodelIds is required and must contain active model IDs for your organization.\nAt least one of conversationIds or clientCallIds must also be supplied.\nWhen both conversationIds and clientCallIds are provided, results for any conversation matching\neither set of identifiers are returned. Maximum 100 IDs per parameter.\n            \nUse this endpoint when you already know the Authenticx ConversationId from GET /Metadata or your own\nsource-system ClientCallId and want the latest available model results for those specific conversations.\nSet includeUnprocessedMedia=true to also return conversations that are still processing or failed to process."
+      description: 'Returns all model results for conversations matching the provided Conversation Ids or Client Call Ids.
+
+        modelIds is required and must contain active model IDs for your organization.
+
+        At least one of conversationIds or clientCallIds must also be supplied.
+
+        When both conversationIds and clientCallIds are provided, results for any conversation matching
+
+        either set of identifiers are returned. Maximum 100 IDs per parameter.
+
+
+        Use this endpoint when you already know the Authenticx ConversationId from GET /Metadata or your own
+
+        source-system ClientCallId and want the latest available model results for those specific conversations.
+
+        Set includeUnprocessedMedia=true to also return conversations that are still processing or failed to process.'
       parameters:
       - name: conversationIds
         in: query
@@ -142,8 +175,32 @@ paths:
             application/json:
               schema:
                 type: string
+      operationId: getModelResultsConversation
+      x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.ModelResults.PriorResult:
+      type: object
+      properties:
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
+        eventTime:
+          type: string
+          description: Timestamp when this prior result set was generated.
+          format: date-time
+          example: '2025-11-14T09:10:11'
+        modelResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Model results captured during the prior event.
+      additionalProperties: false
     AcxApi.Models.ModelResults.ModelResult:
       type: object
       properties:
@@ -187,49 +244,6 @@ components:
           - 'null'
           description: Additional detail about why a conversation is not available for model results yet.
           example: This conversation could not be processed due to an internal processing error.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.PriorResult:
-      type: object
-      properties:
-        eventType:
-          type:
-          - string
-          - 'null'
-          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
-          example: ModelResults
-        eventTime:
-          type: string
-          description: Timestamp when this prior result set was generated.
-          format: date-time
-          example: '2025-11-14T09:10:11'
-        modelResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Model results captured during the prior event.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.EmissionReceipt:
-      type: object
-      properties:
-        eventTime:
-          type: string
-          description: Timestamp when the export receipt was recorded.
-          format: date-time
-          example: '2025-11-15T14:32:10'
-        authenticxReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Authenticx-generated receipt identifier for the export attempt.
-          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
-        customerReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Customer-provided or downstream-system receipt identifier, when available.
-          example: REMOTE-RECEIPT-12345
       additionalProperties: false
     AcxApi.Models.ModelResults.ModelResults:
       type: object
@@ -277,11 +291,32 @@ components:
           description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
       additionalProperties: false
       description: Model results for a single conversation, including the latest result set and any prior review history.
+    AcxApi.Models.ModelResults.EmissionReceipt:
+      type: object
+      properties:
+        eventTime:
+          type: string
+          description: Timestamp when the export receipt was recorded.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        authenticxReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Authenticx-generated receipt identifier for the export attempt.
+          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
+        customerReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Customer-provided or downstream-system receipt identifier, when available.
+          example: REMOTE-RECEIPT-12345
+      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

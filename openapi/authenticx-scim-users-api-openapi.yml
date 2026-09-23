@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production (Scim) Users (Scim) Users API
+  title: AcxApi Experimental (Scim) Users API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: (Scim) Users
 paths:
@@ -66,6 +65,8 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ListResponse_Of_User'
+      operationId: getScimV2Users
+      x-operation-id-source: derived
     post:
       tags:
       - (Scim) Users
@@ -95,6 +96,8 @@ paths:
             application/scim+json:
               schema:
                 type: string
+      operationId: postScimV2Users
+      x-operation-id-source: derived
   /scim/v2/Users/{UserId}:
     delete:
       tags:
@@ -127,6 +130,8 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: deleteScimV2UsersByUserId
+      x-operation-id-source: derived
     get:
       tags:
       - (Scim) Users
@@ -152,6 +157,8 @@ paths:
             application/scim+json:
               schema:
                 type: string
+      operationId: getScimV2UsersByUserId
+      x-operation-id-source: derived
     patch:
       tags:
       - (Scim) Users
@@ -181,6 +188,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: patchScimV2UsersByUserId
+      x-operation-id-source: derived
     put:
       tags:
       - (Scim) Users
@@ -213,9 +222,35 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: putScimV2UsersByUserId
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Models.Patch.PatchRequest:
+    AcxApi.Scim.Models.Contact:
+      type: object
+      properties:
+        primary:
+          type: boolean
+        value:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNode:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
+        parent:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        root:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
       type: object
       properties:
         schemas:
@@ -224,30 +259,26 @@ components:
           - 'null'
           items:
             type: string
-        operations:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchOperation'
-      additionalProperties: false
-    AcxApi.Scim.Models.Name:
-      type: object
-      properties:
-        givenName:
+          description: List of schemas for this error response.
+        scimType:
           type:
           - string
           - 'null'
-          description: The given or first name of the user
-          example: John
-        familyName:
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
           type:
           - string
           - 'null'
-          description: The family or last name of the user
-          example: Doe
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
       additionalProperties: false
-    AcxApi.Scim.Models.User.UpdateUserRequest:
+    AcxApi.Scim.Resources.User:
       type: object
       properties:
         schemas:
@@ -256,6 +287,19 @@ components:
           - 'null'
           items:
             type: string
+        meta:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Metadata'
+        id:
+          type:
+          - string
+          - 'null'
+          description: Id of the user assigned by the service provider
+          example: c4be4102-23ea-4780-a9a7-444c810daee4
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
         userName:
           type:
           - string
@@ -279,22 +323,78 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
           description: A list of the users phone numbers, if any
         active:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
           description: Whether the user is active or not.
           example: true
-        externalId:
+      additionalProperties: false
+    AcxApi.Scim.Models.Metadata:
+      type: object
+      properties:
+        resourceType:
           type:
           - string
           - 'null'
-          description: Maps to the SAML providers user code
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        version:
+          type:
+          - string
+          - 'null'
+          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
+        location:
+          type:
+          - string
+          - 'null'
+          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
       additionalProperties: false
     System.Text.Json.Nodes.JsonNodeOptions:
       type: object
       properties:
         propertyNameCaseInsensitive:
           type: boolean
+      additionalProperties: false
+    AcxApi.Scim.Models.Patch.PatchOperation:
+      type: object
+      properties:
+        op:
+          type:
+          - string
+          - 'null'
+        path:
+          type:
+          - string
+          - 'null'
+        value:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        isValidOp:
+          type: boolean
+          readOnly: true
+        isPathRequired:
+          type: boolean
+          readOnly: true
+        isValueRequired:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.Patch.PatchRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        operations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchOperation'
       additionalProperties: false
     AcxApi.Scim.Models.User.CreateUserRequest:
       required:
@@ -372,31 +472,23 @@ components:
           description: The resources returned by this response
           readOnly: true
       additionalProperties: false
-    AcxApi.Scim.Models.Metadata:
+    AcxApi.Scim.Models.Name:
       type: object
       properties:
-        resourceType:
+        givenName:
           type:
           - string
           - 'null'
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        version:
+          description: The given or first name of the user
+          example: John
+        familyName:
           type:
           - string
           - 'null'
-          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
-        location:
-          type:
-          - string
-          - 'null'
-          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
+          description: The family or last name of the user
+          example: Doe
       additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
+    AcxApi.Scim.Models.User.UpdateUserRequest:
       type: object
       properties:
         schemas:
@@ -405,84 +497,6 @@ components:
           - 'null'
           items:
             type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
-    AcxApi.Scim.Models.Contact:
-      type: object
-      properties:
-        primary:
-          type: boolean
-        value:
-          type:
-          - string
-          - 'null'
-        type:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AcxApi.Scim.Models.Patch.PatchOperation:
-      type: object
-      properties:
-        op:
-          type:
-          - string
-          - 'null'
-        path:
-          type:
-          - string
-          - 'null'
-        value:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        isValidOp:
-          type: boolean
-          readOnly: true
-        isPathRequired:
-          type: boolean
-          readOnly: true
-        isValueRequired:
-          type: boolean
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Resources.User:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        meta:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Metadata'
-        id:
-          type:
-          - string
-          - 'null'
-          description: Id of the user assigned by the service provider
-          example: c4be4102-23ea-4780-a9a7-444c810daee4
-        externalId:
-          type:
-          - string
-          - 'null'
-          description: Maps to the SAML providers user code
         userName:
           type:
           - string
@@ -506,25 +520,22 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
           description: A list of the users phone numbers, if any
         active:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: Whether the user is active or not.
           example: true
-      additionalProperties: false
-    System.Text.Json.Nodes.JsonNode:
-      type: object
-      properties:
-        options:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
-        parent:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        root:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
       additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API

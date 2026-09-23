@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Production (Scim) ServiceProviderConfig (Scim) ServiceProviderConfig API
+  title: AcxApi Experimental (Scim) ServiceProviderConfig API
   version: v1
 servers:
-- url: https://api.beauthenticx.com
-  description: AcxApi Production Server
+- url: https://api.authcx.com
+  description: AcxApi Experimental Server
 security:
-- OAuth2:
-  - acxapi
+- {}
 tags:
 - name: (Scim) ServiceProviderConfig
 paths:
@@ -24,34 +23,10 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Configs.ServiceProvider'
+      operationId: getScimV2ServiceProviderConfig
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Models.BulkService:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Whether the service provider supports this operation
-          example: true
-        maxOperations:
-          type: integer
-          description: An integer value specifying the maximum number of operations
-          format: int32
-          example: 100
-        maxPayloadSize:
-          type: integer
-          description: An integer value specifying the maximum payload size in bytes
-          format: int32
-          example: 100
-      additionalProperties: false
-    AcxApi.Scim.Models.Service:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Whether the service provider supports this operation
-          example: true
-      additionalProperties: false
     AcxApi.Scim.Models.AuthenticationScheme:
       type: object
       properties:
@@ -136,6 +111,32 @@ components:
             authentication scheme properties'
           readOnly: true
       additionalProperties: false
+    AcxApi.Scim.Models.Service:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+      additionalProperties: false
+    AcxApi.Scim.Models.BulkService:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+        maxOperations:
+          type: integer
+          description: An integer value specifying the maximum number of operations
+          format: int32
+          example: 100
+        maxPayloadSize:
+          type: integer
+          description: An integer value specifying the maximum payload size in bytes
+          format: int32
+          example: 100
+      additionalProperties: false
     AcxApi.Scim.Models.FilterService:
       type: object
       properties:
@@ -154,6 +155,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.beauthenticx.com/connect/token
+          tokenUrl: https://api.authcx.com/connect/token
           scopes:
             acxapi: Access to Acx API
