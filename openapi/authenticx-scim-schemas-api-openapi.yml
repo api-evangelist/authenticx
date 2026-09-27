@@ -55,66 +55,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The id of this schema, should be a scim uri
-          readOnly: true
-          example: urn:ietf:params:scim:schemas:core:2.0:User
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of this schema
-          readOnly: true
-          example: User
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of this schema
-          readOnly: true
-          example: User Account
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
     ListResponse_Of_ResourceSchema:
       type: object
       properties:
@@ -146,6 +86,34 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
           description: The resources returned by this response
           readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
       additionalProperties: false
     AcxApi.Scim.Resources.ResourceSchema.Attribute:
       type: object
@@ -231,6 +199,38 @@ components:
           description: If the attribute type is reference
           readOnly: true
           example: []
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The id of this schema, should be a scim uri
+          readOnly: true
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this schema
+          readOnly: true
+          example: User
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this schema
+          readOnly: true
+          example: User Account
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
+          readOnly: true
       additionalProperties: false
   securitySchemes:
     OAuth2:

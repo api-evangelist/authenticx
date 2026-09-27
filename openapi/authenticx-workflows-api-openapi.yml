@@ -78,48 +78,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.Workflows.WorkflowLevel:
-      type: object
-      properties:
-        level:
-          type: integer
-          description: ''
-          format: int32
-          example: 0
-        assignees:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: ''
-          example:
-          - doe.john@organization.com
-        completer:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: thomas.doe@organization.com
-        domainId:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-        outcome:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Continue Workflow
-        notes:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-      additionalProperties: false
     AcxApi.Models.Workflows.WorkflowModel:
       type: object
       properties:
@@ -166,6 +124,68 @@ components:
         bossModule:
           $ref: '#/components/schemas/AcxApi.Models.Workflows.BossModule'
       additionalProperties: false
+    AcxApi.Models.Workflows.ModuleQuestions:
+      type: object
+      properties:
+        questionText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Action Plan Established
+        answers:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - 'No'
+          - 'Yes'
+      additionalProperties: false
+    AcxApi.Models.Workflows.WorkflowLevel:
+      type: object
+      properties:
+        level:
+          type: integer
+          description: ''
+          format: int32
+          example: 0
+        assignees:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - doe.john@organization.com
+        completer:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: thomas.doe@organization.com
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        outcome:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Continue Workflow
+        notes:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
     AcxApi.Models.Workflows.BossModule:
       type: object
       properties:
@@ -187,26 +207,6 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
           description: ''
-      additionalProperties: false
-    AcxApi.Models.Workflows.ModuleQuestions:
-      type: object
-      properties:
-        questionText:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Action Plan Established
-        answers:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: ''
-          example:
-          - 'No'
-          - 'Yes'
       additionalProperties: false
   securitySchemes:
     OAuth2:

@@ -179,56 +179,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.ModelResults.PriorResult:
-      type: object
-      properties:
-        eventType:
-          type:
-          - string
-          - 'null'
-          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
-          example: ModelResults
-        eventTime:
-          type: string
-          description: Timestamp when this prior result set was generated.
-          format: date-time
-          example: '2025-11-14T09:10:11'
-        modelResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Model results captured during the prior event.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.ModelResult:
-      type: object
-      properties:
-        modelId:
-          type:
-          - string
-          - 'null'
-          description: Unique identifier of the model or classifier that produced this result.
-          example: 1a356274-97b2-4536-aa2c-82e6213cd49b
-        modelName:
-          type:
-          - string
-          - 'null'
-          description: Display name of the model or classifier.
-          example: First Impression
-        result:
-          type:
-          - boolean
-          - 'null'
-          description: Boolean result for models that return true or false. Null when the model returns free-text output instead.
-          example: true
-        textResult:
-          type:
-          - string
-          - 'null'
-          description: Text result for models that return narrative output instead of a boolean.
-          example: The caller asked about a billing discrepancy and the agent resolved it.
-      additionalProperties: false
     AcxApi.Models.ModelResults.MediaStatus:
       type: object
       properties:
@@ -291,6 +241,56 @@ components:
           description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
       additionalProperties: false
       description: Model results for a single conversation, including the latest result set and any prior review history.
+    AcxApi.Models.ModelResults.PriorResult:
+      type: object
+      properties:
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
+        eventTime:
+          type: string
+          description: Timestamp when this prior result set was generated.
+          format: date-time
+          example: '2025-11-14T09:10:11'
+        modelResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Model results captured during the prior event.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.ModelResult:
+      type: object
+      properties:
+        modelId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier of the model or classifier that produced this result.
+          example: 1a356274-97b2-4536-aa2c-82e6213cd49b
+        modelName:
+          type:
+          - string
+          - 'null'
+          description: Display name of the model or classifier.
+          example: First Impression
+        result:
+          type:
+          - boolean
+          - 'null'
+          description: Boolean result for models that return true or false. Null when the model returns free-text output instead.
+          example: true
+        textResult:
+          type:
+          - string
+          - 'null'
+          description: Text result for models that return narrative output instead of a boolean.
+          example: The caller asked about a billing discrepancy and the agent resolved it.
+      additionalProperties: false
     AcxApi.Models.ModelResults.EmissionReceipt:
       type: object
       properties:

@@ -55,6 +55,38 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ListResponse_Of_ResourceType:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
     AcxApi.Scim.Models.ErrorResponse:
       type: object
       properties:
@@ -146,38 +178,6 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
-      additionalProperties: false
-    ListResponse_Of_ResourceType:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
-          description: The resources returned by this response
-          readOnly: true
       additionalProperties: false
   securitySchemes:
     OAuth2:

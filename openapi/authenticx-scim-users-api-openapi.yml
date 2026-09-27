@@ -240,15 +240,72 @@ components:
           - string
           - 'null'
       additionalProperties: false
-    System.Text.Json.Nodes.JsonNode:
+    AcxApi.Scim.Models.Metadata:
       type: object
       properties:
-        options:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
-        parent:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        root:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        resourceType:
+          type:
+          - string
+          - 'null'
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        version:
+          type:
+          - string
+          - 'null'
+          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
+        location:
+          type:
+          - string
+          - 'null'
+          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
+      additionalProperties: false
+    AcxApi.Scim.Models.User.UpdateUserRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The users user name
+          example: john.doe@organization.com
+        name:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users emails
+        phoneNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users phone numbers, if any
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the user is active or not.
+          example: true
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
       additionalProperties: false
     AcxApi.Scim.Models.ErrorResponse:
       type: object
@@ -278,106 +335,36 @@ components:
           description: The status code of the response
           example: '400'
       additionalProperties: false
-    AcxApi.Scim.Resources.User:
+    ListResponse_Of_User:
       type: object
       properties:
-        schemas:
+        itemsPerPage:
           type:
-          - array
+          - integer
           - 'null'
-          items:
-            type: string
-        meta:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Metadata'
-        id:
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
           type:
-          - string
+          - integer
           - 'null'
-          description: Id of the user assigned by the service provider
-          example: c4be4102-23ea-4780-a9a7-444c810daee4
-        externalId:
-          type:
-          - string
-          - 'null'
-          description: Maps to the SAML providers user code
-        userName:
-          type:
-          - string
-          - 'null'
-          description: The users user name
-          example: john.doe@organization.com
-        name:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
-        emails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
-          description: A list of the users emails
-        phoneNumbers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
-          description: A list of the users phone numbers, if any
-        active:
-          type: boolean
-          description: Whether the user is active or not.
-          example: true
-      additionalProperties: false
-    AcxApi.Scim.Models.Metadata:
-      type: object
-      properties:
-        resourceType:
-          type:
-          - string
-          - 'null'
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        version:
-          type:
-          - string
-          - 'null'
-          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
-        location:
-          type:
-          - string
-          - 'null'
-          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
-      additionalProperties: false
-    System.Text.Json.Nodes.JsonNodeOptions:
-      type: object
-      properties:
-        propertyNameCaseInsensitive:
-          type: boolean
-      additionalProperties: false
-    AcxApi.Scim.Models.Patch.PatchOperation:
-      type: object
-      properties:
-        op:
-          type:
-          - string
-          - 'null'
-        path:
-          type:
-          - string
-          - 'null'
-        value:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        isValidOp:
-          type: boolean
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
           readOnly: true
-        isPathRequired:
-          type: boolean
-          readOnly: true
-        isValueRequired:
-          type: boolean
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+          description: The resources returned by this response
           readOnly: true
       additionalProperties: false
     AcxApi.Scim.Models.Patch.PatchRequest:
@@ -440,55 +427,7 @@ components:
           - 'null'
           description: Maps to the SAML providers user code
       additionalProperties: false
-    ListResponse_Of_User:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
-          description: The resources returned by this response
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.Name:
-      type: object
-      properties:
-        givenName:
-          type:
-          - string
-          - 'null'
-          description: The given or first name of the user
-          example: John
-        familyName:
-          type:
-          - string
-          - 'null'
-          description: The family or last name of the user
-          example: Doe
-      additionalProperties: false
-    AcxApi.Scim.Models.User.UpdateUserRequest:
+    AcxApi.Scim.Resources.User:
       type: object
       properties:
         schemas:
@@ -497,6 +436,19 @@ components:
           - 'null'
           items:
             type: string
+        meta:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Metadata'
+        id:
+          type:
+          - string
+          - 'null'
+          description: Id of the user assigned by the service provider
+          example: c4be4102-23ea-4780-a9a7-444c810daee4
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: Maps to the SAML providers user code
         userName:
           type:
           - string
@@ -520,16 +472,64 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
           description: A list of the users phone numbers, if any
         active:
-          type:
-          - boolean
-          - 'null'
+          type: boolean
           description: Whether the user is active or not.
           example: true
-        externalId:
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNode:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
+        parent:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        root:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNodeOptions:
+      type: object
+      properties:
+        propertyNameCaseInsensitive:
+          type: boolean
+      additionalProperties: false
+    AcxApi.Scim.Models.Patch.PatchOperation:
+      type: object
+      properties:
+        op:
           type:
           - string
           - 'null'
-          description: Maps to the SAML providers user code
+        path:
+          type:
+          - string
+          - 'null'
+        value:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        isValidOp:
+          type: boolean
+          readOnly: true
+        isPathRequired:
+          type: boolean
+          readOnly: true
+        isValueRequired:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.Name:
+      type: object
+      properties:
+        givenName:
+          type:
+          - string
+          - 'null'
+          description: The given or first name of the user
+          example: John
+        familyName:
+          type:
+          - string
+          - 'null'
+          description: The family or last name of the user
+          example: Doe
       additionalProperties: false
   securitySchemes:
     OAuth2:

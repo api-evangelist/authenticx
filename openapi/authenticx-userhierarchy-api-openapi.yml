@@ -113,6 +113,29 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest:
+      required:
+      - permissions
+      type: object
+      properties:
+        accessLevel:
+          type:
+          - string
+          - 'null'
+          description: This field may only be left blank if Permissions is an empty list []. Otherwise, this value is required to be set to "View", "Edit", or "Manage" and specifies the level of all permissions assigned.
+          example: Manage
+        permissions:
+          type: array
+          items:
+            type: string
+          description: 'List of values (valid values: "Audio", "Email", "Chat", "Video", "Live") that specify the types of permissions to grant to the user in the hierarchy. If specified as an empty list [] all permissions will be removed.'
+          example:
+          - Audio
+          - Email
+          - Chat
+          - Video
+          - Live
+      additionalProperties: false
     AcxApi.Models.Hierarchies.UserHierarchy.UserHierarchyResponseModel:
       type: object
       properties:
@@ -155,29 +178,6 @@ components:
           - 'null'
           description: ''
           example: LVL6_Director
-      additionalProperties: false
-    AcxApi.Models.Hierarchies.UserHierarchy.UpdateUserHierarchyRequest:
-      required:
-      - permissions
-      type: object
-      properties:
-        accessLevel:
-          type:
-          - string
-          - 'null'
-          description: This field may only be left blank if Permissions is an empty list []. Otherwise, this value is required to be set to "View", "Edit", or "Manage" and specifies the level of all permissions assigned.
-          example: Manage
-        permissions:
-          type: array
-          items:
-            type: string
-          description: 'List of values (valid values: "Audio", "Email", "Chat", "Video", "Live") that specify the types of permissions to grant to the user in the hierarchy. If specified as an empty list [] all permissions will be removed.'
-          example:
-          - Audio
-          - Email
-          - Chat
-          - Video
-          - Live
       additionalProperties: false
   securitySchemes:
     OAuth2:

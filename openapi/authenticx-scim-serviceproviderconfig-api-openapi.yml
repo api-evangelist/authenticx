@@ -27,46 +27,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Models.AuthenticationScheme:
-      type: object
-      properties:
-        type:
-          type:
-          - string
-          - 'null'
-          description: 'The authentication scheme.  This specification defines the
-
-            values "oauth", "oauth2", "oauthbearertoken", "httpbasic", and
-
-            "httpdigest"'
-          example: oauth2
-        name:
-          type:
-          - string
-          - 'null'
-          description: The common authentication scheme name
-          example: OAuth Bearer
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of the authentication scheme
-          example: Authentication scheme using the OAuth Bearer Token Standard
-        specUri:
-          type:
-          - string
-          - 'null'
-          description: An HTTP-addressable URL pointing to the authentication scheme's specification
-          readOnly: true
-          example: ''
-        documentationUri:
-          type:
-          - string
-          - 'null'
-          description: An HTTP-addressable URL pointing to the authentication scheme's usage documentation.
-          readOnly: true
-          example: https://api.beauthenticx.com/swagger/index.html
-      additionalProperties: false
     AcxApi.Scim.Configs.ServiceProvider:
       type: object
       properties:
@@ -111,13 +71,58 @@ components:
             authentication scheme properties'
           readOnly: true
       additionalProperties: false
-    AcxApi.Scim.Models.Service:
+    AcxApi.Scim.Models.FilterService:
       type: object
       properties:
         supported:
           type: boolean
           description: Whether the service provider supports this operation
           example: true
+        maxResults:
+          type: integer
+          description: The maximum number of results a filtered query can contain
+          format: int32
+          example: 100
+      additionalProperties: false
+    AcxApi.Scim.Models.AuthenticationScheme:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+          description: 'The authentication scheme.  This specification defines the
+
+            values "oauth", "oauth2", "oauthbearertoken", "httpbasic", and
+
+            "httpdigest"'
+          example: oauth2
+        name:
+          type:
+          - string
+          - 'null'
+          description: The common authentication scheme name
+          example: OAuth Bearer
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of the authentication scheme
+          example: Authentication scheme using the OAuth Bearer Token Standard
+        specUri:
+          type:
+          - string
+          - 'null'
+          description: An HTTP-addressable URL pointing to the authentication scheme's specification
+          readOnly: true
+          example: ''
+        documentationUri:
+          type:
+          - string
+          - 'null'
+          description: An HTTP-addressable URL pointing to the authentication scheme's usage documentation.
+          readOnly: true
+          example: https://api.beauthenticx.com/swagger/index.html
       additionalProperties: false
     AcxApi.Scim.Models.BulkService:
       type: object
@@ -137,18 +142,13 @@ components:
           format: int32
           example: 100
       additionalProperties: false
-    AcxApi.Scim.Models.FilterService:
+    AcxApi.Scim.Models.Service:
       type: object
       properties:
         supported:
           type: boolean
           description: Whether the service provider supports this operation
           example: true
-        maxResults:
-          type: integer
-          description: The maximum number of results a filtered query can contain
-          format: int32
-          example: 100
       additionalProperties: false
   securitySchemes:
     OAuth2:
