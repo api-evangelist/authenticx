@@ -27,6 +27,24 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Scim.Models.BulkService:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+        maxOperations:
+          type: integer
+          description: An integer value specifying the maximum number of operations
+          format: int32
+          example: 100
+        maxPayloadSize:
+          type: integer
+          description: An integer value specifying the maximum payload size in bytes
+          format: int32
+          example: 100
+      additionalProperties: false
     AcxApi.Scim.Configs.ServiceProvider:
       type: object
       properties:
@@ -70,6 +88,14 @@ components:
 
             authentication scheme properties'
           readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.Service:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
       additionalProperties: false
     AcxApi.Scim.Models.FilterService:
       type: object
@@ -123,32 +149,6 @@ components:
           description: An HTTP-addressable URL pointing to the authentication scheme's usage documentation.
           readOnly: true
           example: https://api.beauthenticx.com/swagger/index.html
-      additionalProperties: false
-    AcxApi.Scim.Models.BulkService:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Whether the service provider supports this operation
-          example: true
-        maxOperations:
-          type: integer
-          description: An integer value specifying the maximum number of operations
-          format: int32
-          example: 100
-        maxPayloadSize:
-          type: integer
-          description: An integer value specifying the maximum payload size in bytes
-          format: int32
-          example: 100
-      additionalProperties: false
-    AcxApi.Scim.Models.Service:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Whether the service provider supports this operation
-          example: true
       additionalProperties: false
   securitySchemes:
     OAuth2:

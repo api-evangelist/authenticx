@@ -78,6 +78,70 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Workflows.BossModule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          format: uuid
+          example: 66799610-12fe-4725-90aa-70079109df96"
+        name:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: APT Test 2.0
+        questions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
+          description: ''
+      additionalProperties: false
+    AcxApi.Models.Workflows.WorkflowLevel:
+      type: object
+      properties:
+        level:
+          type: integer
+          description: ''
+          format: int32
+          example: 0
+        assignees:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - doe.john@organization.com
+        completer:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: thomas.doe@organization.com
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        outcome:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Continue Workflow
+        notes:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
     AcxApi.Models.Workflows.WorkflowModel:
       type: object
       properties:
@@ -143,70 +207,6 @@ components:
           example:
           - 'No'
           - 'Yes'
-      additionalProperties: false
-    AcxApi.Models.Workflows.WorkflowLevel:
-      type: object
-      properties:
-        level:
-          type: integer
-          description: ''
-          format: int32
-          example: 0
-        assignees:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: ''
-          example:
-          - doe.john@organization.com
-        completer:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: thomas.doe@organization.com
-        domainId:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-        outcome:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Continue Workflow
-        notes:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-      additionalProperties: false
-    AcxApi.Models.Workflows.BossModule:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ''
-          format: uuid
-          example: 66799610-12fe-4725-90aa-70079109df96"
-        name:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: APT Test 2.0
-        questions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
-          description: ''
       additionalProperties: false
   securitySchemes:
     OAuth2:

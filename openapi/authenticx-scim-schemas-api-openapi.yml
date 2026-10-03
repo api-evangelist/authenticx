@@ -55,66 +55,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ListResponse_Of_ResourceSchema:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
-          description: The resources returned by this response
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
     AcxApi.Scim.Resources.ResourceSchema.Attribute:
       type: object
       properties:
@@ -200,6 +140,34 @@ components:
           readOnly: true
           example: []
       additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
     AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
       type: object
       properties:
@@ -230,6 +198,38 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
+          readOnly: true
+      additionalProperties: false
+    ListResponse_Of_ResourceSchema:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
+          description: The resources returned by this response
           readOnly: true
       additionalProperties: false
   securitySchemes:

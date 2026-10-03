@@ -248,26 +248,6 @@ components:
             data: extra data
             data2: extra data2
       additionalProperties: false
-    AcxApi.Models.Metadata.ProcessFailure:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Unique Id of this process failure
-          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
-        message:
-          type:
-          - string
-          - 'null'
-          description: Message related to the cause of failure
-          example: ''
-        createdOn:
-          type: string
-          description: Date the failure occurred
-          format: date-time
-      additionalProperties: false
     AcxApi.Models.Metadata.Metadata:
       type: object
       properties:
@@ -463,6 +443,26 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Models.Metadata.ProcessFailure'
           description: ''
+      additionalProperties: false
+    AcxApi.Models.Metadata.ProcessFailure:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this process failure
+          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
+        message:
+          type:
+          - string
+          - 'null'
+          description: Message related to the cause of failure
+          example: ''
+        createdOn:
+          type: string
+          description: Date the failure occurred
+          format: date-time
       additionalProperties: false
     AcxApi.Models.Metadata.PostMetadataRequest:
       required:

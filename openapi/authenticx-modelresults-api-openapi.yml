@@ -241,27 +241,26 @@ components:
           description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
       additionalProperties: false
       description: Model results for a single conversation, including the latest result set and any prior review history.
-    AcxApi.Models.ModelResults.PriorResult:
+    AcxApi.Models.ModelResults.EmissionReceipt:
       type: object
       properties:
-        eventType:
+        eventTime:
+          type: string
+          description: Timestamp when the export receipt was recorded.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        authenticxReceiptId:
           type:
           - string
           - 'null'
-          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
-          example: ModelResults
-        eventTime:
-          type: string
-          description: Timestamp when this prior result set was generated.
-          format: date-time
-          example: '2025-11-14T09:10:11'
-        modelResults:
+          description: Authenticx-generated receipt identifier for the export attempt.
+          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
+        customerReceiptId:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Model results captured during the prior event.
+          description: Customer-provided or downstream-system receipt identifier, when available.
+          example: REMOTE-RECEIPT-12345
       additionalProperties: false
     AcxApi.Models.ModelResults.ModelResult:
       type: object
@@ -291,26 +290,27 @@ components:
           description: Text result for models that return narrative output instead of a boolean.
           example: The caller asked about a billing discrepancy and the agent resolved it.
       additionalProperties: false
-    AcxApi.Models.ModelResults.EmissionReceipt:
+    AcxApi.Models.ModelResults.PriorResult:
       type: object
       properties:
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
         eventTime:
           type: string
-          description: Timestamp when the export receipt was recorded.
+          description: Timestamp when this prior result set was generated.
           format: date-time
-          example: '2025-11-15T14:32:10'
-        authenticxReceiptId:
+          example: '2025-11-14T09:10:11'
+        modelResults:
           type:
-          - string
+          - array
           - 'null'
-          description: Authenticx-generated receipt identifier for the export attempt.
-          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
-        customerReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Customer-provided or downstream-system receipt identifier, when available.
-          example: REMOTE-RECEIPT-12345
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Model results captured during the prior event.
       additionalProperties: false
   securitySchemes:
     OAuth2:

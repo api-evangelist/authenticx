@@ -55,80 +55,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ListResponse_Of_ResourceType:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
-          description: The resources returned by this response
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
-    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
-      type: object
-      properties:
-        schema:
-          type:
-          - string
-          - 'null'
-          description: The uri of the extended schema
-          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
-        required:
-          type: boolean
-          description: Whether the extension is required
-          example: true
-      additionalProperties: false
     AcxApi.Scim.Resources.ResourceType.ResourceType:
       type: object
       properties:
@@ -178,6 +104,80 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
+      additionalProperties: false
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+    ListResponse_Of_ResourceType:
+      type: object
+      properties:
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The current page
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: The number of results returned by this response
+          format: int32
+          readOnly: true
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
+      type: object
+      properties:
+        schema:
+          type:
+          - string
+          - 'null'
+          description: The uri of the extended schema
+          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+        required:
+          type: boolean
+          description: Whether the extension is required
+          example: true
       additionalProperties: false
   securitySchemes:
     OAuth2:
