@@ -168,38 +168,6 @@ components:
           description: The status code of the response
           example: '400'
       additionalProperties: false
-    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The id of this schema, should be a scim uri
-          readOnly: true
-          example: urn:ietf:params:scim:schemas:core:2.0:User
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of this schema
-          readOnly: true
-          example: User
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of this schema
-          readOnly: true
-          example: User Account
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
-          readOnly: true
-      additionalProperties: false
     ListResponse_Of_ResourceSchema:
       type: object
       properties:
@@ -230,6 +198,38 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.ResourceSchema'
           description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The id of this schema, should be a scim uri
+          readOnly: true
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this schema
+          readOnly: true
+          example: User
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this schema
+          readOnly: true
+          example: User Account
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
           readOnly: true
       additionalProperties: false
   securitySchemes:

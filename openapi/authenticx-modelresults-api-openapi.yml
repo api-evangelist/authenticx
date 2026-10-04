@@ -195,52 +195,28 @@ components:
           description: Additional detail about why a conversation is not available for model results yet.
           example: This conversation could not be processed due to an internal processing error.
       additionalProperties: false
-    AcxApi.Models.ModelResults.ModelResults:
+    AcxApi.Models.ModelResults.PriorResult:
       type: object
       properties:
-        conversationId:
-          type:
-          - string
-          - 'null'
-          description: Unique identifier for the conversation. This is the same identifier returned as Id from GET /Metadata and as ConversationId from GET /Conversations/Insights and GET /Receipts.
-          example: 000f78b0-4720-467e-854a-d245549f928e
-        clientCallId:
-          type:
-          - string
-          - 'null'
-          description: Your source-system conversation identifier, when available.
-          example: CALL-123456789
         eventType:
           type:
           - string
           - 'null'
-          description: Type of the latest event represented by this payload. Values include ModelResults, HumanReview, and QualityControl.
-          example: HumanReview
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
         eventTime:
           type: string
-          description: Timestamp when the latest event represented by this payload occurred.
+          description: Timestamp when this prior result set was generated.
           format: date-time
-          example: '2025-11-15T14:32:10'
-        mediaStatus:
-          $ref: '#/components/schemas/AcxApi.Models.ModelResults.MediaStatus'
+          example: '2025-11-14T09:10:11'
         modelResults:
           type:
           - array
           - 'null'
           items:
             $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Latest model results for this conversation. Null when the conversation has not completed processing.
-        emissionReceipt:
-          $ref: '#/components/schemas/AcxApi.Models.ModelResults.EmissionReceipt'
-        priorResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.ModelResults.PriorResult'
-          description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
+          description: Model results captured during the prior event.
       additionalProperties: false
-      description: Model results for a single conversation, including the latest result set and any prior review history.
     AcxApi.Models.ModelResults.EmissionReceipt:
       type: object
       properties:
@@ -290,28 +266,52 @@ components:
           description: Text result for models that return narrative output instead of a boolean.
           example: The caller asked about a billing discrepancy and the agent resolved it.
       additionalProperties: false
-    AcxApi.Models.ModelResults.PriorResult:
+    AcxApi.Models.ModelResults.ModelResults:
       type: object
       properties:
+        conversationId:
+          type:
+          - string
+          - 'null'
+          description: Unique identifier for the conversation. This is the same identifier returned as Id from GET /Metadata and as ConversationId from GET /Conversations/Insights and GET /Receipts.
+          example: 000f78b0-4720-467e-854a-d245549f928e
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your source-system conversation identifier, when available.
+          example: CALL-123456789
         eventType:
           type:
           - string
           - 'null'
-          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
-          example: ModelResults
+          description: Type of the latest event represented by this payload. Values include ModelResults, HumanReview, and QualityControl.
+          example: HumanReview
         eventTime:
           type: string
-          description: Timestamp when this prior result set was generated.
+          description: Timestamp when the latest event represented by this payload occurred.
           format: date-time
-          example: '2025-11-14T09:10:11'
+          example: '2025-11-15T14:32:10'
+        mediaStatus:
+          $ref: '#/components/schemas/AcxApi.Models.ModelResults.MediaStatus'
         modelResults:
           type:
           - array
           - 'null'
           items:
             $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Model results captured during the prior event.
+          description: Latest model results for this conversation. Null when the conversation has not completed processing.
+        emissionReceipt:
+          $ref: '#/components/schemas/AcxApi.Models.ModelResults.EmissionReceipt'
+        priorResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.PriorResult'
+          description: Prior result sets for the same conversation, ordered by the review lifecycle when available.
       additionalProperties: false
+      description: Model results for a single conversation, including the latest result set and any prior review history.
   securitySchemes:
     OAuth2:
       type: oauth2

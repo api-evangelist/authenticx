@@ -150,58 +150,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Controllers.Interactions.ClassifierResult:
+    AcxApi.Controllers.Interactions.AgentInfo:
       type: object
       properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the classifier.
-          example: ML-EddyEffect
-        modifiedOn:
+        id:
           type: string
-          description: The date and time when the result was last modified.
-          format: date-time
-          example: '2024-09-12T14:39:59.555797Z'
-        result:
+          format: uuid
+        fullName:
           type:
           - string
           - 'null'
-          description: The result from the classifier.
-          example: 'False'
-        score:
-          type:
-          - number
-          - 'null'
-          description: The confidence score of the classifier result (optional).
-          format: double
-          example: 0.0023459899239242077
-      additionalProperties: false
-    AcxApi.Controllers.Interactions.TranscriptionModel:
-      type: object
-      properties:
-        languageCode:
+          description: The full name of the agent.
+          example: Chris Jericho
+        agentCode:
           type:
           - string
           - 'null'
-          description: The language code of the transcription.
-          example: en
-        transcription:
+          description: The unique code of the agent.
+          example: '1386'
+        agentEmail:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            type: string
-          description: The transcriptions for the interaction.
-          example:
-          - '00:00 Agent: Hello, calls may be recorded for quality assurance. Just to make sure, you''re calling as a member. Right?'
-          - '00:17 Customer: Yes.'
-          - '00:20 Agent: Great, how can I help you?'
-          - '00:23 Customer: What is the Eddy Effect?'
-          - '00:23 Agent: The Eddy Effect occurs when a customer gets stuck in their journey.'
-          - '00:33 Customer: I understand now. Thank you.'
-          - '00:35 Agent: Thank you, Have a good day.'
+          description: The email of the agent.
+          example: Chris.Jericho@email.com
       additionalProperties: false
     AcxApi.Controllers.Interactions.InteractionResponseModel:
       type: object
@@ -338,6 +310,59 @@ components:
           example: Manager Name
           deprecated: true
       additionalProperties: false
+    AcxApi.Controllers.Interactions.TranscriptionModel:
+      type: object
+      properties:
+        languageCode:
+          type:
+          - string
+          - 'null'
+          description: The language code of the transcription.
+          example: en
+        transcription:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: The transcriptions for the interaction.
+          example:
+          - '00:00 Agent: Hello, calls may be recorded for quality assurance. Just to make sure, you''re calling as a member. Right?'
+          - '00:17 Customer: Yes.'
+          - '00:20 Agent: Great, how can I help you?'
+          - '00:23 Customer: What is the Eddy Effect?'
+          - '00:23 Agent: The Eddy Effect occurs when a customer gets stuck in their journey.'
+          - '00:33 Customer: I understand now. Thank you.'
+          - '00:35 Agent: Thank you, Have a good day.'
+      additionalProperties: false
+    AcxApi.Controllers.Interactions.ClassifierResult:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the classifier.
+          example: ML-EddyEffect
+        modifiedOn:
+          type: string
+          description: The date and time when the result was last modified.
+          format: date-time
+          example: '2024-09-12T14:39:59.555797Z'
+        result:
+          type:
+          - string
+          - 'null'
+          description: The result from the classifier.
+          example: 'False'
+        score:
+          type:
+          - number
+          - 'null'
+          description: The confidence score of the classifier result (optional).
+          format: double
+          example: 0.0023459899239242077
+      additionalProperties: false
     AcxApi.Controllers.Interactions.PostInteractionsRequest:
       required:
       - endDate
@@ -397,31 +422,6 @@ components:
           - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
       additionalProperties: false
       description: Request model for filtering interactions for POST requests.
-    AcxApi.Controllers.Interactions.AgentInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        fullName:
-          type:
-          - string
-          - 'null'
-          description: The full name of the agent.
-          example: Chris Jericho
-        agentCode:
-          type:
-          - string
-          - 'null'
-          description: The unique code of the agent.
-          example: '1386'
-        agentEmail:
-          type:
-          - string
-          - 'null'
-          description: The email of the agent.
-          example: Chris.Jericho@email.com
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2

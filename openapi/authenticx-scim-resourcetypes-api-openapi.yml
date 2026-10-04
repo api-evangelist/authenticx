@@ -55,6 +55,34 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
     AcxApi.Scim.Resources.ResourceType.ResourceType:
       type: object
       properties:
@@ -104,34 +132,6 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
-      additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
       additionalProperties: false
     ListResponse_Of_ResourceType:
       type: object

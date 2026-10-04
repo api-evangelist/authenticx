@@ -27,23 +27,13 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Models.BulkService:
+    AcxApi.Scim.Models.Service:
       type: object
       properties:
         supported:
           type: boolean
           description: Whether the service provider supports this operation
           example: true
-        maxOperations:
-          type: integer
-          description: An integer value specifying the maximum number of operations
-          format: int32
-          example: 100
-        maxPayloadSize:
-          type: integer
-          description: An integer value specifying the maximum payload size in bytes
-          format: int32
-          example: 100
       additionalProperties: false
     AcxApi.Scim.Configs.ServiceProvider:
       type: object
@@ -89,13 +79,23 @@ components:
             authentication scheme properties'
           readOnly: true
       additionalProperties: false
-    AcxApi.Scim.Models.Service:
+    AcxApi.Scim.Models.BulkService:
       type: object
       properties:
         supported:
           type: boolean
           description: Whether the service provider supports this operation
           example: true
+        maxOperations:
+          type: integer
+          description: An integer value specifying the maximum number of operations
+          format: int32
+          example: 100
+        maxPayloadSize:
+          type: integer
+          description: An integer value specifying the maximum payload size in bytes
+          format: int32
+          example: 100
       additionalProperties: false
     AcxApi.Scim.Models.FilterService:
       type: object

@@ -78,6 +78,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Workflows.ModuleQuestions:
+      type: object
+      properties:
+        questionText:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Action Plan Established
+        answers:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - 'No'
+          - 'Yes'
+      additionalProperties: false
     AcxApi.Models.Workflows.BossModule:
       type: object
       properties:
@@ -187,26 +207,6 @@ components:
           description: List of workflow level records showing progression through the workflow steps.
         bossModule:
           $ref: '#/components/schemas/AcxApi.Models.Workflows.BossModule'
-      additionalProperties: false
-    AcxApi.Models.Workflows.ModuleQuestions:
-      type: object
-      properties:
-        questionText:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Action Plan Established
-        answers:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: ''
-          example:
-          - 'No'
-          - 'Yes'
       additionalProperties: false
   securitySchemes:
     OAuth2:

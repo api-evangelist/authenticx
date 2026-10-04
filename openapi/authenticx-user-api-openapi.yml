@@ -131,6 +131,64 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.User.UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type:
+          - string
+          - 'null'
+          description: The first name of the new user you intend to add.
+          example: Alice
+        lastName:
+          type:
+          - string
+          - 'null'
+          description: The last name of the new user you intend to add.
+          example: Doe
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The username that the user signs in with (typically their email).
+          example: alice.doe@organization.com
+        email:
+          type:
+          - string
+          - 'null'
+          description: The email address of the new user you intend to add.
+          example: alice.doe@organization.com
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+          description: The phone number you wish to assign to the user.
+          example: 888-888-8888
+        roleName:
+          type:
+          - string
+          - 'null'
+          description: Must exactly match a role name from GET /Roles/All.
+          example: Analyst
+        disabled:
+          type:
+          - boolean
+          - 'null'
+          description: Set to true to disable the user's access.
+          example: false
+        samlProviderUserCode:
+          type:
+          - string
+          - 'null'
+          description: Your SSO provider's identifier for this user, if applicable.
+          example: '00000'
+        emailConfirmed:
+          type:
+          - boolean
+          - 'null'
+          description: When specified to true, allows the user to skip confirming their email address.
+          example: true
+      additionalProperties: false
     AcxApi.Models.User.CreateUserRequest:
       required:
       - email
@@ -268,64 +326,6 @@ components:
           description: If this user is linked to an agent record, the agent's ID is included here.
           format: uuid
           example: d1a539ee-675d-443d-9dab-6d0d3be8e0c1
-      additionalProperties: false
-    AcxApi.Models.User.UpdateUserRequest:
-      type: object
-      properties:
-        firstName:
-          type:
-          - string
-          - 'null'
-          description: The first name of the new user you intend to add.
-          example: Alice
-        lastName:
-          type:
-          - string
-          - 'null'
-          description: The last name of the new user you intend to add.
-          example: Doe
-        userName:
-          type:
-          - string
-          - 'null'
-          description: The username that the user signs in with (typically their email).
-          example: alice.doe@organization.com
-        email:
-          type:
-          - string
-          - 'null'
-          description: The email address of the new user you intend to add.
-          example: alice.doe@organization.com
-        phoneNumber:
-          type:
-          - string
-          - 'null'
-          description: The phone number you wish to assign to the user.
-          example: 888-888-8888
-        roleName:
-          type:
-          - string
-          - 'null'
-          description: Must exactly match a role name from GET /Roles/All.
-          example: Analyst
-        disabled:
-          type:
-          - boolean
-          - 'null'
-          description: Set to true to disable the user's access.
-          example: false
-        samlProviderUserCode:
-          type:
-          - string
-          - 'null'
-          description: Your SSO provider's identifier for this user, if applicable.
-          example: '00000'
-        emailConfirmed:
-          type:
-          - boolean
-          - 'null'
-          description: When specified to true, allows the user to skip confirming their email address.
-          example: true
       additionalProperties: false
   securitySchemes:
     OAuth2:
