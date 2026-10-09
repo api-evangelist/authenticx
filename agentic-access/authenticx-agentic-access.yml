@@ -1,21 +1,30 @@
-generated: '2026-08-06'
+generated: '2026-09-23'
 method: generated
-source: openapi/authenticx-acxapi-openapi.yml
+source: openapi/authenticx-agent-api-openapi.yml, openapi/authenticx-conversations-api-openapi.yml,
+  openapi/authenticx-evaluations-api-openapi.yml, openapi/authenticx-hierarchy-api-openapi.yml,
+  openapi/authenticx-interactions-api-openapi.yml, openapi/authenticx-media-api-openapi.yml,
+  openapi/authenticx-metadata-api-openapi.yml, openapi/authenticx-modelresults-api-openapi.yml,
+  openapi/authenticx-receipts-api-openapi.yml, openapi/authenticx-roles-api-openapi.yml, openapi/authenticx-scim-resourcetypes-api-openapi.yml,
+  openapi/authenticx-scim-schemas-api-openapi.yml, openapi/authenticx-scim-serviceproviderconfig-api-openapi.yml,
+  openapi/authenticx-scim-users-api-openapi.yml, openapi/authenticx-textmedia-api-openapi.yml,
+  openapi/authenticx-user-api-openapi.yml, openapi/authenticx-userhierarchy-api-openapi.yml,
+  openapi/authenticx-workflows-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 46
   by_action_class:
-    acting: 18
-    connected: 28
+    acting: 16
+    connected: 30
   by_consequence:
-    write: 18
-    read: 28
+    write: 16
+    read: 30
   human_in_the_loop_required: 0
 operations:
 - path: /Agent
   method: post
+  operationId: postAgent
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -29,10 +38,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Agent/{AgentId}
   method: get
+  operationId: getAgentByAgentId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -40,10 +48,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Agent/{AgentId}
   method: put
+  operationId: putAgentByAgentId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -57,10 +64,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Agent/All
   method: get
+  operationId: getAgentAll
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -68,10 +74,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Conversations/Classifiers
   method: get
+  operationId: getConversationsClassifiers
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -79,10 +84,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Conversations/Insights
   method: get
+  operationId: getConversationsInsights
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -90,10 +94,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Conversations/Insights
   method: post
+  operationId: postConversationsInsights
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -107,27 +110,19 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Conversations/Transcriptions
   method: post
+  operationId: postConversationsTranscriptions
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-    scope:
-    - acxapi
+      max-ttl: 3600
+    audit: none
 - path: /Conversations/Transcriptions/{conversationId}
   method: get
+  operationId: getConversationsTranscriptionsByConversationId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -135,10 +130,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Evaluations
   method: get
+  operationId: getEvaluations
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -146,10 +140,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Evaluations/Modules
   method: get
+  operationId: getEvaluationsModules
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -157,10 +150,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Hierarchy
   method: post
+  operationId: postHierarchy
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -174,10 +166,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Hierarchy/{HierarchyId}
   method: put
+  operationId: putHierarchyByHierarchyId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -191,10 +182,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Hierarchy/All
   method: get
+  operationId: getHierarchyAll
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -202,10 +192,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Interactions
   method: get
+  operationId: getInteractions
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -213,27 +202,19 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Interactions
   method: post
+  operationId: postInteractions
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-    scope:
-    - acxapi
+      max-ttl: 3600
+    audit: none
 - path: /Interactions/{AmdID}
   method: get
+  operationId: getInteractionsByAmdID
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -241,10 +222,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Media/Upload
   method: post
+  operationId: postMediaUpload
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -258,10 +238,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Metadata
   method: get
+  operationId: getMetadata
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -269,10 +248,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Metadata
   method: post
+  operationId: postMetadata
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -286,10 +264,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /Metadata/{id}
   method: patch
+  operationId: patchMetadataById
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -303,10 +280,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /ModelResults
   method: get
+  operationId: getModelResults
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -314,10 +290,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /ModelResults/Conversation
   method: get
+  operationId: getModelResultsConversation
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -325,10 +300,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Receipts
   method: get
+  operationId: getReceipts
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -336,10 +310,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Roles/All
   method: get
+  operationId: getRolesAll
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -347,10 +320,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/ResourceTypes
   method: get
+  operationId: getScimV2ResourceTypes
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -358,10 +330,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/ResourceTypes/{ResourceTypeId}
   method: get
+  operationId: getScimV2ResourceTypesByResourceTypeId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -369,10 +340,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/Schemas
   method: get
+  operationId: getScimV2Schemas
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -380,10 +350,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/Schemas/{SchemaUri}
   method: get
+  operationId: getScimV2SchemasBySchemaUri
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -391,10 +360,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/ServiceProviderConfig
   method: get
+  operationId: getScimV2ServiceProviderConfig
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -402,10 +370,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/Users
   method: get
+  operationId: getScimV2Users
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -413,10 +380,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/Users
   method: post
+  operationId: postScimV2Users
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -430,10 +396,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /scim/v2/Users/{UserId}
   method: delete
+  operationId: deleteScimV2UsersByUserId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -447,10 +412,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /scim/v2/Users/{UserId}
   method: get
+  operationId: getScimV2UsersByUserId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -458,10 +422,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /scim/v2/Users/{UserId}
   method: patch
+  operationId: patchScimV2UsersByUserId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -475,10 +438,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /scim/v2/Users/{UserId}
   method: put
+  operationId: putScimV2UsersByUserId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -492,10 +454,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /TextMedia/Upload
   method: post
+  operationId: postTextMediaUpload
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -509,10 +470,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /User
   method: get
+  operationId: getUser
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -520,10 +480,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /User
   method: post
+  operationId: postUser
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -537,10 +496,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /User/{UserId}
   method: get
+  operationId: getUserByUserId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -548,10 +506,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /User/{UserId}
   method: put
+  operationId: putUserByUserId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -565,10 +522,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /User/All
   method: get
+  operationId: getUserAll
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -576,10 +532,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /UserHierarchy/{UserId}/{HierarchyId}
   method: get
+  operationId: getUserHierarchyByUserIdByHierarchyId
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -587,10 +542,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /UserHierarchy/{UserId}/{HierarchyId}
   method: put
+  operationId: putUserHierarchyByUserIdByHierarchyId
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -604,10 +558,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-    scope:
-    - acxapi
 - path: /UserHierarchy/{UserId}/All
   method: get
+  operationId: getUserHierarchyByUserIdAll
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -615,10 +568,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
 - path: /Workflows
   method: get
+  operationId: getWorkflows
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -626,5 +578,3 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-    scope:
-    - acxapi
