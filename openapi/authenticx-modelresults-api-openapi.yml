@@ -179,65 +179,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.ModelResults.MediaStatus:
-      type: object
-      properties:
-        status:
-          type:
-          - string
-          - 'null'
-          description: Processing status of the conversation. Values include Processed, NotProcessed, and FailedToProcess.
-          example: FailedToProcess
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Additional detail about why a conversation is not available for model results yet.
-          example: This conversation could not be processed due to an internal processing error.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.PriorResult:
-      type: object
-      properties:
-        eventType:
-          type:
-          - string
-          - 'null'
-          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
-          example: ModelResults
-        eventTime:
-          type: string
-          description: Timestamp when this prior result set was generated.
-          format: date-time
-          example: '2025-11-14T09:10:11'
-        modelResults:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
-          description: Model results captured during the prior event.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.EmissionReceipt:
-      type: object
-      properties:
-        eventTime:
-          type: string
-          description: Timestamp when the export receipt was recorded.
-          format: date-time
-          example: '2025-11-15T14:32:10'
-        authenticxReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Authenticx-generated receipt identifier for the export attempt.
-          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
-        customerReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Customer-provided or downstream-system receipt identifier, when available.
-          example: REMOTE-RECEIPT-12345
-      additionalProperties: false
     AcxApi.Models.ModelResults.ModelResult:
       type: object
       properties:
@@ -265,6 +206,65 @@ components:
           - 'null'
           description: Text result for models that return narrative output instead of a boolean.
           example: The caller asked about a billing discrepancy and the agent resolved it.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.PriorResult:
+      type: object
+      properties:
+        eventType:
+          type:
+          - string
+          - 'null'
+          description: Event type that produced the prior result set. Values include ModelResults and HumanReview.
+          example: ModelResults
+        eventTime:
+          type: string
+          description: Timestamp when this prior result set was generated.
+          format: date-time
+          example: '2025-11-14T09:10:11'
+        modelResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
+          description: Model results captured during the prior event.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.MediaStatus:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+          description: Processing status of the conversation. Values include Processed, NotProcessed, and FailedToProcess.
+          example: FailedToProcess
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Additional detail about why a conversation is not available for model results yet.
+          example: This conversation could not be processed due to an internal processing error.
+      additionalProperties: false
+    AcxApi.Models.ModelResults.EmissionReceipt:
+      type: object
+      properties:
+        eventTime:
+          type: string
+          description: Timestamp when the export receipt was recorded.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        authenticxReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Authenticx-generated receipt identifier for the export attempt.
+          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
+        customerReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Customer-provided or downstream-system receipt identifier, when available.
+          example: REMOTE-RECEIPT-12345
       additionalProperties: false
     AcxApi.Models.ModelResults.ModelResults:
       type: object

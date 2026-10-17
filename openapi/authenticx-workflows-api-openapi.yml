@@ -98,28 +98,6 @@ components:
           - 'No'
           - 'Yes'
       additionalProperties: false
-    AcxApi.Models.Workflows.BossModule:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ''
-          format: uuid
-          example: 66799610-12fe-4725-90aa-70079109df96"
-        name:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: APT Test 2.0
-        questions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
-          description: ''
-      additionalProperties: false
     AcxApi.Models.Workflows.WorkflowLevel:
       type: object
       properties:
@@ -207,6 +185,28 @@ components:
           description: List of workflow level records showing progression through the workflow steps.
         bossModule:
           $ref: '#/components/schemas/AcxApi.Models.Workflows.BossModule'
+      additionalProperties: false
+    AcxApi.Models.Workflows.BossModule:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          format: uuid
+          example: 66799610-12fe-4725-90aa-70079109df96"
+        name:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: APT Test 2.0
+        questions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Workflows.ModuleQuestions'
+          description: ''
       additionalProperties: false
   securitySchemes:
     OAuth2:

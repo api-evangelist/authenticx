@@ -133,6 +133,20 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
       additionalProperties: false
+    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
+      type: object
+      properties:
+        schema:
+          type:
+          - string
+          - 'null'
+          description: The uri of the extended schema
+          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+        required:
+          type: boolean
+          description: Whether the extension is required
+          example: true
+      additionalProperties: false
     ListResponse_Of_ResourceType:
       type: object
       properties:
@@ -164,20 +178,6 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
           description: The resources returned by this response
           readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
-      type: object
-      properties:
-        schema:
-          type:
-          - string
-          - 'null'
-          description: The uri of the extended schema
-          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
-        required:
-          type: boolean
-          description: Whether the extension is required
-          example: true
       additionalProperties: false
   securitySchemes:
     OAuth2:

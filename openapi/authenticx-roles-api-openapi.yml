@@ -34,6 +34,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.Roles.RoleResponseModel:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this role
+          example: Analyst
+        permissions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Roles.RolePermission'
+          description: A list of permissions this role has
+      additionalProperties: false
     AcxApi.Models.Roles.RolePermission:
       type: object
       properties:
@@ -51,23 +68,6 @@ components:
 
             are capable of.'
           example: Determines if the user can see and utilize the Summary tab.
-      additionalProperties: false
-    AcxApi.Models.Roles.RoleResponseModel:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of this role
-          example: Analyst
-        permissions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Models.Roles.RolePermission'
-          description: A list of permissions this role has
       additionalProperties: false
   securitySchemes:
     OAuth2:
