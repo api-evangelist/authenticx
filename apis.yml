@@ -535,6 +535,8 @@ apis:
   humanURL: https://authenticx.readme.io/reference/acxapi
   baseURL: https://api.beauthenticx.com
   tags:
+  - SCIM Users
+  tags_raw:
   - (Scim) Users
   properties:
   - type: OpenAPI
