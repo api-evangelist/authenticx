@@ -1,0 +1,28 @@
+edges:
+- partner_name: Genesys (own)
+  partner: genesys
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appfoundry.genesys.com/filter/genesyscloud/listing/8ac348b4-b147-4b64-a38f-630eede85f13
+  mirror_of: genesys/integrations/genesys-integration-edges.yml
+  apps:
+  - Authenticx
+  listing_count: 1
+  detected: '2026-10-19'
+  detected_by: mirror-platform-listings.py
+  category: customerEngagement
+  publisher_verified:
+  - attestation:gdpr
+  - attestation:hipaa
+  - attestation:soc2
+generated: '2026-10-19'
+method: searched
+source:
+- genesys/integrations/genesys-integration-edges.yml
+checked:
+- genesys/integrations/genesys-integration-edges.yml
