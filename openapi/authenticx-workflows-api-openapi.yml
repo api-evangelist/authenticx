@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental Workflows API
+  title: AcxApi Production Workflows API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -98,48 +98,6 @@ components:
           - 'No'
           - 'Yes'
       additionalProperties: false
-    AcxApi.Models.Workflows.WorkflowLevel:
-      type: object
-      properties:
-        level:
-          type: integer
-          description: ''
-          format: int32
-          example: 0
-        assignees:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: ''
-          example:
-          - doe.john@organization.com
-        completer:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: thomas.doe@organization.com
-        domainId:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-        outcome:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: Continue Workflow
-        notes:
-          type:
-          - string
-          - 'null'
-          description: ''
-          example: ''
-      additionalProperties: false
     AcxApi.Models.Workflows.WorkflowModel:
       type: object
       properties:
@@ -186,6 +144,48 @@ components:
         bossModule:
           $ref: '#/components/schemas/AcxApi.Models.Workflows.BossModule'
       additionalProperties: false
+    AcxApi.Models.Workflows.WorkflowLevel:
+      type: object
+      properties:
+        level:
+          type: integer
+          description: ''
+          format: int32
+          example: 0
+        assignees:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: ''
+          example:
+          - doe.john@organization.com
+        completer:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: thomas.doe@organization.com
+        domainId:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+        outcome:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: Continue Workflow
+        notes:
+          type:
+          - string
+          - 'null'
+          description: ''
+          example: ''
+      additionalProperties: false
     AcxApi.Models.Workflows.BossModule:
       type: object
       properties:
@@ -213,6 +213,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

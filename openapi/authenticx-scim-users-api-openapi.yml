@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental (Scim) Users API
+  title: AcxApi Production (Scim) Users API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -55,7 +55,7 @@ paths:
           type: string
       - name: excludedAttributes
         in: query
-        description: Not supported
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.5'
         schema:
           type: string
       responses:
@@ -65,6 +65,12 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/ListResponse_Of_User'
+        '400':
+          description: Bad Request
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
       operationId: getScimV2Users
       x-operation-id-source: derived
     post:
@@ -75,6 +81,9 @@ paths:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.User.CreateUserRequest'
+          application/scim+json:
             schema:
               $ref: '#/components/schemas/AcxApi.Scim.Models.User.CreateUserRequest'
       responses:
@@ -144,6 +153,16 @@ paths:
         required: true
         schema:
           type: string
+      - name: attributes
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.5'
+        schema:
+          type: string
+      - name: excludedAttributes
+        in: query
+        description: 'See: https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.5'
+        schema:
+          type: string
       responses:
         '200':
           description: Returns the user with the specified id
@@ -151,12 +170,18 @@ paths:
             application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+        '400':
+          description: Bad Request
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
         '404':
           description: A user with the specified id was not found
           content:
             application/scim+json:
               schema:
-                type: string
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
       operationId: getScimV2UsersByUserId
       x-operation-id-source: derived
     patch:
@@ -175,17 +200,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchRequest'
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchRequest'
       responses:
         '200':
           description: The updated user
           content:
-            application/json:
+            application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
         '400':
           description: An invalid user id was provided or one of the patch operations was faulty
           content:
-            application/json:
+            application/scim+json:
               schema:
                 $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
       operationId: patchScimV2UsersByUserId
@@ -209,6 +237,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AcxApi.Scim.Models.User.UpdateUserRequest'
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/AcxApi.Scim.Models.User.UpdateUserRequest'
       responses:
         '200':
           description: Returns the updated user
@@ -226,6 +257,128 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    System.Text.Json.Nodes.JsonNode:
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
+        parent:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        root:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+      additionalProperties: false
+    AcxApi.Scim.Models.User.UpdateUserRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        userName:
+          type:
+          - string
+          - 'null'
+          description: The users user name
+          example: john.doe@organization.com
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: 'External identity provider identifier. Stored as the SAML provider
+
+            user code on the Authenticx user.'
+        name:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users emails
+        phoneNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
+          description: A list of the users phone numbers, if any
+        timezone:
+          type:
+          - string
+          - 'null'
+          description: The users time zone, in IANA form.
+          example: America/Indiana/Indianapolis
+        active:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the user is active or not.
+          example: true
+        enableAgentUser:
+          type:
+          - boolean
+          - 'null'
+          description: Set to true to simultaneously create a matching, linked agent-user.
+          example: true
+        urn:authenticx:params:scim:schemas:extension:agent:2.0:User:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.User.AgentUserExtension'
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Role'
+          description: The Authenticx role to assign to the user.
+      additionalProperties: false
+    System.Text.Json.Nodes.JsonNodeOptions:
+      type: object
+      properties:
+        propertyNameCaseInsensitive:
+          type: boolean
+      additionalProperties: false
+    AcxApi.Scim.Models.Role:
+      type: object
+      properties:
+        value:
+          type:
+          - string
+          - 'null'
+          description: 'The name of the Authenticx role to assign. Role names are matched
+
+            case insensitively within the calling organization. An Authenticx
+
+            role id may also be supplied.'
+          example: Analyst
+        display:
+          type:
+          - string
+          - 'null'
+          description: 'Human readable name of the role. Populated by the server on read
+
+            and ignored on write.'
+          example: Analyst
+        primary:
+          type: boolean
+          description: 'Indicates which role should be applied when more than one is
+
+            supplied. Authenticx users hold a single role, so exactly one
+
+            entry must be marked primary when multiple roles are provided.'
+          example: true
+        type:
+          type:
+          - string
+          - 'null'
+          description: 'Optional label describing the kind of role. Not interpreted by
+
+            Authenticx.'
+      additionalProperties: false
+      description: 'A single entry of the scim "roles" multi valued attribute.
+
+        <a href="https://datatracker.ietf.org/doc/html/rfc7643#section-4.1.2">Scim documentation on roles</a>'
     AcxApi.Scim.Models.ErrorResponse:
       type: object
       properties:
@@ -254,60 +407,7 @@ components:
           description: The status code of the response
           example: '400'
       additionalProperties: false
-    System.Text.Json.Nodes.JsonNode:
-      type: object
-      properties:
-        options:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNodeOptions'
-        parent:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        root:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-      additionalProperties: false
-    System.Text.Json.Nodes.JsonNodeOptions:
-      type: object
-      properties:
-        propertyNameCaseInsensitive:
-          type: boolean
-      additionalProperties: false
-    AcxApi.Scim.Models.Contact:
-      type: object
-      properties:
-        primary:
-          type: boolean
-        value:
-          type:
-          - string
-          - 'null'
-        type:
-          type:
-          - string
-          - 'null'
-      additionalProperties: false
-    AcxApi.Scim.Models.Patch.PatchOperation:
-      type: object
-      properties:
-        op:
-          type:
-          - string
-          - 'null'
-        path:
-          type:
-          - string
-          - 'null'
-        value:
-          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
-        isValidOp:
-          type: boolean
-          readOnly: true
-        isPathRequired:
-          type: boolean
-          readOnly: true
-        isValueRequired:
-          type: boolean
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.Patch.PatchRequest:
+    ListResponse_Of_User:
       type: object
       properties:
         schemas:
@@ -316,55 +416,44 @@ components:
           - 'null'
           items:
             type: string
-        operations:
+          description: 'Always contains "urn:ietf:params:scim:api:messages:2.0:ListResponse".
+
+            Declared as a property rather than a field so that it is serialized;
+
+            System.Text.Json ignores fields by default.'
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The 1-based index of the first result in the current page.
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: 'The total number of resources matching the request, which for a
+
+            paginated request is larger than the number of resources returned.
+
+            Falls back to the size of this page when the caller has not set it.
+
+            <a href="https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2">Scim documentation on list responses</a>'
+          format: int32
+          example: 10
+        Resources:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchOperation'
-      additionalProperties: false
-    AcxApi.Scim.Models.User.UpdateUserRequest:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        userName:
-          type:
-          - string
-          - 'null'
-          description: The users user name
-          example: john.doe@organization.com
-        name:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
-        emails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
-          description: A list of the users emails
-        phoneNumbers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
-          description: A list of the users phone numbers, if any
-        active:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the user is active or not.
-          example: true
-        externalId:
-          type:
-          - string
-          - 'null'
-          description: Maps to the SAML providers user code
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
+          description: The resources returned by this response
+          readOnly: true
       additionalProperties: false
     AcxApi.Scim.Models.User.CreateUserRequest:
       required:
@@ -384,6 +473,13 @@ components:
           type: string
           description: The users user name
           example: john.doe@organization.com
+        externalId:
+          type:
+          - string
+          - 'null'
+          description: 'External identity provider identifier. Stored as the SAML provider
+
+            user code on the Authenticx user.'
         name:
           $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
         emails:
@@ -398,65 +494,154 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Scim.Models.Contact'
           description: A list of the users phone numbers, if any
+        timezone:
+          type:
+          - string
+          - 'null'
+          description: The users time zone, in IANA form.
+          example: America/Indiana/Indianapolis
         active:
           type:
           - boolean
           - 'null'
           description: Whether the user is active or not.
           example: true
-        externalId:
+        enableAgentUser:
           type:
-          - string
+          - boolean
           - 'null'
-          description: Maps to the SAML providers user code
-      additionalProperties: false
-    ListResponse_Of_User:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
+          description: Set to true to simultaneously create a matching, linked agent-user.
+          example: true
+        urn:authenticx:params:scim:schemas:extension:agent:2.0:User:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.User.AgentUserExtension'
+        roles:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.User'
-          description: The resources returned by this response
-          readOnly: true
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Role'
+          description: The Authenticx role to assign to the user.
       additionalProperties: false
-    AcxApi.Scim.Models.Name:
+    AcxApi.Scim.Models.Patch.PatchOperation:
       type: object
       properties:
-        givenName:
+        op:
           type:
           - string
           - 'null'
-          description: The given or first name of the user
-          example: John
-        familyName:
+          description: 'The operation to perform. Normalized to lower case on the way in:
+
+            scim defines the operation names in lower case but identity
+
+            providers are inconsistent about it, Entra in particular sending
+
+            "Add"/"Replace"/"Remove". Normalizing once here keeps validation and
+
+            dispatch from ever disagreeing about casing.'
+        path:
           type:
           - string
           - 'null'
-          description: The family or last name of the user
-          example: Doe
+        value:
+          $ref: '#/components/schemas/System.Text.Json.Nodes.JsonNode'
+        isValidOp:
+          type: boolean
+          readOnly: true
+        isPathRequired:
+          type: boolean
+          readOnly: true
+        isValueRequired:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AcxApi.Scim.Models.User.AgentUserExtension:
+      type: object
+      properties:
+        enableAgentUser:
+          type:
+          - boolean
+          - 'null'
+        agentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+      description: 'Authenticx-specific SCIM user extension for provisioning the linked
+
+        agent record that has no standard SCIM equivalent.'
+    AcxApi.Scim.Models.Metadata:
+      type: object
+      properties:
+        resourceType:
+          type:
+          - string
+          - 'null'
+        created:
+          type:
+          - string
+          - 'null'
+          description: 'Null when the underlying record predates this api tracking it - a
+
+            legacy row this api never wrote. Left genuinely absent rather than
+
+            reporting a fabricated "now": a fake value would satisfy every
+
+            "meta.lastModified gt X" filter forever, permanently mis-flagging
+
+            an untouched account as just-changed on every incremental sync.'
+          format: date-time
+        lastModified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        version:
+          type:
+          - string
+          - 'null'
+          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
+        location:
+          type:
+          - string
+          - 'null'
+          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
+      additionalProperties: false
+    AcxApi.Scim.Models.Contact:
+      type: object
+      properties:
+        primary:
+          type: boolean
+        value:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AcxApi.Scim.Models.Patch.PatchRequest:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        operations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Patch.PatchOperation'
+        enableAgentUser:
+          type:
+          - boolean
+          - 'null'
+        urn:authenticx:params:scim:schemas:extension:agent:2.0:User:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.User.AgentUserExtension'
       additionalProperties: false
     AcxApi.Scim.Resources.User:
       type: object
@@ -479,7 +664,7 @@ components:
           type:
           - string
           - 'null'
-          description: Maps to the SAML providers user code
+          description: Maps to the SAML provider user code stored on the application user.
         userName:
           type:
           - string
@@ -488,6 +673,20 @@ components:
           example: john.doe@organization.com
         name:
           $ref: '#/components/schemas/AcxApi.Scim.Models.Name'
+        displayName:
+          type:
+          - string
+          - 'null'
+          description: 'The name intended for display. Both Entra and Okta map this
+
+            attribute by default.'
+          example: John Doe
+        timezone:
+          type:
+          - string
+          - 'null'
+          description: The users time zone, in IANA form.
+          example: America/Indiana/Indianapolis
         emails:
           type:
           - array
@@ -506,36 +705,45 @@ components:
           type: boolean
           description: Whether the user is active or not.
           example: true
+        agentId:
+          type:
+          - string
+          - 'null'
+          description: The unique agent ID associated with this user, if any.
+          format: uuid
+        urn:authenticx:params:scim:schemas:extension:agent:2.0:User:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.User.AgentUserExtension'
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.Role'
+          description: 'The Authenticx role assigned to the user. An Authenticx user holds
+
+            a single role, so this contains at most one entry on read.'
       additionalProperties: false
-    AcxApi.Scim.Models.Metadata:
+    AcxApi.Scim.Models.Name:
       type: object
       properties:
-        resourceType:
+        givenName:
           type:
           - string
           - 'null'
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        version:
+          description: The given or first name of the user
+          example: John
+        familyName:
           type:
           - string
           - 'null'
-          description: "If ETags are enabled in the service provider config, weak\nETags are used to version resources. The ETag header attribute\nshould also be set when ETags are enabled.\n            \n<a href=\"https://datatracker.ietf.org/doc/html/rfc7644#section-3.14\">Scim documentation on versioning</a>"
-        location:
-          type:
-          - string
-          - 'null'
-          description: "Used to provide information about where the resource\nis located on the server.\nex.\n    - https://localhost:5001/scim/v2/Users/user-id-here"
+          description: The family or last name of the user
+          example: Doe
       additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

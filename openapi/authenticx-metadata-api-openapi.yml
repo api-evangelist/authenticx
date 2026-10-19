@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental Metadata API
+  title: AcxApi Production Metadata API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -37,13 +37,13 @@ paths:
         in: query
         description: 'Filters based On ArrivedOn date of the metadata File. Must be equal to or later than StartDate.
 
+          Records with ArrivedOn equal to EndDate will be included in the results.
+
           ISO-8601 Examples:
 
           UTC datetime: 2022-03-18T21:52:26
 
           UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
-
-          UTC date only: 2022-03-19
 
           datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
         required: true
@@ -181,28 +181,106 @@ paths:
                 $ref: '#/components/schemas/AcxApi.Models.Metadata.Metadata'
       operationId: patchMetadataById
       x-operation-id-source: derived
+  /Metadata/IngestionStats:
+    get:
+      tags:
+      - Metadata
+      summary: Get IngestionStats
+      description: 'Returns a report that details ingestion stats for the specified date range.
+
+        Optionally, you can use IncludeUnprocessedDetails to include unprocessed media details in the report.'
+      parameters:
+      - name: StartDate
+        in: query
+        description: 'Filters based On ArrivedOn date of the metadata File.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        required: true
+        schema:
+          type: string
+      - name: EndDate
+        in: query
+        description: 'Filters based On ArrivedOn date of the metadata File. Must be equal to or later than StartDate.
+
+          ISO-8601 Examples:
+
+          UTC datetime: 2022-03-18T21:52:26
+
+          UTC datetime with milliseconds: 2022-03-18T21:52:26.8816090Z
+
+          UTC date only: 2022-03-19
+
+          datetime with timezone: 2022-03-18T17:56:09.8683110-04:00'
+        required: true
+        schema:
+          type: string
+      - name: Date
+        in: query
+        description: Boolean flag to group results by date. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+      - name: Directory
+        in: query
+        description: Boolean flag to group results by directory. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+      - name: Status
+        in: query
+        description: Boolean flag to group results by status. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+      - name: IncludeUnprocessedDetails
+        in: query
+        description: Boolean flag to include unprocessed media details in the report. Defaults to false.
+        schema:
+          type: boolean
+          default: false
+      - name: PageSize
+        in: query
+        description: Maximum number of unprocessed detail records returned per page. Defaults to 100.
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      - name: LastId
+        in: query
+        description: GUID of the last result from the previous page. Used for cursor-based pagination of unprocessed details.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Has-More:
+              description: Whether additional records exist beyond the current page.
+              schema:
+                type: boolean
+            X-Next-LastId:
+              description: Cursor value to pass as LastId to retrieve the next page.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Models.Metadata.IngestionStatsResponseModel'
+        '400':
+          description: Bad Request
+      operationId: getMetadataIngestionStats
+      x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.Metadata.ProcessFailure:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Unique Id of this process failure
-          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
-        message:
-          type:
-          - string
-          - 'null'
-          description: Message related to the cause of failure
-          example: ''
-        createdOn:
-          type: string
-          description: Date the failure occurred
-          format: date-time
-      additionalProperties: false
     AcxApi.Models.Metadata.Metadata:
       type: object
       properties:
@@ -399,6 +477,33 @@ components:
             $ref: '#/components/schemas/AcxApi.Models.Metadata.ProcessFailure'
           description: ''
       additionalProperties: false
+    AcxApi.Models.Metadata.IngestionStatsUnprocessedDetails:
+      type: object
+      properties:
+        conversationId:
+          type: string
+          description: The unique ID of the conversation.
+          format: uuid
+          example: 000f78b0-4720-467e-854a-d245549f928e
+        clientCallId:
+          type:
+          - string
+          - 'null'
+          description: Your source-system conversation identifier, when available.
+          example: CALL-123456789
+        status:
+          type:
+          - string
+          - 'null'
+          description: The processing status of the conversation.
+          example: FailedToProcess
+        reason:
+          type:
+          - string
+          - 'null'
+          description: A description of the issue preventing processing.
+          example: This transcription did not meet the set minimum word threshold.
+      additionalProperties: false
     AcxApi.Models.Metadata.PostMetadataRequest:
       required:
       - endDate
@@ -449,6 +554,56 @@ components:
           example:
           - b1a9e4d6-7c3a-4e91-9342-835ec9d4f7b1
           - ad5b1e2f-08b9-4b23-9e0c-d1a1c3eafc2f
+      additionalProperties: false
+    AcxApi.Models.Metadata.IngestionStatsResponseModel:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: The total number of conversations ingested for the given date range.
+          format: int32
+          example: 150
+        details:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Metadata.IngestionStatsDetails'
+          description: The list of conversations ingested for the given date range.
+        unprocessedDetails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Models.Metadata.IngestionStatsUnprocessedDetails'
+          description: The list of conversations that were not processed for the given date range.
+      additionalProperties: false
+    AcxApi.Models.Metadata.IngestionStatsDetails:
+      type: object
+      properties:
+        date:
+          type:
+          - string
+          - 'null'
+          description: The date of ingestion.
+          example: '2026-01-15'
+        directory:
+          type:
+          - string
+          - 'null'
+          description: The storage folder path from which the file was received. Reflects the directory structure of your organization's storage account.
+          example: SFTP/
+        count:
+          type: integer
+          description: The total number of conversations.
+          format: int32
+          example: 23
+        status:
+          type:
+          - string
+          - 'null'
+          description: The processing status of the conversation(s).
+          example: NotProcessed
       additionalProperties: false
     AcxApi.Models.Metadata.PatchMetadataRequest:
       type: object
@@ -515,11 +670,31 @@ components:
             data: extra data
             data2: extra data2
       additionalProperties: false
+    AcxApi.Models.Metadata.ProcessFailure:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Unique Id of this process failure
+          example: 12ec082f-5729-4da7-88f9-1182d1f76ef3
+        message:
+          type:
+          - string
+          - 'null'
+          description: Message related to the cause of failure
+          example: ''
+        createdOn:
+          type: string
+          description: Date the failure occurred
+          format: date-time
+      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

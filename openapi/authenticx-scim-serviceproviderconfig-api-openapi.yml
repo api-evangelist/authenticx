@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental (Scim) ServiceProviderConfig API
+  title: AcxApi Production (Scim) ServiceProviderConfig API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -27,50 +27,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Scim.Configs.ServiceProvider:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: 'An unchanging list containing one element,
-
-            "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"'
-          readOnly: true
-        documentationUri:
-          type:
-          - string
-          - 'null'
-          description: 'An HTTP-addressable URL pointing to the service provider''s
-
-            human-consumable help documentation'
-          readOnly: true
-        patch:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
-        bulk:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.BulkService'
-        filter:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.FilterService'
-        changePassword:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
-        sort:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
-        etag:
-          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
-        authenticationSchemes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Models.AuthenticationScheme'
-          description: 'A multi-valued complex type that specifies supported
-
-            authentication scheme properties'
-          readOnly: true
-      additionalProperties: false
     AcxApi.Scim.Models.AuthenticationScheme:
       type: object
       properties:
@@ -124,6 +80,58 @@ components:
           format: int32
           example: 100
       additionalProperties: false
+    AcxApi.Scim.Models.Service:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Whether the service provider supports this operation
+          example: true
+      additionalProperties: false
+    AcxApi.Scim.Configs.ServiceProvider:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'An unchanging list containing one element,
+
+            "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"'
+          readOnly: true
+        documentationUri:
+          type:
+          - string
+          - 'null'
+          description: 'An HTTP-addressable URL pointing to the service provider''s
+
+            human-consumable help documentation'
+          readOnly: true
+        patch:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        bulk:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.BulkService'
+        filter:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.FilterService'
+        changePassword:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        sort:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        etag:
+          $ref: '#/components/schemas/AcxApi.Scim.Models.Service'
+        authenticationSchemes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Models.AuthenticationScheme'
+          description: 'A multi-valued complex type that specifies supported
+
+            authentication scheme properties'
+          readOnly: true
+      additionalProperties: false
     AcxApi.Scim.Models.BulkService:
       type: object
       properties:
@@ -142,19 +150,11 @@ components:
           format: int32
           example: 100
       additionalProperties: false
-    AcxApi.Scim.Models.Service:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Whether the service provider supports this operation
-          example: true
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

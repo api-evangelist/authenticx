@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental Receipts API
+  title: AcxApi Production Receipts API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -108,6 +108,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

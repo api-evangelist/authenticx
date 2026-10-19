@@ -1,0 +1,154 @@
+openapi: 3.2.0
+info:
+  title: AcxApi Production (Scim) Groups API
+  version: v1
+servers:
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
+security:
+- {}
+tags:
+- name: (Scim) Groups
+paths:
+  /scim/v2/Groups:
+    get:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: getScimV2Groups
+      x-operation-id-source: derived
+    post:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: postScimV2Groups
+      x-operation-id-source: derived
+  /scim/v2/Groups/{GroupId}:
+    delete:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      parameters:
+      - name: GroupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: deleteScimV2GroupsByGroupId
+      x-operation-id-source: derived
+    get:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      parameters:
+      - name: GroupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: getScimV2GroupsByGroupId
+      x-operation-id-source: derived
+    patch:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      parameters:
+      - name: GroupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: patchScimV2GroupsByGroupId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - (Scim) Groups
+      summary: Groups Not Implemented
+      parameters:
+      - name: GroupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '501':
+          description: Group provisioning is not supported
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/AcxApi.Scim.Models.ErrorResponse'
+      operationId: putScimV2GroupsByGroupId
+      x-operation-id-source: derived
+components:
+  schemas:
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.beauthenticx.com/connect/token
+          scopes:
+            acxapi: Access to Acx API

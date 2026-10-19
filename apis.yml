@@ -701,6 +701,16 @@ apis:
     url: https://authenticx.readme.io/recipes
   - type: SourceCode
     url: https://github.com/beacx/AcxApiClientExamples
+- aid: authenticx:authenticx-scim-groups-api
+  name: Authenticx (Scim) Groups API
+  description: The (Scim) Groups API from Authenticx — 2 operation(s) for (scim) groups.
+  humanURL: https://authenticx.readme.io/reference/acxapi
+  baseURL: https://api.beauthenticx.com
+  tags:
+  - (Scim) Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/authenticx-scim-groups-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental (Scim) ResourceTypes API
+  title: AcxApi Production (Scim) ResourceTypes API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -83,6 +83,68 @@ components:
           description: The status code of the response
           example: '400'
       additionalProperties: false
+    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
+      type: object
+      properties:
+        schema:
+          type:
+          - string
+          - 'null'
+          description: The uri of the extended schema
+          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+        required:
+          type: boolean
+          description: Whether the extension is required
+          example: true
+      additionalProperties: false
+    ListResponse_Of_ResourceType:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'Always contains "urn:ietf:params:scim:api:messages:2.0:ListResponse".
+
+            Declared as a property rather than a field so that it is serialized;
+
+            System.Text.Json ignores fields by default.'
+        itemsPerPage:
+          type:
+          - integer
+          - 'null'
+          description: The number of items returned per page
+          format: int32
+          example: 10
+        startIndex:
+          type:
+          - integer
+          - 'null'
+          description: The 1-based index of the first result in the current page.
+          format: int32
+          example: 1
+        totalResults:
+          type: integer
+          description: 'The total number of resources matching the request, which for a
+
+            paginated request is larger than the number of resources returned.
+
+            Falls back to the size of this page when the caller has not set it.
+
+            <a href="https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2">Scim documentation on list responses</a>'
+          format: int32
+          example: 10
+        Resources:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
+          description: The resources returned by this response
+          readOnly: true
+      additionalProperties: false
     AcxApi.Scim.Resources.ResourceType.ResourceType:
       type: object
       properties:
@@ -133,57 +195,11 @@ components:
             $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.SchemaExtension'
           description: Any extensions of this resource type
       additionalProperties: false
-    AcxApi.Scim.Resources.ResourceType.SchemaExtension:
-      type: object
-      properties:
-        schema:
-          type:
-          - string
-          - 'null'
-          description: The uri of the extended schema
-          example: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
-        required:
-          type: boolean
-          description: Whether the extension is required
-          example: true
-      additionalProperties: false
-    ListResponse_Of_ResourceType:
-      type: object
-      properties:
-        itemsPerPage:
-          type:
-          - integer
-          - 'null'
-          description: The number of items returned per page
-          format: int32
-          example: 10
-        startIndex:
-          type:
-          - integer
-          - 'null'
-          description: The current page
-          format: int32
-          example: 1
-        totalResults:
-          type: integer
-          description: The number of results returned by this response
-          format: int32
-          readOnly: true
-          example: 10
-        Resources:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceType.ResourceType'
-          description: The resources returned by this response
-          readOnly: true
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

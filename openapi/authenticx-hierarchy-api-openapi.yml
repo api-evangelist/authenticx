@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental Hierarchy API
+  title: AcxApi Production Hierarchy API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -95,86 +95,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    AcxApi.Models.Hierarchies.UpdateHierarchyRequest:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: The new name of the hierarchy you intend to change.
-          example: New Child Hierarchy
-        category:
-          type:
-          - string
-          - 'null'
-          description: A new category for your hierarchy used by your organization.
-          example: Category
-        subCategory:
-          type:
-          - string
-          - 'null'
-          description: A new subcategory for your hierarchy used by your organization.
-          example: SubCategory
-        code:
-          type:
-          - string
-          - 'null'
-          description: A new id or value used by your organization.
-          example: '007'
-        administrativeContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Replaces the full list of administrative contacts. If omitted, existing contacts are preserved.
-          example:
-          - 00000000-0000-0000-0000-000000000000
-          - 00000000-0000-0000-0000-000000000001
-        escalationContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Replaces the full list of escalation contacts. If omitted, existing contacts are preserved.
-          example:
-          - 00000000-0000-0000-0000-000000000002
-          - 00000000-0000-0000-0000-000000000003
-        managerContactsUserIds:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Replaces the full list of manager contacts. If omitted, existing contacts are preserved.
-          example:
-          - 00000000-0000-0000-0000-000000000004
-          - 00000000-0000-0000-0000-000000000005
-        newParentId:
-          type:
-          - string
-          - 'null'
-          description: UUID of a new parent hierarchy. Pass the string "remove" to detach from current parent and promote to top-level node.
-          example: 00000000-0000-0000-0000-000000000009
-        isActive:
-          type:
-          - boolean
-          - 'null'
-          description: Set to false to deactivate the hierarchy.
-          example: true
-        hierarchyCodes:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: Replaces the full list of source system codes. If omitted, existing codes are preserved.
-          example:
-          - Code1
-          - CodeABC
-      additionalProperties: false
     AcxApi.Models.Hierarchies.CreateHierarchyRequest:
       required:
       - name
@@ -250,22 +170,6 @@ components:
           description: Id of an existing hierarchy to nest this node under. Omit to create a top-level node.
           format: uuid
           example: 00000000-0000-0000-0000-000000000009
-      additionalProperties: false
-    AcxApi.Models.Hierarchies.HierarchyContact:
-      type: object
-      properties:
-        userName:
-          type:
-          - string
-          - 'null'
-          description: User name of the contact
-          example: john.doe@organization.com
-        userId:
-          type:
-          - string
-          - 'null'
-          description: Unique user id of the contact
-          example: 0d0dc9da-95b4-4434-9009-27823ac1c00f
       additionalProperties: false
     AcxApi.Models.Hierarchies.HierarchyResponseModel:
       type: object
@@ -353,11 +257,107 @@ components:
             $ref: '#/components/schemas/AcxApi.Models.Hierarchies.HierarchyResponseModel'
           description: Nested list of child hierarchy nodes.
       additionalProperties: false
+    AcxApi.Models.Hierarchies.UpdateHierarchyRequest:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The new name of the hierarchy you intend to change.
+          example: New Child Hierarchy
+        category:
+          type:
+          - string
+          - 'null'
+          description: A new category for your hierarchy used by your organization.
+          example: Category
+        subCategory:
+          type:
+          - string
+          - 'null'
+          description: A new subcategory for your hierarchy used by your organization.
+          example: SubCategory
+        code:
+          type:
+          - string
+          - 'null'
+          description: A new id or value used by your organization.
+          example: '007'
+        administrativeContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Replaces the full list of administrative contacts. If omitted, existing contacts are preserved.
+          example:
+          - 00000000-0000-0000-0000-000000000000
+          - 00000000-0000-0000-0000-000000000001
+        escalationContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Replaces the full list of escalation contacts. If omitted, existing contacts are preserved.
+          example:
+          - 00000000-0000-0000-0000-000000000002
+          - 00000000-0000-0000-0000-000000000003
+        managerContactsUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Replaces the full list of manager contacts. If omitted, existing contacts are preserved.
+          example:
+          - 00000000-0000-0000-0000-000000000004
+          - 00000000-0000-0000-0000-000000000005
+        newParentId:
+          type:
+          - string
+          - 'null'
+          description: UUID of a new parent hierarchy. Pass the string "remove" to detach from current parent and promote to top-level node.
+          example: 00000000-0000-0000-0000-000000000009
+        isActive:
+          type:
+          - boolean
+          - 'null'
+          description: Set to false to deactivate the hierarchy.
+          example: true
+        hierarchyCodes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: Replaces the full list of source system codes. If omitted, existing codes are preserved.
+          example:
+          - Code1
+          - CodeABC
+      additionalProperties: false
+    AcxApi.Models.Hierarchies.HierarchyContact:
+      type: object
+      properties:
+        userName:
+          type:
+          - string
+          - 'null'
+          description: User name of the contact
+          example: john.doe@organization.com
+        userId:
+          type:
+          - string
+          - 'null'
+          description: Unique user id of the contact
+          example: 0d0dc9da-95b4-4434-9009-27823ac1c00f
+      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

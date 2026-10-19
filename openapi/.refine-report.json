@@ -1,9 +1,10 @@
 {
   "provider": "authenticx",
   "sources": [
-    "_original/authenticx-acxapi-experimental-openapi.json"
+    "_original/authenticx-openapi.json"
   ],
   "outputs": [
+    "authenticx-scim-groups-api-openapi.yml",
     "authenticx-scim-resourcetypes-api-openapi.yml",
     "authenticx-scim-schemas-api-openapi.yml",
     "authenticx-scim-serviceproviderconfig-api-openapi.yml",
@@ -27,31 +28,9 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "2 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "authenticx-acxapi-experimental-openapi.json: upgraded openapi 3.0.4 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "authenticx-openapi.json: upgraded openapi 3.0.4 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+1 apis, 19 total)"
   ],
-  "skipped": [
-    "_original/authenticx-acxapi-openapi.yml: archived document superseded by a larger archived document",
-    "_original/authenticx-acxapi-openapi.json: archived document superseded by a larger archived document",
-    "authenticx-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-conversations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-evaluations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-hierarchy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-interactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-modelresults-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-receipts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-roles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-scim-resourcetypes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-scim-schemas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-scim-serviceproviderconfig-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-scim-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-textmedia-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-user-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-userhierarchy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "authenticx-workflows-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

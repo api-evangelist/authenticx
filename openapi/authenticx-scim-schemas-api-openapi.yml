@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental (Scim) Schemas API
+  title: AcxApi Production (Scim) Schemas API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -55,6 +55,66 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Scim.Models.ErrorResponse:
+      type: object
+      properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of schemas for this error response.
+        scimType:
+          type:
+          - string
+          - 'null'
+          description: The type of error this was, as defined by scim
+          example: invalidSyntax
+        detail:
+          type:
+          - string
+          - 'null'
+          description: A detailed error message explaining what went wrong
+        status:
+          type:
+          - string
+          - 'null'
+          description: The status code of the response
+          example: '400'
+      additionalProperties: false
+    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The id of this schema, should be a scim uri
+          readOnly: true
+          example: urn:ietf:params:scim:schemas:core:2.0:User
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of this schema
+          readOnly: true
+          example: User
+        description:
+          type:
+          - string
+          - 'null'
+          description: A description of this schema
+          readOnly: true
+          example: User Account
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
+          readOnly: true
+      additionalProperties: false
     AcxApi.Scim.Resources.ResourceSchema.Attribute:
       type: object
       properties:
@@ -143,6 +203,17 @@ components:
     ListResponse_Of_ResourceSchema:
       type: object
       properties:
+        schemas:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: 'Always contains "urn:ietf:params:scim:api:messages:2.0:ListResponse".
+
+            Declared as a property rather than a field so that it is serialized;
+
+            System.Text.Json ignores fields by default.'
         itemsPerPage:
           type:
           - integer
@@ -154,14 +225,19 @@ components:
           type:
           - integer
           - 'null'
-          description: The current page
+          description: The 1-based index of the first result in the current page.
           format: int32
           example: 1
         totalResults:
           type: integer
-          description: The number of results returned by this response
+          description: 'The total number of resources matching the request, which for a
+
+            paginated request is larger than the number of resources returned.
+
+            Falls back to the size of this page when the caller has not set it.
+
+            <a href="https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2">Scim documentation on list responses</a>'
           format: int32
-          readOnly: true
           example: 10
         Resources:
           type:
@@ -172,71 +248,11 @@ components:
           description: The resources returned by this response
           readOnly: true
       additionalProperties: false
-    AcxApi.Scim.Resources.ResourceSchema.ResourceSchema:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The id of this schema, should be a scim uri
-          readOnly: true
-          example: urn:ietf:params:scim:schemas:core:2.0:User
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of this schema
-          readOnly: true
-          example: User
-        description:
-          type:
-          - string
-          - 'null'
-          description: A description of this schema
-          readOnly: true
-          example: User Account
-        attributes:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/AcxApi.Scim.Resources.ResourceSchema.Attribute'
-          readOnly: true
-      additionalProperties: false
-    AcxApi.Scim.Models.ErrorResponse:
-      type: object
-      properties:
-        schemas:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of schemas for this error response.
-        scimType:
-          type:
-          - string
-          - 'null'
-          description: The type of error this was, as defined by scim
-          example: invalidSyntax
-        detail:
-          type:
-          - string
-          - 'null'
-          description: A detailed error message explaining what went wrong
-        status:
-          type:
-          - string
-          - 'null'
-          description: The status code of the response
-          example: '400'
-      additionalProperties: false
   securitySchemes:
     OAuth2:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API

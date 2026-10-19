@@ -1,10 +1,10 @@
 openapi: 3.2.0
 info:
-  title: AcxApi Experimental Model Results API
+  title: AcxApi Production Model Results API
   version: v1
 servers:
-- url: https://api.authcx.com
-  description: AcxApi Experimental Server
+- url: https://api.beauthenticx.com
+  description: AcxApi Production Server
 security:
 - {}
 tags:
@@ -179,6 +179,43 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    AcxApi.Models.ModelResults.EmissionReceipt:
+      type: object
+      properties:
+        eventTime:
+          type: string
+          description: Timestamp when the export receipt was recorded.
+          format: date-time
+          example: '2025-11-15T14:32:10'
+        authenticxReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Authenticx-generated receipt identifier for the export attempt.
+          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
+        customerReceiptId:
+          type:
+          - string
+          - 'null'
+          description: Customer-provided or downstream-system receipt identifier, when available.
+          example: REMOTE-RECEIPT-12345
+      additionalProperties: false
+    AcxApi.Models.ModelResults.MediaStatus:
+      type: object
+      properties:
+        status:
+          type:
+          - string
+          - 'null'
+          description: Processing status of the conversation. Values include Processed, NotProcessed, and FailedToProcess.
+          example: FailedToProcess
+        reason:
+          type:
+          - string
+          - 'null'
+          description: Additional detail about why a conversation is not available for model results yet.
+          example: This conversation could not be processed due to an internal processing error.
+      additionalProperties: false
     AcxApi.Models.ModelResults.ModelResult:
       type: object
       properties:
@@ -228,43 +265,6 @@ components:
           items:
             $ref: '#/components/schemas/AcxApi.Models.ModelResults.ModelResult'
           description: Model results captured during the prior event.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.MediaStatus:
-      type: object
-      properties:
-        status:
-          type:
-          - string
-          - 'null'
-          description: Processing status of the conversation. Values include Processed, NotProcessed, and FailedToProcess.
-          example: FailedToProcess
-        reason:
-          type:
-          - string
-          - 'null'
-          description: Additional detail about why a conversation is not available for model results yet.
-          example: This conversation could not be processed due to an internal processing error.
-      additionalProperties: false
-    AcxApi.Models.ModelResults.EmissionReceipt:
-      type: object
-      properties:
-        eventTime:
-          type: string
-          description: Timestamp when the export receipt was recorded.
-          format: date-time
-          example: '2025-11-15T14:32:10'
-        authenticxReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Authenticx-generated receipt identifier for the export attempt.
-          example: 4d3e4ef5-cb2d-45da-a71d-c6af550660a1
-        customerReceiptId:
-          type:
-          - string
-          - 'null'
-          description: Customer-provided or downstream-system receipt identifier, when available.
-          example: REMOTE-RECEIPT-12345
       additionalProperties: false
     AcxApi.Models.ModelResults.ModelResults:
       type: object
@@ -317,6 +317,6 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://api.authcx.com/connect/token
+          tokenUrl: https://api.beauthenticx.com/connect/token
           scopes:
             acxapi: Access to Acx API
