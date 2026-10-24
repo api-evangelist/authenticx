@@ -707,6 +707,8 @@ apis:
   humanURL: https://authenticx.readme.io/reference/acxapi
   baseURL: https://api.beauthenticx.com
   tags:
+  - SCIM Groups
+  tags_raw:
   - (Scim) Groups
   properties:
   - type: OpenAPI
