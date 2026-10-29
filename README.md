@@ -64,22 +64,178 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Authenticx is a healthcare conversation intelligence platform that ingests contact-center interactions — call
-audio, chat transcripts and email — and applies speech analytics and machine-learning classifiers to surface
-patient and member experience signals, quality-assurance scoring, and pharmacovigilance / adverse-event
-detection.
+Authenticx is a healthcare conversation intelligence platform that ingests contact-center interactions — call audio, chat transcripts, and email — and applies speech analytics and machine-learning classifiers to surface patient and member experience signals, quality-assurance scoring, and pharmacovigilance / adverse-event detection. Its AcxAPI is a REST API described by a live OpenAPI 3.0.1 definition covering conversation insights, transcriptions, model results, evaluations, metadata, workflows, audio and text media upload, agent, hierarchy and role administration, and SCIM 2.0 user provisioning. Interaction ingestion also runs through out-of-the-box connectors for Genesys Cloud, Amazon Connect, NICE CXone, Five9, Vonage Contact Center and Talkdesk, plus Salesforce/MuleSoft conversation enrichment and SFTP batch delivery. Authentication is OAuth 2.0 client credentials against an OpenID Connect provider, with separate production and experimental (staging) hosts.
 
-**AcxAPI** is its REST API, described by a live OpenAPI 3.0.1 definition (35 paths, 46 operations, 78 schemas)
-covering conversation insights, transcriptions, model results, evaluations, metadata, workflows, media and text
-upload, agent/user/hierarchy/role administration, and SCIM 2.0 user provisioning. Authentication is OAuth 2.0
-client credentials (scope `acxapi`) against an OpenID Connect provider, with separate production and
-experimental hosts.
+**Areas:** Conversation Intelligence · Healthcare · Speech Analytics · Contact Center · Customer Experience · Quality Assurance · Pharmacovigilance · Patient Experience · Transcription · Life Sciences · SCIM · Authentication
 
-- Website — https://authenticx.com/
-- Developer hub — https://authenticx.readme.io/
-- API reference — https://authenticx.readme.io/reference/acxapi
-- OpenAPI (production) — https://api.beauthenticx.com/swagger/v1/swagger.json
-- OpenAPI (experimental) — https://api.authcx.com/swagger/v1/swagger.json
-- OpenID Connect discovery — https://api.beauthenticx.com/.well-known/openid-configuration
-- llms.txt — https://authenticx.readme.io/llms.txt
-- GitHub — https://github.com/beacx
+## Authenticx on APIs.io
+
+Everything profiled for Authenticx is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/authenticx/](https://apis.io/providers/authenticx/)** — or go straight to one of the APIs or properties below.
+
+### APIs (18)
+
+- [Authenticx Agent API](https://apis.io/apis/authenticx/authenticx-agent-api/) — The Agent API from Authenticx — 3 operation(s) for agent.
+- [Authenticx Conversations API](https://apis.io/apis/authenticx/authenticx-conversations-api/) — The Conversations API from Authenticx — 4 operation(s) for conversations.
+- [Authenticx Evaluations API](https://apis.io/apis/authenticx/authenticx-evaluations-api/) — The Evaluations API from Authenticx — 2 operation(s) for evaluations.
+- [Authenticx Hierarchy API](https://apis.io/apis/authenticx/authenticx-hierarchy-api/) — The Hierarchy API from Authenticx — 3 operation(s) for hierarchy.
+- [Authenticx Interactions API](https://apis.io/apis/authenticx/authenticx-interactions-api/) — The Interactions API from Authenticx — 2 operation(s) for interactions.
+- [Authenticx Media API](https://apis.io/apis/authenticx/authenticx-media-api/) — The Media API from Authenticx — 1 operation(s) for media.
+- [Authenticx Metadata API](https://apis.io/apis/authenticx/authenticx-metadata-api/) — The Metadata API from Authenticx — 2 operation(s) for metadata.
+- [Authenticx Model Results API](https://apis.io/apis/authenticx/authenticx-modelresults-api/) — The ModelResults API from Authenticx — 2 operation(s) for modelresults.
+- [Authenticx Receipts API](https://apis.io/apis/authenticx/authenticx-receipts-api/) — The Receipts API from Authenticx — 1 operation(s) for receipts.
+- [Authenticx Roles API](https://apis.io/apis/authenticx/authenticx-roles-api/) — The Roles API from Authenticx — 1 operation(s) for roles.
+- [Authenticx (Scim) ResourceTypes API](https://apis.io/apis/authenticx/authenticx-scim-resourcetypes-api/) — The (Scim) ResourceTypes API from Authenticx — 2 operation(s) for (scim) resourcetypes.
+- [Authenticx (Scim) Schemas API](https://apis.io/apis/authenticx/authenticx-scim-schemas-api/) — The (Scim) Schemas API from Authenticx — 2 operation(s) for (scim) schemas.
+- [Authenticx (Scim) ServiceProviderConfig API](https://apis.io/apis/authenticx/authenticx-scim-serviceproviderconfig-api/) — The (Scim) ServiceProviderConfig API from Authenticx — 1 operation(s) for (scim) serviceproviderconfig.
+- [Authenticx (Scim) Users API](https://apis.io/apis/authenticx/authenticx-scim-users-api/) — The (Scim) Users API from Authenticx — 2 operation(s) for (scim) users.
+- [Authenticx Text Media API](https://apis.io/apis/authenticx/authenticx-textmedia-api/) — The TextMedia API from Authenticx — 1 operation(s) for textmedia.
+- [Authenticx User API](https://apis.io/apis/authenticx/authenticx-user-api/) — The User API from Authenticx — 3 operation(s) for user.
+- [Authenticx User Hierarchy API](https://apis.io/apis/authenticx/authenticx-userhierarchy-api/) — The UserHierarchy API from Authenticx — 2 operation(s) for userhierarchy.
+- [Authenticx Workflows API](https://apis.io/apis/authenticx/authenticx-workflows-api/) — The Workflows API from Authenticx — 1 operation(s) for workflows.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Authenticx Emissions Webhooks](https://apis.io/asyncapis/authenticx/authenticx-emissions-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [authenticx-mcp.yml](https://apis.io/servers/authenticx/authenticx-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Authenticx Agentic Access](https://apis.io/agentic-access/authenticx/authenticx-agentic-access/)
+
+#### Collections (18)
+
+Postman and Open Collection request collections.
+
+- [AcxApi Production Agent API](https://apis.io/collections/authenticx/open-authenticx-agent-api/)
+- [AcxApi Production Conversations API](https://apis.io/collections/authenticx/open-authenticx-conversations-api/)
+- [AcxApi Production Evaluations API](https://apis.io/collections/authenticx/open-authenticx-evaluations-api/)
+- [AcxApi Production Hierarchy API](https://apis.io/collections/authenticx/open-authenticx-hierarchy-api/)
+- [AcxApi Production Interactions API](https://apis.io/collections/authenticx/open-authenticx-interactions-api/)
+- [AcxApi Production Media API](https://apis.io/collections/authenticx/open-authenticx-media-api/)
+- [AcxApi Production Metadata API](https://apis.io/collections/authenticx/open-authenticx-metadata-api/)
+- [AcxApi Production Model Results API](https://apis.io/collections/authenticx/open-authenticx-modelresults-api/)
+- [AcxApi Production Receipts API](https://apis.io/collections/authenticx/open-authenticx-receipts-api/)
+- [AcxApi Production Roles API](https://apis.io/collections/authenticx/open-authenticx-roles-api/)
+- [AcxApi Production (Scim) ResourceTypes (Scim) ResourceTypes API](https://apis.io/collections/authenticx/open-authenticx-scim-resourcetypes-api/)
+- [AcxApi Production (Scim) Schemas (Scim) Schemas API](https://apis.io/collections/authenticx/open-authenticx-scim-schemas-api/)
+- [AcxApi Production (Scim) ServiceProviderConfig (Scim) ServiceProviderConfig API](https://apis.io/collections/authenticx/open-authenticx-scim-serviceproviderconfig-api/)
+- [AcxApi Production (Scim) Users (Scim) Users API](https://apis.io/collections/authenticx/open-authenticx-scim-users-api/)
+- [AcxApi Production Text Media API](https://apis.io/collections/authenticx/open-authenticx-textmedia-api/)
+- [AcxApi Production User API](https://apis.io/collections/authenticx/open-authenticx-user-api/)
+- [AcxApi Production User Hierarchy API](https://apis.io/collections/authenticx/open-authenticx-userhierarchy-api/)
+- [AcxApi Production Workflows API](https://apis.io/collections/authenticx/open-authenticx-workflows-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Authenticx Acxapi Overlay](https://apis.io/overlays/authenticx/authenticx-acxapi-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Authenticx Authentication](https://apis.io/security/authenticx/authenticx-authentication/)
+- [Authenticx Domain Security](https://apis.io/security/authenticx/authenticx-domain-security/)
+- [Authenticx Trust Center](https://apis.io/security/authenticx/authenticx-trust-center/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Authenticx Scopes](https://apis.io/scopes/authenticx/authenticx-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Authenticx Plans Pricing](https://apis.io/plans/authenticx/authenticx-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Authenticx Rate Limits](https://apis.io/rate-limits/authenticx/authenticx-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://authenticx.com/)
+- [Documentation](https://authenticx.readme.io/docs/getting-started)
+- [Getting started](https://authenticx.readme.io/docs/getting-started)
+- [API reference](https://authenticx.readme.io/reference/acxapi)
+- [Blog](https://authenticx.com/resources)
+- [Compliance](https://authenticx.com/privacy-security)
+- [Trust centre](https://authenticx.com/privacy-security)
+- [Terms of service](https://authenticx.com/terms)
+- [Privacy policy](https://authenticx.com/privacy)
+- [GitHub](https://github.com/beacx)
+
+## API Evangelist rating
+
+**Kin Score 50.2** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 61.8 |
+| Contract governance | 18.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 43.4 |
+
+**Agent readiness 43.4** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | verified |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 36.7** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/authenticx/](https://apis.io/providers/authenticx/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Authenticx: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/authenticx/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
